@@ -1,0 +1,18 @@
+[
+  {
+    "purchaseInfo_id": 1,
+    "employee_id": 1,
+    "customer_id": 1,
+    "cost": 2,
+    "amount": 4,
+    "date": "2020-03-21"
+  },
+  {
+    "purchaseInfo_id": 1,
+    "employee_id": 1,
+    "customer_id": 1,
+    "cost": 2,
+    "amount": 4,
+    "date": "2020-03-21"
+  }	
+]

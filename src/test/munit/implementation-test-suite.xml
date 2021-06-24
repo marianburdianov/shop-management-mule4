@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation-test-suite.xml" />
+	<munit:test name="implementation-test-suite-implementation_getProducts_FlowTest" doc:id="73e22ea2-66ac-4612-8288-e33aa2934e03" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to implementation_getProducts_Flow" doc:id="242dac29-83e5-4cbc-bdf8-cd2d6316e0ca" name="implementation_getProducts_Flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="e5164538-beab-48af-b97b-e961bfd6ab88" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]" message="MediaType is not  application/json"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1f51521b-775e-4a4c-8918-f114ba3643dd" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-implementation_getEmployees_FlowTest" doc:id="547ff572-67c1-498d-94f5-e8859cb5cd78" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to implementation_getEmployees_Flow" doc:id="6b1539bc-8e48-4158-8aa5-c2f81d0c469e" name="implementation_getEmployees_Flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="6403e1b4-8479-4a05-99f8-366db3e7266a" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]" message="MediaType is not application/json"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="58bdca32-d463-4392-afaf-39d8647679ac" is="#[MunitTools::notNullValue()]" message="Payload is null" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-implementation_getCustomers_FlowTest" doc:id="2033409e-ccda-462d-8406-8ceabdc84dd2" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to implementation_getCustomers_Flow" doc:id="3ccc0f14-2a0d-434b-a8c2-c3686b3e199d" name="implementation_getCustomers_Flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5153ae22-1f7e-4939-bdd5-d91c78be4230" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="4513dadd-cbd9-4740-a843-b90980f1a288" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-implementation_getPurchaseInfos_FlowTest" doc:id="22ed01b7-1dad-430f-bb3c-3c800e3cd59c" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to implementation_getPurchaseInfos_Flow" doc:id="8d9ac0a4-6fc6-4f79-9651-d94ee4c19254" name="implementation_getPurchaseInfos_Flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="f5b36910-f920-4251-b71f-22e1e94bb9bc" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5d0d4fac-7c8c-4f38-8150-58664036787a" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-implementation_getProductByIdTest" doc:id="6a3c1ce7-8320-4590-8143-a8fbf501c015" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to implementation_getProductById" doc:id="12bf7e5c-1f5d-4496-9362-27b9f9bc4a5e" name="implementation_getProductById"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3bc2ca72-8c85-48df-9571-f3302fb9953e" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="c91ae71e-42bd-4ff2-8384-8a5126274ac8" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-implementation_getCustomerByIdTest" doc:id="90cbd011-deb3-46f2-90f1-f4d731c9894d" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to implementation_getCustomerById" doc:id="bb8bc629-ef67-4b5f-8994-9f775102b532" name="implementation_getCustomerById"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="fc8a0376-d843-486d-8442-068521903d9c" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="98ce3d51-a1a1-4078-93ef-b205bac92bb8" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-implementation_getEmployeeByIdTest" doc:id="d47b047f-74ff-4547-aeff-ef304ea7a04b" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to implementation_getEmployeeById" doc:id="b45a96db-b354-4dc4-918e-fb0541af694d" name="implementation_getEmployeeById"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="b5229cf6-c1c7-4dd8-8e77-561b40b1891e" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="ed9f31bb-4996-439d-8c3d-decf24a8265d" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="implementation-test-suite-implementation_GetPurchaseInfoByIdTest" doc:id="98ce95db-2493-4ce3-a1d4-8e92851c320a" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to implementation_GetPurchaseInfoById" doc:id="8d16dcae-6959-4aea-b3a5-ddd95c371bfb" name="implementation_GetPurchaseInfoById"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="53a3eb44-a321-4c26-a0e0-6630f16d8e5e" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="02482f6a-cf33-49ad-996e-fe9655bc8433" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

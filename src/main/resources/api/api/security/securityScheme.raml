@@ -1,0 +1,25 @@
+#%RAML 1.0 SecurityScheme
+type: OAuth 2.0
+describedBy:
+  headers:
+    Authorization: 
+      description: Used to validate token
+      type: string
+  queryParameters:
+    access_token:
+      description: Authorization header
+      type: string
+  responses:
+    401:
+      description: |
+        Bad or expired token
+    403:
+      description: |
+        Bad OAuth request
+    404:
+      description: |
+        Unauthorized
+settings:
+  authorizationUri: http://localhost:8081/authorize
+  accessTokenUri: http://localhost:8081/access-token
+  authorizationGrants: [client_credentials]

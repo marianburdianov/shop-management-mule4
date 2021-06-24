@@ -1,0 +1,14 @@
+[
+    {
+        "product_id": 1,
+        "name": "Rice",
+        "price": 2.0,
+        "quantity": 4
+    },
+    {
+        "product_id": 2,
+        "name": "Pasta",
+        "price": 1.0,
+        "quantity": 5
+    }
+]

@@ -1,0 +1,9 @@
+{
+    "firstName": "Virat",
+    "lastName": "Adams",
+    "gender": "male",
+    "birthDate": "1980-12-06",
+    "hireDate": "2015-10-10",
+    "role": "Supervisor",
+    "salary": 3800.0
+}
