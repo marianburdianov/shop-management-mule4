@@ -1,18 +1,26 @@
 [
-  {
-    "purchaseInfo_id": 1,
-    "employee_id": 1,
-    "customer_id": 1,
-    "cost": 2,
-    "amount": 4,
-    "date": "2020-03-21"
-  },
-  {
-    "purchaseInfo_id": 1,
-    "employee_id": 1,
-    "customer_id": 1,
-    "cost": 2,
-    "amount": 4,
-    "date": "2020-03-21"
-  }	
+    {
+        "purchaseinfo_id": "1",
+        "date": "2020-03-21",
+        "amount": 4,
+        "cost": 2.0,
+        "employee_id": 1,
+        "customer_id": 1,
+        "product_id": [
+            1,
+            2
+        ]
+    },
+    {
+        "purchaseinfo_id": "2",
+        "date": "2020-05-22",
+        "amount": 5,
+        "cost": 3.0,
+        "employee_id": 2,
+        "customer_id": 2,
+        "product_id": [
+            2,
+            3
+        ]
+    }
 ]

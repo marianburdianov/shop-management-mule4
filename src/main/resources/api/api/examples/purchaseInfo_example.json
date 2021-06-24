@@ -1,7 +1,13 @@
-{
-    "employee_id": 1,
-    "customer_id": 1,
-    "cost": 2,
-    "amount": 4,
-    "date": "2020-03-21"
-}
+
+    {
+        "purchaseinfo_id": "1",
+        "date": "2020-03-21",
+        "amount": 4,
+        "cost": 2.0,
+        "employee_id": 1,
+        "customer_id": 1,
+        "product_id": [
+            1,
+            2
+        ]
+    }
