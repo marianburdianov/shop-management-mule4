@@ -1,12 +1,12 @@
 
     {
-        "purchaseinfo_id": "1",
+        "purchaseInfoId": 1,
         "date": "2020-03-21",
         "amount": 4,
         "cost": 2.0,
-        "employee_id": 1,
-        "customer_id": 1,
-        "product_id": [
+        "employeeId": 1,
+        "customerId": 1,
+        "productId": [
             1,
             2
         ]

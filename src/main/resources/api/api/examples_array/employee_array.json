@@ -1,6 +1,6 @@
 [
   {
-   "employee_id": 1,
+   "employeeId": 1,
    "firstName": "Virat",
    "lastName": "Adams",
    "gender": "male",
@@ -10,7 +10,7 @@
    "salary": 3800.0
  },
  {
-   "employee_id": 2,
+   "employeeId": 2,
    "firstName": "Steve",
    "lastName": "Baker",
    "gender": "male",

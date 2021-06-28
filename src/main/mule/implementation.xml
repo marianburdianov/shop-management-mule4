@@ -20,7 +20,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.product_id pluck{
-	product_id:$$,
+	productId:$$,
 	name:$.name distinctBy $ reduce $$+$,
 	price:$.price distinctBy $ reduce $$+$,
 	quantity:$.quantity distinctBy $ reduce $$+$,
@@ -42,12 +42,12 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.employee_id pluck{
-	employee_id:$$,
-	first_name:$.first_name distinctBy $ reduce $$+$,
-	last_name:$.last_name distinctBy $ reduce $$+$,
+	employeeId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
 	gender:$.gender distinctBy $ reduce $$+$,
-    birth_date:$.birth_date distinctBy $ reduce $$+$,
-    hire_date:$.hire_date distinctBy $ reduce $$+$,
+    birthDate:$.birth_date distinctBy $ reduce $$+$,
+    hireDate:$.hire_date distinctBy $ reduce $$+$,
     role:$.role distinctBy $ reduce $$+$,
     salary:$.salary distinctBy $ reduce $$+$
 }]]></ee:set-payload>
@@ -69,10 +69,10 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.customer_id pluck{
-	customer_id:$$,
-	first_name:$.first_name distinctBy $ reduce $$+$,
-	last_name:$.last_name distinctBy $ reduce $$+$,
-	phone_number:$.phone_number distinctBy $ reduce $$+$,
+	customerId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
     address:$.address distinctBy $ reduce $$+$
 }]]></ee:set-payload>
             </ee:message>
@@ -94,13 +94,13 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.purchaseinfo_id pluck{
-	purchaseinfo_id:$$,
+	purchaseinfoId:$$,
 	date:$.date distinctBy $ reduce $$+$,
 	amount:$.amount distinctBy $ reduce $$+$,
 	cost:$.cost distinctBy $ reduce $$+$,
-    employee_id:$.employee_id distinctBy $ reduce $$+$,
-    customer_id:$.customer_id distinctBy $ reduce $$+$,
-	product_id:$.product_id distinctBy $
+    employeeId:$.employee_id distinctBy $ reduce $$+$,
+    customerId:$.customer_id distinctBy $ reduce $$+$,
+	productId:$.product_id distinctBy $
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -122,7 +122,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.product_id pluck{
-	product_id:$$,
+	productId:$$,
 	name:$.name distinctBy $ reduce $$+$,
 	price:$.price distinctBy $ reduce $$+$,
 	quantity:$.quantity distinctBy $ reduce $$+$
@@ -139,7 +139,7 @@ payload groupBy $.product_id pluck{
             <db:sql><![CDATA[SELECT * 
 FROM customers
 WHERE customer_id =:customer_id]]></db:sql>
-            <db:input-parameters><![CDATA[#[{'customer_id' : attributes.uriParams.customerId}]]]></db:input-parameters>
+            <db:input-parameters><![CDATA[#[{'customer_id' : vars.customerId}]]]></db:input-parameters>
         </db:select>
         <ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
@@ -148,10 +148,10 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.customer_id pluck{
-	customer_id:$$,
-	first_name:$.first_name distinctBy $ reduce $$+$,
-	last_name:$.last_name distinctBy $ reduce $$+$,
-	phone_number:$.phone_number distinctBy $ reduce $$+$,
+	customerId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
     address:$.address distinctBy $ reduce $$+$
 }]]></ee:set-payload>
             </ee:message>
@@ -174,12 +174,12 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.employee_id pluck{
-	employee_id:$$,
-	first_name:$.first_name distinctBy $ reduce $$+$,
-	last_name:$.last_name distinctBy $ reduce $$+$,
+	employeeId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
 	gender:$.gender distinctBy $ reduce $$+$,
-    birth_date:$.birth_date distinctBy $ reduce $$+$,
-    hire_date:$.hire_date distinctBy $ reduce $$+$,
+    birthDate:$.birth_date distinctBy $ reduce $$+$,
+    hireDate:$.hire_date distinctBy $ reduce $$+$,
     role:$.role distinctBy $ reduce $$+$,
     salary:$.salary distinctBy $ reduce $$+$
 }]]></ee:set-payload>
@@ -189,7 +189,7 @@ payload groupBy $.employee_id pluck{
     
 </flow>
     <flow name="implementation_GetPurchaseInfoById">
-    	 <set-variable value="message.attributes.uriParams.purchaseInfoId" doc:name="Set Variable" doc:id="5366544e-d3d0-42fc-a642-65b954496cbd" variableName="purchaseInfoId"/>
+    	 <set-variable value="#[message.attributes.uriParams.purchaseInfoId]" doc:name="Set Variable" doc:id="5366544e-d3d0-42fc-a642-65b954496cbd" variableName="purchaseInfoId"/>
 		<db:select doc:name="Select PurchaseInfoById" doc:id="a8f04ea1-0c8e-4752-a24b-081e5403fe5e" config-ref="Database_Config">
             <db:sql><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
 FROM purchaseinfos AS pi
@@ -205,13 +205,13 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.purchaseinfo_id pluck{
-	purchaseinfo_id:$$,
+	purchaseinfoId:$$,
 	date:$.date distinctBy $ reduce $$+$,
 	amount:$.amount distinctBy $ reduce $$+$,
 	cost:$.cost distinctBy $ reduce $$+$,
-    employee_id:$.employee_id distinctBy $ reduce $$+$,
-    customer_id:$.customer_id distinctBy $ reduce $$+$,
-	product_id:$.product_id distinctBy $
+    employeeId:$.employee_id distinctBy $ reduce $$+$,
+    customerId:$.customer_id distinctBy $ reduce $$+$,
+	productId:$.product_id distinctBy $
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -241,10 +241,10 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.customer_id pluck{
-	customer_id:$$,
-	first_name:$.first_name distinctBy $ reduce $$+$,
-	last_name:$.last_name distinctBy $ reduce $$+$,
-	phone_number:$.phone_number distinctBy $ reduce $$+$,
+	customerId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
     address:$.address distinctBy $ reduce $$+$
 }]]></ee:set-payload>
             </ee:message>
@@ -253,8 +253,7 @@ payload groupBy $.customer_id pluck{
     
 </flow>
     <flow name="implementation_PostProduct">
-    	<db:insert doc:name="Insert Product" doc:id="e10081a7-2874-4f53-8de8-afd64d5ee82e" config-ref="Database_Config" autoGenerateKeys="true" autoGeneratedKeysColumnNames="#[['product_id']]">
-			<reconnect-forever />
+    	<db:insert doc:name="Insert Product" doc:id="e10081a7-2874-4f53-8de8-afd64d5ee82e" config-ref="Database_Config">
 			<db:sql><![CDATA[INSERT INTO products (name, price, quantity) 
 VALUES (:name, :price, :quantity);]]></db:sql>
 			<db:input-parameters><![CDATA[#[{
@@ -275,7 +274,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.product_id pluck{
-	product_id:$$,
+	productId:$$,
 	name:$.name distinctBy $ reduce $$+$,
 	price:$.price distinctBy $ reduce $$+$,
 	quantity:$.quantity distinctBy $ reduce $$+$
@@ -293,8 +292,8 @@ VALUES (:first_name, :last_name, :gender, :birth_date, :hire_date, :role, :salar
 	first_name : payload.firstName,
 	last_name : payload.lastName,
 	gender : payload.gender,
-	birth_date : payload.birthdate,
-	hire_date : payload.hiredate,
+	birth_date : payload.birthDate,
+	hire_date : payload.hireDate,
 	role : payload.role,
 	salary : payload.salary
 }]]]></db:input-parameters>
@@ -311,12 +310,12 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 output application/json
 ---
 payload groupBy $.employee_id pluck{
-	employee_id:$$,
-	first_name:$.first_name distinctBy $ reduce $$+$,
-	last_name:$.last_name distinctBy $ reduce $$+$,
+	employeeId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
 	gender:$.gender distinctBy $ reduce $$+$,
-    birth_date:$.birth_date distinctBy $ reduce $$+$,
-    hire_date:$.hire_date distinctBy $ reduce $$+$,
+    birthDate:$.birth_date distinctBy $ reduce $$+$,
+    hireDate:$.hire_date distinctBy $ reduce $$+$,
     role:$.role distinctBy $ reduce $$+$,
     salary:$.salary distinctBy $ reduce $$+$
 }]]></ee:set-payload>
@@ -332,9 +331,8 @@ payload groupBy $.employee_id pluck{
 VALUES (:employee_id, :customer_id, :cost, :amount, :date);
 ]]></db:sql>
 			<db:input-parameters><![CDATA[#[{
-	employee_id : vars.originalPayload.employee_id,
-	customer_id : vars.originalPayload.customer_id,
-	gender : vars.originalPayload.gender,
+	employee_id : vars.originalPayload.employeeId,
+	customer_id : vars.originalPayload.customerId,
 	cost : vars.originalPayload.cost,
 	amount : vars.originalPayload.amount,
 	date : vars.originalPayload.date
@@ -343,18 +341,18 @@ VALUES (:employee_id, :customer_id, :cost, :amount, :date);
 			<db:auto-generated-keys-column-names />
 		
 </db:insert>
-		<db:select doc:name="Select" doc:id="7d32373b-fc43-4137-b61b-500a983dd4fa" target="last_id" targetValue="#[payload[0].purchaseinfo_id]" config-ref="Database_Config" transactionalAction="NOT_SUPPORTED">
+		<db:select doc:name="Select id of last  created" doc:id="7d32373b-fc43-4137-b61b-500a983dd4fa" target="lastId" config-ref="Database_Config" targetValue="#[payload[0].purchaseinfo_id]">
 			<db:sql ><![CDATA[SELECT purchaseinfo_id FROM purchaseinfos WHERE purchaseinfo_id=(select last_insert_id())]]></db:sql>
-			<db:parameter-types />
 		</db:select>
-		<foreach doc:name="For Each" doc:id="5a1852fb-f835-4472-872b-ca7bba51868d" collection="#[vars.originalPayload.product_id]">
+		<logger level="INFO" doc:name="Logger" doc:id="15ba0931-933d-48ac-ad00-98c7050e6679" message="#[vars.lastId]"/>
+		<foreach doc:name="For Each" doc:id="5a1852fb-f835-4472-872b-ca7bba51868d" collection="#[vars.originalPayload.productId]">
 			<set-variable value="#[payload]" doc:name="Set Variable" doc:id="3c208c32-82fc-4910-91a7-4e0eef4f29ac" variableName="productId"/>
 			<db:insert doc:name="Insert" doc:id="4b3ea911-8b3e-4c00-b54d-48b5158882ca" config-ref="Database_Config">
 				<db:sql ><![CDATA[INSERT INTO purchaseinfos_products (product_id, purchaseinfo_id ) VALUES 
 (:product_id, :purchaseinfo_id)]]></db:sql>
 				<db:input-parameters ><![CDATA[#[{
 	product_id : vars.productId,
-	purchaseinfo_id : vars.last_id
+	purchaseinfo_id : vars.lastId
 }]]]></db:input-parameters>
 			</db:insert>
 		</foreach>
@@ -364,7 +362,7 @@ FROM purchaseinfos AS pi
 INNER JOIN purchaseinfos_products AS pp
 ON pi.purchaseinfo_id = pp.purchaseinfo_id 
 WHERE pi.purchaseinfo_id = :last_id]]></db:sql>
-			<db:input-parameters ><![CDATA[#[last_id : vars.last_id]]]></db:input-parameters>
+			<db:input-parameters ><![CDATA[#[last_id : vars.lastId]]]></db:input-parameters>
 		</db:select>
 		<ee:transform xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
             <ee:message>
@@ -372,13 +370,13 @@ WHERE pi.purchaseinfo_id = :last_id]]></db:sql>
 output application/json
 ---
 payload groupBy $.purchaseinfo_id pluck{
-	purchaseinfo_id:$$,
+	purchaseInfoId:$$,
 	date:$.date distinctBy $ reduce $$+$,
 	amount:$.amount distinctBy $ reduce $$+$,
 	cost:$.cost distinctBy $ reduce $$+$,
-    employee_id:$.employee_id distinctBy $ reduce $$+$,
-    customer_id:$.customer_id distinctBy $ reduce $$+$,
-	product_id:$.product_id distinctBy $
+    employeeId:$.employee_id distinctBy $ reduce $$+$,
+    customerId:$.customer_id distinctBy $ reduce $$+$,
+	productId:$.product_id distinctBy $
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -386,13 +384,13 @@ payload groupBy $.purchaseinfo_id pluck{
     
 </flow>
     <flow name="implementation_UpdateProduct">
-    	<set-variable value="#[message.attributes.uriParams.productId]" doc:name="Set Variable" doc:id="19ab3250-9df5-41af-8ed3-7408cf841cc5" variableName="productId"/>
+    	<set-variable value="#[attributes.uriParams.productId]" doc:name="Set Variable" doc:id="19ab3250-9df5-41af-8ed3-7408cf841cc5" variableName="productId"/>
 		<db:update doc:name="Update Product" doc:id="0bc6a208-fef3-481c-bbfa-253c29eab2fb" config-ref="Database_Config">
 			<db:sql ><![CDATA[UPDATE products 
 SET name = :name, price = :price, quantity = :quantity 
 WHERE product_id = :product_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
-	product_id : payload.product_id,
+	product_id : vars.productId,
 	name : payload.name,
 	price : payload.price,
 	quantity : payload.quantity
@@ -413,7 +411,7 @@ output application/json
 payload groupBy $.product_id pluck{
 	"Status":200,
 	"message":"Updated",
-	product_id:$$,
+	productId:$$,
 	name:$.name distinctBy $ reduce $$+$,
 	price:$.price distinctBy $ reduce $$+$,
 	quantity:$.quantity distinctBy $ reduce $$+$
@@ -424,14 +422,14 @@ payload groupBy $.product_id pluck{
     
 </flow>
 <flow name="implementation_UpdateCustomer">
-    	<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="Set Variable" doc:id="def6f447-b66d-4d2d-bb61-94a04af967af" variableName="customerId"/>
+    	<set-variable value="#[attributes.uriParams.customerId]" doc:name="Set Variable" doc:id="def6f447-b66d-4d2d-bb61-94a04af967af" variableName="customerId"/>
 		<db:update doc:name="Update Customer" doc:id="9f928349-6e28-4745-b695-04f158b92896" config-ref="Database_Config">
 			<db:sql ><![CDATA[UPDATE customers 
 SET first_name = :first_name, last_name = :last_name, phone_number = :phone_number, address = :address 
 WHERE customer_id = :customer_id
 ]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
-	customer_id : payload.customer_id,
+	customer_id : vars.customerId,
 	first_name : payload.firstName,
 	last_name : payload.lastName,
 	phone_number : payload.phoneNumber,
@@ -453,10 +451,10 @@ output application/json
 payload groupBy $.customer_id pluck{
 	"Status":200,
 	"message":"Updated",
-	customer_id:$$,
-	first_name:$.first_name distinctBy $ reduce $$+$,
-	last_name:$.last_name distinctBy $ reduce $$+$,
-	phone_number:$.phone_number distinctBy $ reduce $$+$,
+	customerId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
     address:$.address distinctBy $ reduce $$+$
 }]]></ee:set-payload>
             </ee:message>
@@ -465,18 +463,19 @@ payload groupBy $.customer_id pluck{
     
 </flow>
     <flow name="implementation_UpdateEmployee">
-    	<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="Set Variable" doc:id="34efa661-b56f-4a4e-9794-4f5dd629b537" variableName="employeeId"/>
+    	<set-variable value="#[attributes.uriParams.employeeId]" doc:name="Set Variable" doc:id="34efa661-b56f-4a4e-9794-4f5dd629b537" variableName="employeeId"/>
 		<db:update doc:name="Update Employee" doc:id="4666793f-af37-48ec-8b7c-98a6fc0de774" config-ref="Database_Config">
 			<db:sql ><![CDATA[UPDATE employees 
-SET first_name = :first_name, last_name = :last_name, gentder = :gender, birth_date = :birth_date, hire_date = :hire_date, role = :role, salary = :salary 
+SET first_name = :first_name, last_name = :last_name, gender = :gender, birth_date = :birth_date, hire_date = :hire_date, role = :role, salary = :salary 
 WHERE employee_id = :employee_id
 ]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
-	employee_id : payload.employee_id,
+	employee_id : vars.employeeId,
 	first_name : payload.firstName,
 	last_name : payload.lastName,
 	gender : payload.gender,
-	birth_date : payload.birthdate,
+	birth_date : payload.birthDate,
+	hire_date : payload.hireDate,
 	role : payload.role,
 	salary : payload.salary
 }]]]></db:input-parameters>
@@ -485,7 +484,7 @@ WHERE employee_id = :employee_id
 			<db:sql ><![CDATA[SELECT * 
 FROM employees
 WHERE employee_id =:employee_id]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{'employee_id' : vars.employeeId}]]]></db:input-parameters>
+			<db:input-parameters ><![CDATA[#[{employee_id : vars.employeeId}]]]></db:input-parameters>
 		</db:select>
 		<ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
@@ -496,12 +495,12 @@ output application/json
 payload groupBy $.employee_id pluck{
 	"Status":200,
 	"message":"Updated",
-	employee_id:$$,
-	first_name:$.first_name distinctBy $ reduce $$+$,
-	last_name:$.last_name distinctBy $ reduce $$+$,
+	employeeId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
 	gender:$.gender distinctBy $ reduce $$+$,
-    birth_date:$.birth_date distinctBy $ reduce $$+$,
-    hire_date:$.hire_date distinctBy $ reduce $$+$,
+    birthDate:$.birth_date distinctBy $ reduce $$+$,
+    hireDate:$.hire_date distinctBy $ reduce $$+$,
     role:$.role distinctBy $ reduce $$+$,
     salary:$.salary distinctBy $ reduce $$+$
 }]]></ee:set-payload>
@@ -521,7 +520,7 @@ WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>
 	purchaseinfo_id : vars.purchaseInfoId
 }]]]></db:input-parameters>
 			</db:delete>
-		<foreach doc:name="For Each" doc:id="a25d774f-cb81-43f2-8a1f-70c85d0215d3" collection="#[vars.originalPayload.product_id]">
+		<foreach doc:name="For Each" doc:id="a25d774f-cb81-43f2-8a1f-70c85d0215d3" collection="#[vars.originalPayload.productId]">
 			<set-variable value="#[payload]" doc:name="Set Variable" doc:id="dde83480-26e3-4f96-9ea7-094a36851c4b" variableName="productId"/>
 			<db:insert doc:name="Insert products" doc:id="dbf4382d-efa1-45a3-9c44-accc2e3335c4" config-ref="Database_Config">
 				<db:sql><![CDATA[INSERT INTO purchaseinfos_products (product_id, purchaseinfo_id ) VALUES 
@@ -542,8 +541,8 @@ SET employee_id = :employee_id, customer_id = :customer_id, cost = :cost, amount
 WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>
 			<db:input-parameters><![CDATA[#[{
 	purchaseinfo_id : vars.purchaseInfoId,
-	employee_id : vars.originalPayload.employee_id,
-	customer_id : vars.originalPayload.customer_id,
+	employee_id : vars.originalPayload.employeeId,
+	customer_id : vars.originalPayload.customerId,
 	cost : vars.originalPayload.cost,
 	amount : vars.originalPayload.amount,
 	date : vars.originalPayload.date
@@ -567,13 +566,13 @@ output application/json
 payload groupBy $.purchaseinfo_id pluck{
 	"Status":200,
 	"message":"Updated",
-	purchaseinfo_id:$$,
+	purchaseInfoId:$$,
 	date:$.date distinctBy $ reduce $$+$,
 	amount:$.amount distinctBy $ reduce $$+$,
 	cost:$.cost distinctBy $ reduce $$+$,
-    employee_id:$.employee_id distinctBy $ reduce $$+$,
-    customer_id:$.customer_id distinctBy $ reduce $$+$,
-	product_id:$.product_id distinctBy $
+    employeeId:$.employee_id distinctBy $ reduce $$+$,
+    customerId:$.customer_id distinctBy $ reduce $$+$,
+	productId:$.product_id distinctBy $
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -645,10 +644,12 @@ output application/json
         <logger level="INFO" message="Deleting produdct in database" />
     </flow>
     <flow name="implementation_DeletePurchaseInfo">
-    	<set-variable value="#[message.attributes.uriParams.purchaseInfoId]" doc:name="Set Variable" doc:id="59d3aca0-8458-495f-baa8-e18e08caa7b0" variableName="purchaseInfoId"/>
+    	<set-variable value="#[attributes.uriParams.purchaseInfoId]" doc:name="Set Variable" doc:id="59d3aca0-8458-495f-baa8-e18e08caa7b0" variableName="purchaseInfoId"/>
 		<db:delete doc:name="Delete PurchaseInfo" doc:id="f44f2138-660e-44e8-9476-5e44f1887893" config-ref="Database_Config">
 			<db:sql ><![CDATA[DELETE FROM purchaseinfos WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{'purchaseinfo_id' : vars.pruchaseInfoId}]]]></db:input-parameters>
+			<db:input-parameters ><![CDATA[#[{
+	'purchaseinfo_id' : vars.purchaseInfoId
+}]]]></db:input-parameters>
 		</db:delete>
 		<ee:transform>
             <ee:message >

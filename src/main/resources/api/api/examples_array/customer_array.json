@@ -1,13 +1,13 @@
 [
   {
-    "customer_id": 1,
+    "customerId": 1,
     "firstName": "Rick",
     "lastName": "Novak",
     "phoneNumber": 123456789,
     "address": "Rick Address"
   },
   {
-    "customer_id": 2,
+    "customerId": 2,
     "firstName": "Susan",
     "lastName": "Connor",
     "phoneNumber": 84309595,
