@@ -13,12 +13,12 @@ protocols:
   - HTTP
 
 types:
-  customer: !include api/data_types/customer_datatype.raml
-  employee: !include api/data_types/employee_datatype.raml
-  product: !include api/data_types/product_datatype.raml
-  purchaseInfo: !include api/data_types/purchaseInfo_datatype.raml
+  customer: !include api/data_types/customer-datatype.raml
+  employee: !include api/data_types/employee-datatype.raml
+  product: !include api/data_types/product-datatype.raml
+  purchaseInfo: !include api/data_types/purchaseInfo-datatype.raml
   
-  errorcode: !include api/data_types/errorcode_datatype.json 
+  errorcode: !include api/data_types/errorcode-datatype.json 
 
 traits:
   client-id-required:
@@ -42,7 +42,7 @@ traits:
         body:
           application/json:
             type: customer[]
-            example: !include api/examples_array/customer_array.json
+            example: !include api/examples_array/customer-array.json
       400:
         body:
           application/json:
@@ -57,7 +57,7 @@ traits:
         body:
           application/json:
             type: customer
-            example: !include api/examples/customer_example.json
+            example: !include api/examples/customer-example.json
       400:
         body:
           application/json:
@@ -75,7 +75,7 @@ traits:
         body:
           application/json:
             type: customer
-            example: !include api/examples/customer_example.json
+            example: !include api/examples/customer-example.json
       304:
         body:
           application/json:
@@ -102,14 +102,14 @@ traits:
     body:
       application/json:
         type: customer
-        example: !include api/examples/customer_example.json
+        example: !include api/examples/customer-example.json
     responses:
       200:
         description: Customer has been modified successfully
         body:
           application/json:
             type: customer
-            example: !include api/examples/customer_example.json
+            example: !include api/examples/customer-example.json
       400:
         body:
           application/json:
@@ -127,7 +127,7 @@ traits:
         body:
           application/json:
             type: employee[]
-            example: !include api/examples_array/employee_array.json
+            example: !include api/examples_array/employee-array.json
       400:
         body:
           application/json:
@@ -142,7 +142,7 @@ traits:
         body:
           application/json:
             type: employee
-            example: !include api/examples/employee_example.json
+            example: !include api/examples/employee-example.json
       400:
         body:
           application/json:
@@ -160,7 +160,7 @@ traits:
         body:
           application/json:
             type: employee
-            example: !include api/examples/employee_example.json
+            example: !include api/examples/employee-example.json
       304:
         body:
           application/json:
@@ -187,14 +187,14 @@ traits:
     body:
       application/json:
         type: employee
-        example: !include api/examples/employee_example.json
+        example: !include api/examples/employee-example.json
     responses:
       200:
         description: Employee has been modified successfully
         body:
           application/json:
             type: employee
-            example: !include api/examples/employee_example.json
+            example: !include api/examples/employee-example.json
       400:
         body:
           application/json:
@@ -212,7 +212,7 @@ traits:
         body:
           application/json:
             type: product[]
-            example: !include api/examples_array/product_array.json
+            example: !include api/examples_array/product-array.json
       400:
         body:
           application/json:
@@ -227,7 +227,7 @@ traits:
         body:
           application/json:
             type: product
-            example: !include api/examples/product_example.json
+            example: !include api/examples/product-example.json
       400:
         body:
           application/json:
@@ -245,7 +245,7 @@ traits:
         body:
           application/json:
             type: product
-            example: !include api/examples/product_example.json
+            example: !include api/examples/product-example.json
       304:
         body:
           application/json:
@@ -272,14 +272,14 @@ traits:
     body:
       application/json:
         type: product
-        example: !include api/examples/product_example.json
+        example: !include api/examples/product-example.json
     responses:
       200:
         description: Product has been modified successfully
         body:
           application/json:
             type: product
-            example: !include api/examples/product_example.json
+            example: !include api/examples/product-example.json
       400:
         body:
           application/json:
@@ -297,7 +297,7 @@ traits:
         body:
           application/json:
             type: purchaseInfo[]
-            example: !include api/examples_array/purchaseInfo_array.json
+            example: !include api/examples_array/purchaseInfo-array.json
       400:
         body:
           application/json:
@@ -312,7 +312,7 @@ traits:
         body:
           application/json:
             type: purchaseInfo
-            example: !include api/examples/purchaseInfo_example.json
+            example: !include api/examples/purchaseInfo-example.json
       400:
         body:
           application/json:
@@ -330,7 +330,7 @@ traits:
         body:
           application/json:
             type: purchaseInfo
-            example: !include api/examples/purchaseInfo_example.json
+            example: !include api/examples/purchaseInfo-example.json
       304:
         body:
           application/json:
@@ -357,14 +357,14 @@ traits:
     body:
       application/json:
         type: purchaseInfo
-        example: !include api/examples/purchaseInfo_example.json
+        example: !include api/examples/purchaseInfo-example.json
     responses:
       200:
         description: purchaseInfo has been modified successfully
         body:
           application/json:
             type: purchaseInfo
-            example: !include api/examples/purchaseInfo_example.json
+            example: !include api/examples/purchaseInfo-example.json
       400:
         body:
           application/json:
