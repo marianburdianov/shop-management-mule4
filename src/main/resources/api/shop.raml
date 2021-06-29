@@ -13,12 +13,12 @@ protocols:
   - HTTP
 
 types:
-  customer: !include api/data_types/customer-datatype.raml
-  employee: !include api/data_types/employee-datatype.raml
-  product: !include api/data_types/product-datatype.raml
-  purchaseInfo: !include api/data_types/purchaseInfo-datatype.raml
+  customer: !include api/dataTypes/customer-datatype.raml
+  employee: !include api/dataTypes/employee-datatype.raml
+  product: !include api/dataTypes/product-datatype.raml
+  purchaseInfo: !include api/dataTypes/purchaseInfo-datatype.raml
   
-  errorcode: !include api/data_types/errorcode-datatype.json 
+  errorcode: !include api/dataTypes/errorcode-datatype.json 
 
 traits:
   client-id-required:
@@ -42,7 +42,7 @@ traits:
         body:
           application/json:
             type: customer[]
-            example: !include api/examples_array/customer-array.json
+            example: !include api/examplesArray/customer-array.json
       400:
         body:
           application/json:
@@ -127,7 +127,7 @@ traits:
         body:
           application/json:
             type: employee[]
-            example: !include api/examples_array/employee-array.json
+            example: !include api/examplesArray/employee-array.json
       400:
         body:
           application/json:
@@ -212,7 +212,7 @@ traits:
         body:
           application/json:
             type: product[]
-            example: !include api/examples_array/product-array.json
+            example: !include api/examplesArray/product-array.json
       400:
         body:
           application/json:
@@ -297,7 +297,7 @@ traits:
         body:
           application/json:
             type: purchaseInfo[]
-            example: !include api/examples_array/purchaseInfo-array.json
+            example: !include api/examplesArray/purchaseInfo-array.json
       400:
         body:
           application/json:
