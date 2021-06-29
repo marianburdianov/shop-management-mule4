@@ -187,16 +187,6 @@ output application/json
 		<flow-ref doc:name="Insert PurchaseInfo Flow" doc:id="120a7b41-581a-4b24-9f18-208a32e0fb3b" name="implementation_PostPurchaseIndo"/>
         
     </flow>
-	<flow name="post:\login:application\json:shop-config">
-        <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-"rdpgjkepslrjgpQjg;sdjd"]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-    </flow>
     <flow name="get:\products\(productId):shop-config">
         <flow-ref doc:name="Get ProductById Flow" doc:id="0d83c0dc-ae41-426e-8a47-f5b853e5d1bd" name="implementation_getProductById" />
     </flow>
