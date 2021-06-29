@@ -20,32 +20,24 @@ types:
   purchaseInfo: !include api/data_types/purchaseInfo_datatype.raml
   
   errorcode: !include api/data_types/errorcode_datatype.json 
-  loginCredentials: !include api/data_types/login_datatype.json 
-    
-/login:
-  description: URI for login
-  post:
-    body:
-      application/json:
-        type: loginCredentials
+
+traits:
+  client-id-required:
+    headers:
+      client_id:
+        type: string
+      client_secret:
+        type: string
     responses:
-      201:
-        body:
-          application/json:
-            type: string
-            example: "rdpgjkepslrjgpQjg;sdjd"
-      400:
-        body:
-          application/json:
-            type: errorcode
-      403:
-        body:
-          application/json:
-            type: errorcode    
+      401:
+        description: Unauthorized or invalid client application credentials
+      500:
+        description: Bad response from authorization server                 
+    
 /customers:
   description: A collection of customers
   get:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200:
         body:
@@ -57,7 +49,7 @@ types:
           application/json:
             example: errorcode
   post:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     body:
       application/json:
         type: customer
@@ -78,7 +70,7 @@ types:
 /customers/{customerId}:
   description: Get a customer by customerId
   get:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200:
         body:
@@ -94,7 +86,7 @@ types:
           application/json:
             type: errorcode
   delete:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200: {}
       400:
@@ -106,7 +98,7 @@ types:
           application/json:
             type: errorcode
   put:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     description: Update a customer
     body:
       application/json:
@@ -130,7 +122,7 @@ types:
 /employees:
   description: A collection of empoyees
   get:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200:
         body:
@@ -142,7 +134,7 @@ types:
           application/json:
             example: errorcode
   post:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     body:
       application/json:
         type: employee
@@ -163,7 +155,7 @@ types:
 /employees/{employeeId}:
   description: Get a customer by employeeId
   get:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200:
         body:
@@ -179,7 +171,7 @@ types:
           application/json:
             type: errorcode
   delete:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200: {}
       400:
@@ -191,7 +183,7 @@ types:
           application/json:
             type: errorcode
   put:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     description: Update an employee
     body:
       application/json:
@@ -215,7 +207,7 @@ types:
 /products:
   description: A collection of products
   get:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200:
         body:
@@ -227,7 +219,7 @@ types:
           application/json:
             example: errorcode
   post:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     body:
       application/json:
         type: product
@@ -248,7 +240,7 @@ types:
 /products/{productId}:
   description: Get a product by productId
   get:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200:
         body:
@@ -264,7 +256,7 @@ types:
           application/json:
             type: errorcode
   delete:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200: {}
       400:
@@ -276,7 +268,7 @@ types:
           application/json:
             type: errorcode
   put:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     description: Update an product
     body:
       application/json:
@@ -300,7 +292,7 @@ types:
 /purchaseInfos:
   description: A collection of purchaseInfos
   get:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200:
         body:
@@ -312,7 +304,7 @@ types:
           application/json:
             example: errorcode
   post:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     body:
       application/json:
         type: purchaseInfo
@@ -333,7 +325,7 @@ types:
 /purchaseInfos/{purchaseInfoId}:
   description: Get a purchaseInfo by purchaseInfoId
   get:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200:
         body:
@@ -349,7 +341,7 @@ types:
           application/json:
             type: errorcode
   delete:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     responses:
       200: {}
       400:
@@ -361,7 +353,7 @@ types:
           application/json:
             type: errorcode
   put:
-    securedBy: [oauth_2_0]
+    is: [client-id-required]
     description: Update a purchaseInfo
     body:
       application/json:
