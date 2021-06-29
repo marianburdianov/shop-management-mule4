@@ -18,7 +18,10 @@ types:
   product: !include api/dataTypes/product-datatype.raml
   purchaseInfo: !include api/dataTypes/purchaseInfo-datatype.raml
   
-  errorcode: !include api/dataTypes/errorcode-datatype.json 
+  errorcode-304: !include api/dataTypes/errorcode-304-datatype.json
+  errorcode-400: !include api/dataTypes/errorcode-400-datatype.json 
+  errorcode-403: !include api/dataTypes/errorcode-403-datatype.json
+  errorcode-404: !include api/dataTypes/errorcode-404-datatype.json
 
 traits:
   client-id-required:
@@ -61,11 +64,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       403:
         body:
           application/json:
-            type: errorcode                            
+            type: errorcode-403                            
 /customers/{customerId}:
   description: Get a customer by customerId
   get:
@@ -79,11 +82,11 @@ traits:
       304:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-304
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
   delete:
     is: [client-id-required]
     responses:
@@ -91,11 +94,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
   put:
     is: [client-id-required]
     description: Update a customer
@@ -113,11 +116,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       404:
         body:
           application/json:
-            type: errorcode 
+            type: errorcode-404 
 /employees:
   description: A collection of empoyees
   get:
@@ -131,7 +134,7 @@ traits:
       400:
         body:
           application/json:
-            example: errorcode
+            example: errorcode-400
   post:
     is: [client-id-required]
     body:
@@ -146,11 +149,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       403:
         body:
           application/json:
-            type: errorcode                            
+            type: errorcode-403                            
 /employees/{employeeId}:
   description: Get a customer by employeeId
   get:
@@ -164,11 +167,11 @@ traits:
       304:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-304
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
   delete:
     is: [client-id-required]
     responses:
@@ -176,11 +179,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
   put:
     is: [client-id-required]
     description: Update an employee
@@ -198,11 +201,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
 /products:
   description: A collection of products
   get:
@@ -216,7 +219,7 @@ traits:
       400:
         body:
           application/json:
-            example: errorcode
+            example: errorcode-400
   post:
     is: [client-id-required]
     body:
@@ -231,11 +234,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       403:
         body:
           application/json:
-            type: errorcode                            
+            type: errorcode-403                            
 /products/{productId}:
   description: Get a product by productId
   get:
@@ -249,11 +252,11 @@ traits:
       304:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-304
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
   delete:
     is: [client-id-required]
     responses:
@@ -261,11 +264,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
   put:
     is: [client-id-required]
     description: Update an product
@@ -283,11 +286,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       404:
         body:
           application/json:
-            type: errorcode  
+            type: errorcode-404  
 /purchaseInfos:
   description: A collection of purchaseInfos
   get:
@@ -301,7 +304,7 @@ traits:
       400:
         body:
           application/json:
-            example: errorcode
+            example: errorcode-400
   post:
     is: [client-id-required]
     body:
@@ -316,11 +319,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       403:
         body:
           application/json:
-            type: errorcode                            
+            type: errorcode-403                            
 /purchaseInfos/{purchaseInfoId}:
   description: Get a purchaseInfo by purchaseInfoId
   get:
@@ -334,11 +337,11 @@ traits:
       304:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-304
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
   delete:
     is: [client-id-required]
     responses:
@@ -346,11 +349,11 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       404:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-404
   put:
     is: [client-id-required]
     description: Update a purchaseInfo
@@ -368,9 +371,9 @@ traits:
       400:
         body:
           application/json:
-            type: errorcode
+            type: errorcode-400
       404:
         body:
           application/json:
-            type: errorcode                                               
+            type: errorcode-404                                               
               
