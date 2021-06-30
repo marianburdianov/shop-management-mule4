@@ -22,6 +22,10 @@ types:
   errorcode-400: !include api/dataTypes/errorcode-400-datatype.json 
   errorcode-403: !include api/dataTypes/errorcode-403-datatype.json
   errorcode-404: !include api/dataTypes/errorcode-404-datatype.json
+  errorcode-405: !include api/dataTypes/errorcode-405-datatype.json
+  errorcode-406: !include api/dataTypes/errorcode-406-datatype.json
+  errorcode-415: !include api/dataTypes/errorcode-415-datatype.json
+  errorcode-501: !include api/dataTypes/errorcode-501-datatype.json
 
 traits:
   client-id-required:
@@ -68,7 +72,11 @@ traits:
       403:
         body:
           application/json:
-            type: errorcode-403                            
+            type: errorcode-403
+      501:
+        body:
+          application/json:
+            type: errorcode-501                                  
 /customers/{customerId}:
   description: Get a customer by customerId
   get:
@@ -153,7 +161,11 @@ traits:
       403:
         body:
           application/json:
-            type: errorcode-403                            
+            type: errorcode-403
+      406:
+        body:
+          application/json:
+            type: errorcode-406                                 
 /employees/{employeeId}:
   description: Get a customer by employeeId
   get:
@@ -184,6 +196,10 @@ traits:
         body:
           application/json:
             type: errorcode-404
+      405:
+        body:
+          application/json:
+            type: errorcode-405      
   put:
     is: [client-id-required]
     description: Update an employee
@@ -290,7 +306,11 @@ traits:
       404:
         body:
           application/json:
-            type: errorcode-404  
+            type: errorcode-404
+      415:
+        body:
+          application/json:
+            type: errorcode-415        
 /purchaseInfos:
   description: A collection of purchaseInfos
   get:

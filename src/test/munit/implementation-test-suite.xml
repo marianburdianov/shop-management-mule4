@@ -8,7 +8,7 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="implementation-test-suite.xml" />
-	<munit:test name="implementation-test-suite-implementation_getProducts_FlowTest" doc:id="73e22ea2-66ac-4612-8288-e33aa2934e03" description="Test">
+	<munit:test name="implementation-test-suite-implementationGetProductsFlowTest" doc:id="73e22ea2-66ac-4612-8288-e33aa2934e03" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when: Select Products" doc:id="9694dc94-c6d6-4a19-95e9-16ce99dad218" processor="db:select">
 				<munit-tools:with-attributes >
@@ -21,14 +21,14 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_getProducts_Flow" doc:id="242dac29-83e5-4cbc-bdf8-cd2d6316e0ca" name="get:\products:shop-config"/>
+			<flow-ref doc:name="flowRefTogetProductsFlow" doc:id="242dac29-83e5-4cbc-bdf8-cd2d6316e0ca" name="get:\products:shop-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="e5164538-beab-48af-b97b-e961bfd6ab88" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]" message="MediaType is not  application/json"/>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="1f51521b-775e-4a4c-8918-f114ba3643dd" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_getEmployees_FlowTest" doc:id="547ff572-67c1-498d-94f5-e8859cb5cd78" description="Test">
+	<munit:test name="implementation-test-suite-implementationGetEmployeesFlowTest" doc:id="547ff572-67c1-498d-94f5-e8859cb5cd78" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Select Employees" doc:id="c8f98177-5c08-4a2e-838b-072f12017240" processor="db:select">
 				<munit-tools:with-attributes >
@@ -41,14 +41,14 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to get:\employees\(employeeId):shop-config" doc:id="6b1539bc-8e48-4158-8aa5-c2f81d0c469e" name="get:\employees:shop-config"/>
+			<flow-ref doc:name="flowRefToGetEmployeesFlow" doc:id="6b1539bc-8e48-4158-8aa5-c2f81d0c469e" name="get:\employees:shop-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="6403e1b4-8479-4a05-99f8-366db3e7266a" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]" message="MediaType is not application/json"/>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="58bdca32-d463-4392-afaf-39d8647679ac" is="#[MunitTools::notNullValue()]" message="Payload is null" expression="#[payload]"/>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_getCustomers_FlowTest" doc:id="2033409e-ccda-462d-8406-8ceabdc84dd2" description="Test">
+	<munit:test name="implementation-test-suite-implementationGetCustomersFlowTest" doc:id="2033409e-ccda-462d-8406-8ceabdc84dd2" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Select Customers" doc:id="d691e047-1617-4906-98ef-50c43ce94ff5" processor="db:select">
 				<munit-tools:with-attributes >
@@ -61,14 +61,14 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_getCustomers_Flow" doc:id="3ccc0f14-2a0d-434b-a8c2-c3686b3e199d" name="get:\customers:shop-config"/>
+			<flow-ref doc:name="flowRefToGetCustomersFlow" doc:id="3ccc0f14-2a0d-434b-a8c2-c3686b3e199d" name="get:\customers:shop-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="5153ae22-1f7e-4939-bdd5-d91c78be4230" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="4513dadd-cbd9-4740-a843-b90980f1a288" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_getPurchaseInfos_FlowTest" doc:id="22ed01b7-1dad-430f-bb3c-3c800e3cd59c" description="Test">
+	<munit:test name="implementation-test-suite-implementationGetPurchaseInfosFlowTest" doc:id="22ed01b7-1dad-430f-bb3c-3c800e3cd59c" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Select PurchaseInfos" doc:id="e314408e-8f82-4f6c-9985-8a574388b3df" processor="db:select">
 				<munit-tools:with-attributes >
@@ -81,14 +81,14 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_getPurchaseInfos_Flow" doc:id="8d9ac0a4-6fc6-4f79-9651-d94ee4c19254" name="get:\purchaseInfos:shop-config"/>
+			<flow-ref doc:name="flowRefToGetPurchaseInfosFlow" doc:id="8d9ac0a4-6fc6-4f79-9651-d94ee4c19254" name="get:\purchaseInfos:shop-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="f5b36910-f920-4251-b71f-22e1e94bb9bc" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="5d0d4fac-7c8c-4f38-8150-58664036787a" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_getProductByIdTest" doc:id="6a3c1ce7-8320-4590-8143-a8fbf501c015" description="Test">
+	<munit:test name="implementation-test-suite-implementationGetProductByIdTest" doc:id="6a3c1ce7-8320-4590-8143-a8fbf501c015" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Select Product By Id" doc:id="393f2af6-34be-4678-97dd-f323482cb34c" processor="db:select">
 				<munit-tools:with-attributes >
@@ -101,14 +101,14 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_getProductById" doc:id="12bf7e5c-1f5d-4496-9362-27b9f9bc4a5e" name="get:\products\(productId):shop-config"/>
+			<flow-ref doc:name="flowRefToGetProductByIdFlow" doc:id="12bf7e5c-1f5d-4496-9362-27b9f9bc4a5e" name="get:\products\(productId):shop-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="3bc2ca72-8c85-48df-9571-f3302fb9953e" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="c91ae71e-42bd-4ff2-8384-8a5126274ac8" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_getCustomerByIdTest" doc:id="90cbd011-deb3-46f2-90f1-f4d731c9894d" description="Test">
+	<munit:test name="implementation-test-suite-implementationGetCustomerByIdTest" doc:id="90cbd011-deb3-46f2-90f1-f4d731c9894d" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Select Customer By Id" doc:id="77d3da60-3c14-40f7-8ba8-128c27b64d3d" processor="db:select">
 				<munit-tools:with-attributes >
@@ -121,14 +121,14 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_getCustomerById" doc:id="bb8bc629-ef67-4b5f-8994-9f775102b532" name="get:\customers\(customerId):shop-config"/>
+			<flow-ref doc:name="flowRefToGetCustomerByIdFlow" doc:id="bb8bc629-ef67-4b5f-8994-9f775102b532" name="get:\customers\(customerId):shop-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="fc8a0376-d843-486d-8442-068521903d9c" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="98ce3d51-a1a1-4078-93ef-b205bac92bb8" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_getEmployeeByIdTest" doc:id="d47b047f-74ff-4547-aeff-ef304ea7a04b" description="Test">
+	<munit:test name="implementation-test-suite-implementationGetEmployeeByIdTest" doc:id="d47b047f-74ff-4547-aeff-ef304ea7a04b" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Select Employee By Id" doc:id="a84aba30-6ebe-4437-a6c1-8cd53b8a488c" processor="db:select">
 				<munit-tools:with-attributes >
@@ -141,14 +141,14 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_getEmployeeById" doc:id="b45a96db-b354-4dc4-918e-fb0541af694d" name="get:\employees\(employeeId):shop-config"/>
+			<flow-ref doc:name="flowRefToGetEmployeeByIdFlow" doc:id="b45a96db-b354-4dc4-918e-fb0541af694d" name="get:\employees\(employeeId):shop-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="b5229cf6-c1c7-4dd8-8e77-561b40b1891e" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="ed9f31bb-4996-439d-8c3d-decf24a8265d" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_GetPurchaseInfoByIdTest" doc:id="98ce95db-2493-4ce3-a1d4-8e92851c320a" description="Test">
+	<munit:test name="implementation-test-suite-implementationGetPurchaseInfoByIdTest" doc:id="98ce95db-2493-4ce3-a1d4-8e92851c320a" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Select PurchaseInfo By Id" doc:id="19ea68b7-9008-4abd-ad98-1a3332d03d7b" processor="db:select">
 				<munit-tools:with-attributes >
@@ -161,17 +161,14 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_GetPurchaseInfoById" doc:id="8d16dcae-6959-4aea-b3a5-ddd95c371bfb" name="get:\purchaseInfos\(purchaseInfoId):shop-config"/>
+			<flow-ref doc:name="flowRefToGetPurchaseInfoByIdFlow" doc:id="8d16dcae-6959-4aea-b3a5-ddd95c371bfb" name="get:\purchaseInfos\(purchaseInfoId):shop-config"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="Assert that" doc:id="53a3eb44-a321-4c26-a0e0-6630f16d8e5e" message="MediaType is not application/json" expression="#[payload]" is="#[MunitTools::withMediaType('application/json')]"/>
 			<munit-tools:assert-that doc:name="Assert that" doc:id="02482f6a-cf33-49ad-996e-fe9655bc8433" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_PostProductTest" doc:id="6811f226-5078-4853-9bf7-62cff30fdb53" description="Test">
-		<munit:enable-flow-sources >
-			<munit:enable-flow-source value="implementation_PostProduct" />
-		</munit:enable-flow-sources>
+	<munit:test name="implementation-test-suite-implementationPostProductTest" doc:id="6811f226-5078-4853-9bf7-62cff30fdb53" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Insert Product" doc:id="597ab542-816b-42c6-b9b6-9256147d2d78" processor="db:insert">
 				<munit-tools:with-attributes >
@@ -196,10 +193,10 @@
 			<munit:set-event doc:name="Set Event" doc:id="6af4d124-7ca8-4717-84a6-1dcd93f14d11" >
 				<munit:payload value='#[{&#10;    "name": "Rice",&#10;    "price": 2.0,&#10;    "quantity": 4&#10;}]' mediaType="application/java" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to implementation_PostProduct" doc:id="902f16f3-f732-425e-b637-a816f9a36908" name="post:\products:application\json:shop-config"/>
+			<flow-ref doc:name="flowRefToInsertProductFlow" doc:id="902f16f3-f732-425e-b637-a816f9a36908" name="post:\products:application\json:shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_PostCustomerTest" doc:id="0bc3fd2b-2f66-4df5-bac8-bedd42e5baa1" description="Test">
+	<munit:test name="implementation-test-suite-implementationPostCustomerTest" doc:id="0bc3fd2b-2f66-4df5-bac8-bedd42e5baa1" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Insert Customer" doc:id="e8773876-7434-48c7-bb0d-f099c88da3bc" processor="db:insert">
 				<munit-tools:with-attributes >
@@ -224,10 +221,10 @@
 			<munit:set-event doc:name="Set Event" doc:id="adb88205-1a45-43d2-8bda-c02a01031e81" >
 				<munit:payload value='#[{&#10;    "first_name": "Rick",&#10;    "last_name": "Novak",&#10;    "phone_number": 123456789,&#10;    "address": "Rick Address"&#10;}]' mediaType="application/java" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to implementation_PostCustomer" doc:id="f8accd44-d9c3-4e1f-b1ab-5cce4abb9854" name="post:\customers:application\json:shop-config"/>
+			<flow-ref doc:name="flowRefToInsertCustomerFlow" doc:id="f8accd44-d9c3-4e1f-b1ab-5cce4abb9854" name="post:\customers:application\json:shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_PostEmployeeTest" doc:id="3c3c8eab-59fe-48d6-a012-cf272c159b1d" description="Test">
+	<munit:test name="implementation-test-suite-implementationPostEmployeeTest" doc:id="3c3c8eab-59fe-48d6-a012-cf272c159b1d" description="Test">
 		<munit:behavior>
 			<munit-tools:mock-when doc:name="Mock when Insert Employee" doc:id="679f7892-2f38-4c1a-90df-3c008a25238d" processor="db:insert">
 				<munit-tools:with-attributes >
@@ -252,10 +249,10 @@
 			<munit:set-event doc:name="Set Event" doc:id="9c7867d1-7d7f-42a6-98ad-80c0403762f8" >
 				<munit:payload value='#[{&#10;    "firs_name": "Virat",&#10;    "last_name": "Adams",&#10;    "gender": "male",&#10;    "birth_date": "1980-12-06",&#10;    "hire_date": "2015-10-10",&#10;    "role": "Supervisor",&#10;    "salary": 3800.0&#10;}]' mediaType="application/java" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to implementation_PostEmployee" doc:id="e2f09edb-3c4a-49df-959e-0327d5d91c68" name="post:\employees:application\json:shop-config"/>
+			<flow-ref doc:name="flowRefToInsertEmployeeFlow" doc:id="e2f09edb-3c4a-49df-959e-0327d5d91c68" name="post:\employees:application\json:shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_DeleteCustomerTest" doc:id="51600b41-bebf-408e-9aa0-e5f423a934df" description="Test">
+	<munit:test name="implementation-test-suite-implementationDeleteCustomerTest" doc:id="51600b41-bebf-408e-9aa0-e5f423a934df" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Delete Customer" doc:id="7a8125bc-b92a-4009-bc50-d72d4a92c16f" processor="db:delete">
 				<munit-tools:with-attributes >
@@ -268,10 +265,10 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_DeleteCustomer" doc:id="5bc45727-0e03-4785-a4b6-55cdd5723b01" name="delete:\customers\(customerId):shop-config"/>
+			<flow-ref doc:name="flowRefDeleteCustomerFlow" doc:id="5bc45727-0e03-4785-a4b6-55cdd5723b01" name="delete:\customers\(customerId):shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_DeleteEmployeeTest" doc:id="c8e8966d-0721-4871-a0eb-3c9617ec9241" description="Test">
+	<munit:test name="implementation-test-suite-implementationDeleteEmployeeTest" doc:id="c8e8966d-0721-4871-a0eb-3c9617ec9241" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Delete Employee" doc:id="a117c9c8-0fe6-4f4e-9152-82badeaa51c5" processor="db:delete">
 				<munit-tools:with-attributes >
@@ -284,10 +281,10 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_DeleteEmployee" doc:id="feb3864e-4902-4668-a698-cc00775eee14" name="delete:\employees\(employeeId):shop-config"/>
+			<flow-ref doc:name="flowRefDeleteEmployeeFlow" doc:id="feb3864e-4902-4668-a698-cc00775eee14" name="delete:\employees\(employeeId):shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_DeleteProductTest" doc:id="24c6c0e5-bfa3-4d82-90e5-0d042f779837" description="Test">
+	<munit:test name="implementation-test-suite-implementationDeleteProductTest" doc:id="24c6c0e5-bfa3-4d82-90e5-0d042f779837" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Delete Product" doc:id="c8640269-6446-4aab-80ae-cd32be7ea82e" processor="db:delete">
 				<munit-tools:with-attributes >
@@ -300,10 +297,10 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_DeleteProduct" doc:id="386a2f30-91a4-47cd-8258-1d2f78d7b082" name="delete:\products\(productId):shop-config"/>
+			<flow-ref doc:name="flowRefDeleteProductFlow" doc:id="386a2f30-91a4-47cd-8258-1d2f78d7b082" name="delete:\products\(productId):shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_DeletePurchaseInfoTest" doc:id="61c92457-2cd7-4e47-abef-7244fb386959" description="Test">
+	<munit:test name="implementation-test-suite-implementationDeletePurchaseInfoTest" doc:id="61c92457-2cd7-4e47-abef-7244fb386959" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Delete PurchaseInfo" doc:id="67f9550a-b364-412e-af8a-b722efd913bd" processor="db:delete">
 				<munit-tools:with-attributes >
@@ -316,10 +313,10 @@
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to implementation_DeletePurchaseInfo" doc:id="6daf9c40-b7aa-40bd-a2b2-3bac2f892aeb" name="delete:\purchaseInfos\(purchaseInfoId):shop-config"/>
+			<flow-ref doc:name="flowRefDeletePurchaseInfoFlow" doc:id="6daf9c40-b7aa-40bd-a2b2-3bac2f892aeb" name="delete:\purchaseInfos\(purchaseInfoId):shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_UpdateProductTest" doc:id="47764e72-bc60-494f-af8d-a17354c860ba" description="Test">
+	<munit:test name="implementation-test-suite-implementationUpdateProductTest" doc:id="47764e72-bc60-494f-af8d-a17354c860ba" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Update Product" doc:id="e8a83b65-f94b-44bd-9425-0be88c44ea9b" processor="db:update">
 				<munit-tools:with-attributes >
@@ -344,10 +341,10 @@
 			<munit:set-event doc:name="Set Event" doc:id="34fcbdea-3d58-4c82-954f-0df177323952" >
 				<munit:payload value='#[{&#10;    "name": "Rice",&#10;    "price": 2.0,&#10;    "quantity": 4&#10;}]' mediaType="application/java" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to implementation_UpdateProduct" doc:id="66284ba2-2d91-47d2-a52e-27713f673936" name="put:\products\(productId):application\json:shop-config"/>
+			<flow-ref doc:name="flowRefUpdateProductFlow" doc:id="66284ba2-2d91-47d2-a52e-27713f673936" name="put:\products\(productId):application\json:shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_UpdateCustomerTest" doc:id="51cb1e93-a546-47c1-a22c-123c65c91ce0" description="Test">
+	<munit:test name="implementation-test-suite-implementationUpdateCustomerTest" doc:id="51cb1e93-a546-47c1-a22c-123c65c91ce0" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Update Customer" doc:id="539f8344-0006-4151-80d4-4f80e9c55221" processor="db:update">
 				<munit-tools:with-attributes >
@@ -372,10 +369,10 @@
 			<munit:set-event doc:name="Set Event" doc:id="51c9e4bf-7a47-4477-bbb8-8ba1e35a0933" >
 				<munit:payload value='#[{&#10;    "first_name": "Rick",&#10;    "last_name": "Novak",&#10;    "phone_number": 123456789,&#10;    "address": "Rick Address"&#10;}]' mediaType="application/java" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to implementation_UpdateCustomer" doc:id="59974ed7-6be0-48a7-a0a8-5102cd6e9dee" name="put:\customers\(customerId):application\json:shop-config"/>
+			<flow-ref doc:name="flowRefUpdateCustomerFlow" doc:id="59974ed7-6be0-48a7-a0a8-5102cd6e9dee" name="put:\customers\(customerId):application\json:shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_UpdateEmployeeTest" doc:id="e15438b7-028a-48ca-80b6-e1e1565a6737" description="Test">
+	<munit:test name="implementation-test-suite-implementationUpdateEmployeeTest" doc:id="e15438b7-028a-48ca-80b6-e1e1565a6737" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Update Employee" doc:id="e8533075-8259-4fc1-8167-79909054b1fb" processor="db:update">
 				<munit-tools:with-attributes >
@@ -400,10 +397,10 @@
 			<munit:set-event doc:name="Set Event" doc:id="b680b8db-dfa1-422e-9a03-dd8433d074f8" >
 				<munit:payload value='#[{&#10;    "first_name": "Virat",&#10;    "last_name": "Adams",&#10;    "gender": "male",&#10;    "birth_date": "1980-12-06",&#10;    "hire_date": "2015-10-10",&#10;    "role": "Supervisor",&#10;    "salary": 3800.0&#10;}]' mediaType="application/java" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to implementation_UpdateEmployee" doc:id="e94883b9-99f5-45b4-95c9-ea4bc1e9a202" name="put:\employees\(employeeId):application\json:shop-config"/>
+			<flow-ref doc:name="flowRefUpdateEmpoyeeFlow" doc:id="e94883b9-99f5-45b4-95c9-ea4bc1e9a202" name="put:\employees\(employeeId):application\json:shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_PostPurchaseIndoTest" doc:id="73050397-9286-4db8-954d-a5ba70276f87" description="Test">
+	<munit:test name="implementation-test-suite-implementationPostPurchaseIndoTest" doc:id="73050397-9286-4db8-954d-a5ba70276f87" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Insert" doc:id="464abd2e-7a6f-4406-b6d3-90391a75fad7" processor="db:insert">
 				<munit-tools:with-attributes >
@@ -437,10 +434,10 @@
 			<munit:set-event doc:name="Set Event" doc:id="6a14fac4-06a8-478a-a2e2-6c805b48f45c" >
 				<munit:payload value='#[{&#10;        "purchaseInfoId": 1,&#10;        "date": "2020-03-21",&#10;        "amount": 4,&#10;        "cost": 2.0,&#10;        "employeeId": 1,&#10;        "customerId": 1,&#10;        "productId": [&#10;            1,&#10;            2&#10;        ]&#10;    }]' mediaType="application/java" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to implementation_PostPurchaseIndo" doc:id="f303a00a-a843-45f0-a65a-aec082555818" name="post:\purchaseInfos:application\json:shop-config"/>
+			<flow-ref doc:name="flowRefInsertPurchaseInfoFlow" doc:id="f303a00a-a843-45f0-a65a-aec082555818" name="post:\purchaseInfos:application\json:shop-config"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="implementation-test-suite-implementation_UpdatePurchaseInfoTest" doc:id="a0a8d735-08e0-4bd1-b771-f3062a2b3dc1" description="Test">
+	<munit:test name="implementation-test-suite-implementationUpdatePurchaseInfoTest" doc:id="a0a8d735-08e0-4bd1-b771-f3062a2b3dc1" description="Test">
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when Delete all products" doc:id="8bd1ddf6-e1cb-48a8-9a48-9f1b83430c99" processor="db:delete">
 				<munit-tools:with-attributes >
@@ -474,7 +471,7 @@
 			<munit:set-event doc:name="Set Event" doc:id="cd9f94cf-6542-4ad7-b490-2988e70bc925" >
 				<munit:payload value='#[{&#10;        "purchaseinfoId": 1,&#10;        "date": "2020-03-21",&#10;        "amount": 4,&#10;        "cost": 2.0,&#10;        "employeeId": 1,&#10;        "customerId": 1,&#10;        "productId": [&#10;            1,&#10;            2&#10;        ]&#10;    }]' mediaType="application/java" />
 			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to implementation_UpdatePurchaseInfo" doc:id="f6d27e8a-b6eb-4ef0-aebd-baf18aa2aa23" name="put:\purchaseInfos\(purchaseInfoId):application\json:shop-config"/>
+			<flow-ref doc:name="flowRefUpdatePurchaseInfoFlow" doc:id="f6d27e8a-b6eb-4ef0-aebd-baf18aa2aa23" name="put:\purchaseInfos\(purchaseInfoId):application\json:shop-config"/>
 		</munit:execution>
 	</munit:test>
 

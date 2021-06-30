@@ -8,7 +8,7 @@
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	
-	<flow name="implementation_getProducts_Flow" doc:id="ccc4ca6d-4a05-40f3-a52d-cef96ca30417">
+	<flow name="implementationGetProducts" doc:id="ccc4ca6d-4a05-40f3-a52d-cef96ca30417">
 		<db:select doc:name="Select Products" doc:id="95d387b1-c0ce-4a10-bc82-ab5082036f43" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM products]]></db:sql>
@@ -30,7 +30,7 @@ payload groupBy $.product_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="d64b255d-9928-45b4-b13f-66502970f754" message="Get all products"/>
 	
 </flow>
-	<flow name="implementation_getEmployees_Flow">
+	<flow name="implementationGetEmployees">
         <db:select doc:name="Select Employees" doc:id="aec1a043-85f9-40e7-8bdd-deae70bfda51" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM employees]]></db:sql>
@@ -57,7 +57,7 @@ payload groupBy $.employee_id pluck{
     
 
 </flow>
-    <flow name="implementation_getCustomers_Flow" initialState="started">
+    <flow name="implementationGetCustomers">
         <db:select doc:name="Select Customers" doc:id="9bd439fa-cc72-4e3f-8910-c181b1449ca2" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM customers]]></db:sql>
@@ -80,7 +80,7 @@ payload groupBy $.customer_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="9c0fea51-8fb3-45b3-95a6-56c253411aaf" message="Get all customers"/>
     
 </flow>
-    <flow name="implementation_getPurchaseInfos_Flow">
+    <flow name="implementationGetPurchaseInfos">
         <db:select doc:name="Select PurchaseInfos" doc:id="ee391bec-3c0c-4bed-82a6-189d7ca795ce" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
 FROM purchaseinfos AS pi
@@ -107,7 +107,7 @@ payload groupBy $.purchaseinfo_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="65b9ce81-1fe1-482f-a279-4b755cb3cde9" message="Get all purchaseInfos"/>
     
 </flow>
-    <flow name="implementation_getProductById">
+    <flow name="implementationGetProductById">
 		<set-variable value="#[message.attributes.uriParams.productId]" doc:name="Set Variable" doc:id="28f03114-721d-4bca-9780-91bc12875acb" variableName="productId"/>
 		<db:select doc:name="Select ProductById" doc:id="063126c4-2511-45ec-a504-11d75edd4fd8" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * 
@@ -133,7 +133,7 @@ payload groupBy $.product_id pluck{
     
 </flow>
     
-    <flow name="implementation_getCustomerById">
+    <flow name="implementationGetCustomerById">
     	<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="Set Variable" doc:id="c8341218-c2eb-4119-9e0f-d5c9c5bd24f0" variableName="customerId"/>
 		<db:select doc:name="Select CustomerById" doc:id="07a794d8-caf2-4193-ac06-a62c3033bc50" config-ref="Database_Config">
             <db:sql><![CDATA[SELECT * 
@@ -159,7 +159,7 @@ payload groupBy $.customer_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="7acac0ba-22f2-495e-a83f-d56ff6771747" message="Get customer by id"/>
     
 </flow>
-    <flow name="implementation_getEmployeeById">
+    <flow name="implementationGetEmployeeById">
     	<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="Set Variable" doc:id="87b8dbc2-5a6c-4c90-a254-e988dd4e32ac" variableName="employeeId"/>
 		<db:select doc:name="Select EmployeeById" doc:id="a1528763-a217-408d-9b5c-ce54fcb8e594" config-ref="Database_Config">
             <db:sql><![CDATA[SELECT * 
@@ -188,7 +188,7 @@ payload groupBy $.employee_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="10524014-15a3-433f-a331-ad89218c161a" message="Get employee  by id"/>
     
 </flow>
-    <flow name="implementation_GetPurchaseInfoById">
+    <flow name="implementationGetPurchaseInfoById">
     	 <set-variable value="#[message.attributes.uriParams.purchaseInfoId]" doc:name="Set Variable" doc:id="5366544e-d3d0-42fc-a642-65b954496cbd" variableName="purchaseInfoId"/>
 		<db:select doc:name="Select PurchaseInfoById" doc:id="a8f04ea1-0c8e-4752-a24b-081e5403fe5e" config-ref="Database_Config">
             <db:sql><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
@@ -218,7 +218,7 @@ payload groupBy $.purchaseinfo_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="d51910cc-af74-42cf-a308-68ac5759e133" message="Get purchaseInfo by id"/>
     
 </flow>
-    <flow name="implementation_PostCustomer">
+    <flow name="implementationPostCustomer">
 		<db:insert doc:name="Insert Customer" doc:id="7ce53a39-247a-4c00-a630-8ebe9c97be81" config-ref="Database_Config">
 			<db:sql ><![CDATA[INSERT INTO customers ( first_name, last_name, phone_number, address) 
 VALUES ( :first_name, :last_name, :phone_number, :address);]]></db:sql>
@@ -252,7 +252,7 @@ payload groupBy $.customer_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="31e82b54-d0eb-4997-b83c-337fdbc78808" message="Customer created"/>
     
 </flow>
-    <flow name="implementation_PostProduct">
+    <flow name="implementationPostProduct">
     	<db:insert doc:name="Insert Product" doc:id="e10081a7-2874-4f53-8de8-afd64d5ee82e" config-ref="Database_Config">
 			<db:sql><![CDATA[INSERT INTO products (name, price, quantity) 
 VALUES (:name, :price, :quantity);]]></db:sql>
@@ -284,7 +284,7 @@ payload groupBy $.product_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="6a6ed7ab-c857-4a1f-91cb-e236af6f73bd" message="Product created"/>
     
 </flow>
-    <flow name="implementation_PostEmployee">
+    <flow name="implementationPostEmployee">
     	<db:insert doc:name="Insert Employee" doc:id="b6de7e62-d0b2-4453-a581-3bdd333bd00b" config-ref="Database_Config">
 			<db:sql ><![CDATA[INSERT INTO employees (first_name, last_name, gender, birth_date, hire_date, role, salary) 
 VALUES (:first_name, :last_name, :gender, :birth_date, :hire_date, :role, :salary);]]></db:sql>
@@ -324,7 +324,7 @@ payload groupBy $.employee_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="b400bc95-dfa9-458e-af4a-7962332b664e" message="Employee created"/>
     
 </flow>
-    <flow name="implementation_PostPurchaseIndo">
+    <flow name="implementationPostPurchaseInfo">
     	<set-variable value="#[payload]" doc:name="originalPayload" doc:id="7e981415-0878-4bac-8ec7-e67441f15ce7" variableName="originalPayload"/>
 		<db:insert doc:name="Insert PurchaseInfo" doc:id="c5c26367-1ffd-431c-8914-0e1fbadd4ea1" config-ref="Database_Config">
 			<db:sql><![CDATA[INSERT INTO purchaseinfos (employee_id, customer_id, cost, amount, date) 
@@ -383,7 +383,7 @@ payload groupBy $.purchaseinfo_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="1d9fdc5d-8fc9-494f-ba2c-175eee5a54da" message="PurchaseInfo created"/>
     
 </flow>
-    <flow name="implementation_UpdateProduct">
+    <flow name="implementationUpdateProduct">
     	<set-variable value="#[attributes.uriParams.productId]" doc:name="Set Variable" doc:id="19ab3250-9df5-41af-8ed3-7408cf841cc5" variableName="productId"/>
 		<db:update doc:name="Update Product" doc:id="0bc6a208-fef3-481c-bbfa-253c29eab2fb" config-ref="Database_Config">
 			<db:sql ><![CDATA[UPDATE products 
@@ -421,7 +421,7 @@ payload groupBy $.product_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="63354556-ab69-4cc1-8111-5befd86f39a1" message="Product updated"/>
     
 </flow>
-<flow name="implementation_UpdateCustomer">
+<flow name="implementationUpdateCustomer">
     	<set-variable value="#[attributes.uriParams.customerId]" doc:name="Set Variable" doc:id="def6f447-b66d-4d2d-bb61-94a04af967af" variableName="customerId"/>
 		<db:update doc:name="Update Customer" doc:id="9f928349-6e28-4745-b695-04f158b92896" config-ref="Database_Config">
 			<db:sql ><![CDATA[UPDATE customers 
@@ -462,7 +462,7 @@ payload groupBy $.customer_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="28a5be7c-71e2-4e90-a6ef-8a7d356a0b3e" message="Customer updated"/>
     
 </flow>
-    <flow name="implementation_UpdateEmployee">
+    <flow name="implementationUpdateEmployee">
     	<set-variable value="#[attributes.uriParams.employeeId]" doc:name="Set Variable" doc:id="34efa661-b56f-4a4e-9794-4f5dd629b537" variableName="employeeId"/>
 		<db:update doc:name="Update Employee" doc:id="4666793f-af37-48ec-8b7c-98a6fc0de774" config-ref="Database_Config">
 			<db:sql ><![CDATA[UPDATE employees 
@@ -509,7 +509,7 @@ payload groupBy $.employee_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="d76ede07-989d-4bce-b27a-452fd70cf2fd" message="Employee updated"/>
     
 </flow>
-    <flow name="implementation_UpdatePurchaseInfo">
+    <flow name="implementationUpdatePurchaseInfo">
     	<set-variable value="#[message.attributes.uriParams.purchaseInfoId]" doc:name="Set Variable" doc:id="addbc353-284d-434b-b7a5-261d7fbe4121" variableName="purchaseInfoId"/>
 		<set-variable value="#[payload]" doc:name="originalPayload" doc:id="155e6c5c-0bef-4128-ae7b-f102852c88d7" variableName="originalPayload"/>
 		<logger level="INFO" doc:name="Logger" doc:id="55a6128f-4499-4327-a9d1-50048d35a61f" message="received payload #[payload]"/>
@@ -579,7 +579,7 @@ payload groupBy $.purchaseinfo_id pluck{
 		<logger level="INFO" doc:name="Logger" doc:id="0e8b2362-0bbb-4bf6-b12c-4d54d217e1fc" message="PurchaseInfo is updated"/>
     
 </flow>
-    <flow name="implementation_DeleteCustomer">
+    <flow name="implementationDeleteCustomer">
     	<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="Set Variable" doc:id="38c3c3b1-6883-4984-b78d-ff7d740d58eb" variableName="customerId"/>
 		<db:delete doc:name="Delete Customer" doc:id="159c831b-1cae-4b43-b9ff-54aaa5393719" config-ref="Database_Config">
 			<db:sql ><![CDATA[DELETE FROM customers WHERE customer_id = :customer_id]]></db:sql>
@@ -600,7 +600,7 @@ output application/json
         </ee:transform>
         <logger level="INFO" message="Deleting customer  in data base" />
     </flow>
-    <flow name="implementation_DeleteEmployee">
+    <flow name="implementationDeleteEmployee">
     	<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="Set Variable" doc:id="e8476748-1269-4f60-9cc1-9152a502e4f5" variableName="employeeId"/>
 		<db:delete doc:name="Delete Employee" doc:id="aea5449f-5678-4948-b512-37b498f6f891" config-ref="Database_Config">
 			<db:sql ><![CDATA[DELETE FROM employees WHERE employee_id = :employee_id]]></db:sql>
@@ -622,7 +622,7 @@ output application/json
         </ee:transform>
         <logger level="INFO" message="Deleting employee in database" />
     </flow>
-    <flow name="implementation_DeleteProduct">
+    <flow name="implementationDeleteProduct">
     	<set-variable value="#[message.attributes.uriParams.productId]" doc:name="Set Variable" doc:id="05ce86a4-efa7-46ea-a0ad-59294cd0a86b" variableName="productId"/>
 		<db:delete doc:name="Delete Product" doc:id="0c235b2a-d0e6-4fad-9bf6-043269bfc2da" config-ref="Database_Config">
 			<db:sql ><![CDATA[DELETE FROM products WHERE product_id = :product_id]]></db:sql>
@@ -643,7 +643,7 @@ output application/json
         </ee:transform>
         <logger level="INFO" message="Deleting produdct in database" />
     </flow>
-    <flow name="implementation_DeletePurchaseInfo">
+    <flow name="implementationDeletePurchaseInfo">
     	<set-variable value="#[attributes.uriParams.purchaseInfoId]" doc:name="Set Variable" doc:id="59d3aca0-8458-495f-baa8-e18e08caa7b0" variableName="purchaseInfoId"/>
 		<db:delete doc:name="Delete PurchaseInfo" doc:id="f44f2138-660e-44e8-9476-5e44f1887893" config-ref="Database_Config">
 			<db:sql ><![CDATA[DELETE FROM purchaseinfos WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>

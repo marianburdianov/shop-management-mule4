@@ -18,10 +18,13 @@
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Bad request"}]]></ee:set-payload>
+{
+  "code": 400,
+  "message": "Bad request"
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">400</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -31,10 +34,13 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Resource not found"}]]></ee:set-payload>
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -44,10 +50,13 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Method not allowed"}]]></ee:set-payload>
+{
+  "code": 405,
+  "message": "Method Not Allowed"
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">405</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -57,10 +66,13 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not acceptable"}]]></ee:set-payload>
+{
+  "code": 406,
+  "message": "Not Acceptable"
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">406</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -70,10 +82,13 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Unsupported media type"}]]></ee:set-payload>
+{
+  "code": 415,
+  "message": "Unsupported Media Type"
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">415</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -83,10 +98,13 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Not Implemented"}]]></ee:set-payload>
+{
+  "code": 501,
+  "message": "Not Implemented"
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
@@ -110,87 +128,90 @@ output application/json
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-{message: "Resource not found"}]]></ee:set-payload>
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
         </error-handler>
     </flow>
 	<flow name="put:\customers\(customerId):application\json:shop-config">
-		<flow-ref doc:name="Update Customer Flow" doc:id="ea9dfb3a-73fa-4a43-b299-dfb68fa6f9e4" name="implementation_UpdateCustomer"/>
+		<flow-ref doc:name="updateCustomerFlow" doc:id="ea9dfb3a-73fa-4a43-b299-dfb68fa6f9e4" name="implementationUpdateCustomer"/>
         
     </flow>
     <flow name="put:\employees\(employeeId):application\json:shop-config">
-		<flow-ref doc:name="Update Employee Flow" doc:id="b869001f-4d30-4361-aa08-45a858b1a972" name="implementation_UpdateEmployee"/>
+		<flow-ref doc:name="updateEmployeeFlow" doc:id="b869001f-4d30-4361-aa08-45a858b1a972" name="implementationUpdateEmployee"/>
         
     </flow>
     <flow name="put:\products\(productId):application\json:shop-config">
-		<flow-ref doc:name="Update Product Flow" doc:id="8bd0aab5-581b-4397-904f-be655bb7dda8" name="implementation_UpdateProduct"/>
+		<flow-ref doc:name="updateProductFlow" doc:id="8bd0aab5-581b-4397-904f-be655bb7dda8" name="implementationUpdateProduct"/>
         
     </flow>
     <flow name="put:\purchaseInfos\(purchaseInfoId):application\json:shop-config">
-		<flow-ref doc:name="Update PurchaseInfo Flow" doc:id="06ab13d4-597e-45f1-97a5-53d9043c46a6" name="implementation_UpdatePurchaseInfo"/>
+		<flow-ref doc:name="updatePurchaseInfoFlow" doc:id="06ab13d4-597e-45f1-97a5-53d9043c46a6" name="implementationUpdatePurchaseInfo"/>
         
     </flow>
     <flow name="delete:\customers\(customerId):shop-config">
-		<flow-ref doc:name="Delete Customer Flow" doc:id="540bd4ae-db29-4003-8c6a-b83638bd4a0b" name="implementation_DeleteCustomer"/>
+		<flow-ref doc:name="deleteCustomerFlow" doc:id="540bd4ae-db29-4003-8c6a-b83638bd4a0b" name="implementationDeleteCustomer"/>
         
     </flow>
     <flow name="delete:\employees\(employeeId):shop-config">
-		<flow-ref doc:name="Delete Employee Flow" doc:id="ed9e4a4e-3e83-4de2-a03f-5798d9cc7e2d" name="implementation_DeleteEmployee"/>
+		<flow-ref doc:name="deleteEmployeeFlow" doc:id="ed9e4a4e-3e83-4de2-a03f-5798d9cc7e2d" name="implementationDeleteEmployee"/>
         
     </flow>
     <flow name="delete:\products\(productId):shop-config">
-		<flow-ref doc:name="Delete Product Flow" doc:id="5dc9232a-c46c-457d-84c2-211ff7a259c1" name="implementation_DeleteProduct"/>
+		<flow-ref doc:name="deleteProductFlow" doc:id="5dc9232a-c46c-457d-84c2-211ff7a259c1" name="implementationDeleteProduct"/>
         
     </flow>
     <flow name="delete:\purchaseInfos\(purchaseInfoId):shop-config">
-		<flow-ref doc:name="Delete PurchaseInfo Flow" doc:id="7547a548-84d4-4c66-8eae-7d4094ed1f99" name="implementation_DeletePurchaseInfo"/>
+		<flow-ref doc:name="deletePurchaseInfoFlow" doc:id="7547a548-84d4-4c66-8eae-7d4094ed1f99" name="implementationDeletePurchaseInfo"/>
         
     </flow>
     <flow name="get:\employees\(employeeId):shop-config">
-		<flow-ref doc:name="Get EmployeeById Flow" doc:id="6394f999-4462-47ab-b6c6-0f2f2307da6a" name="implementation_getEmployeeById"/>
+		<flow-ref doc:name="getEmployeeByIdFlow" doc:id="6394f999-4462-47ab-b6c6-0f2f2307da6a" name="implementationGetEmployeeById"/>
         
     </flow>
     <flow name="get:\purchaseInfos\(purchaseInfoId):shop-config">
-		<flow-ref doc:name="Get PurchaseInfoById" doc:id="afbd98f0-0898-4292-a255-6cdecb5e5909" name="implementation_GetPurchaseInfoById"/>
+		<flow-ref doc:name="getPurchaseInfoById" doc:id="afbd98f0-0898-4292-a255-6cdecb5e5909" name="implementationGetPurchaseInfoById"/>
        
     </flow>
     <flow name="get:\products:shop-config">
-        <flow-ref doc:name="Get Products Flow" doc:id="1263b827-3fc2-476b-a98a-ec1bfd1e6b92" name="implementation_getProducts_Flow" />
+        <flow-ref doc:name="getProductsFlow" doc:id="1263b827-3fc2-476b-a98a-ec1bfd1e6b92" name="implementationGetProducts" />
     </flow>
     <flow name="get:\employees:shop-config" doc:id="e6e9572e-7ecc-42de-90f2-48928ff89870">
-        <flow-ref doc:name="Get Employees Flow" doc:id="af02f97b-e4e5-431c-83f5-8970d7bc4c81" name="implementation_getEmployees_Flow" />
+        <flow-ref doc:name="getEmployeesFlow" doc:id="af02f97b-e4e5-431c-83f5-8970d7bc4c81" name="implementationGetEmployees" />
     </flow>
     <flow name="get:\customers:shop-config" doc:id="6dd4e3a8-b72a-4fc3-9fa9-60e1bf83cdb2">
-        <flow-ref doc:name="Get Customers Flow" doc:id="d75916c9-0e7f-42e9-9775-38877cda8ee4" name="implementation_getCustomers_Flow" />
+        <flow-ref doc:name="getCustomersFlow" doc:id="d75916c9-0e7f-42e9-9775-38877cda8ee4" name="implementationGetCustomers" />
     </flow>
     <flow name="get:\purchaseInfos:shop-config" doc:id="de09389a-7c23-45f1-a285-d1b1f9437f95">
-        <flow-ref doc:name="Get PurchaseInfos Flow" doc:id="f229bbc1-f036-491a-82e6-9afd76650b6f" name="implementation_getPurchaseInfos_Flow" />
+        <flow-ref doc:name="getPurchaseInfosFlow" doc:id="f229bbc1-f036-491a-82e6-9afd76650b6f" name="implementationGetPurchaseInfos" />
     </flow>
     <flow name="post:\products:application\json:shop-config">
-		<flow-ref doc:name="Insert Products Flow" doc:id="4b71b812-a611-4a80-ad08-33bd49cbc914" name="implementation_PostProduct"/>
+		<flow-ref doc:name="insertProductsFlow" doc:id="4b71b812-a611-4a80-ad08-33bd49cbc914" name="implementationPostProduct"/>
         
     </flow>
 	<flow name="post:\customers:application\json:shop-config">
-		<flow-ref doc:name="Insert Customer Flow" doc:id="d2783052-211c-4cdd-84b9-e409111fb334" name="implementation_PostCustomer"/>
+		<flow-ref doc:name="insertCustomerFlow" doc:id="d2783052-211c-4cdd-84b9-e409111fb334" name="implementationPostCustomer"/>
 		
     </flow>
 	<flow name="post:\employees:application\json:shop-config">
-		<flow-ref doc:name="Insert Employee Flow" doc:id="f4b9d2b2-9e4a-4561-8693-f4353c7057f8" name="implementation_PostEmployee"/>
+		<flow-ref doc:name="insertEmployeeFlow" doc:id="f4b9d2b2-9e4a-4561-8693-f4353c7057f8" name="implementationPostEmployee"/>
         
     </flow>
 	<flow name="post:\purchaseInfos:application\json:shop-config">
-		<flow-ref doc:name="Insert PurchaseInfo Flow" doc:id="120a7b41-581a-4b24-9f18-208a32e0fb3b" name="implementation_PostPurchaseIndo"/>
+		<flow-ref doc:name="insertPurchaseInfoFlow" doc:id="120a7b41-581a-4b24-9f18-208a32e0fb3b" name="implementationPostPurchaseInfo"/>
         
     </flow>
     <flow name="get:\products\(productId):shop-config">
-        <flow-ref doc:name="Get ProductById Flow" doc:id="0d83c0dc-ae41-426e-8a47-f5b853e5d1bd" name="implementation_getProductById" />
+        <flow-ref doc:name="getProductByIdFlow" doc:id="0d83c0dc-ae41-426e-8a47-f5b853e5d1bd" name="implementationGetProductById" />
     </flow>
 	<flow name="get:\customers\(customerId):shop-config">
-		<flow-ref doc:name="Get CustomerById Flow" doc:id="495af9e9-679c-42e7-a50b-3b8c8f9206fb" name="implementation_getCustomerById"/>
+		<flow-ref doc:name="getCustomerByIdFlow" doc:id="495af9e9-679c-42e7-a50b-3b8c8f9206fb" name="implementationGetCustomerById"/>
     </flow>
 </mule>

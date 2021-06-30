@@ -1,4 +1,4 @@
 {
   "code": 400,
-  "message": "Invalid json message received"
+  "message": "Bad request"
 }
