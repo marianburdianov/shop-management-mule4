@@ -139,6 +139,7 @@ output application/json
                 </ee:transform>
             </on-error-propagate>
         </error-handler>
+        
     </flow>
 	<flow name="put:\customers\(customerId):application\json:shop-config">
 		<flow-ref doc:name="updateCustomerFlow" doc:id="ea9dfb3a-73fa-4a43-b299-dfb68fa6f9e4" name="implementationUpdateCustomer"/>
