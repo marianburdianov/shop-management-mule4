@@ -11,11 +11,11 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
 	
-	<http:listener-config name="Shop_Management_HttpListener_Config">
+	<http:listener-config name="Shop_Management_HttpListener_Config" doc:description="This is a configuration of HTTP Listener config Port, Host and Protocol">
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
-    <apikit:config name="shop-config" api="shop.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-    <db:config name="Shop_Management_Database_Config" doc:name="Database Config" doc:id="e3ee3543-1af1-4943-86d7-5573ba8fbf9a" >
+    <apikit:config name="shop-config" api="shop.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" doc:description="This is a configuration of Router including API Definition, HTTP status var name"/>
+    <db:config name="Shop_Management_Database_Config" doc:name="Database Config" doc:id="e3ee3543-1af1-4943-86d7-5573ba8fbf9a" doc:description="This is a database config of: Host, Port, User, Password">
 		<db:my-sql-connection host="${secure::db.host}" port="${secure::db.port}" user="${secure::db.username}" password="${secure::db.password}" database="${secure::db.name}">
 			<db:pooling-profile>
                 <db:additional-properties>
@@ -24,7 +24,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
             </db:pooling-profile>
 		</db:my-sql-connection>
 	</db:config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="b5e48af7-da36-4959-bc37-ce5196c02159" key="${runtime.key}" file="${mule.env}.properties">
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="b5e48af7-da36-4959-bc37-ce5196c02159" key="${runtime.key}" file="${mule.env}.properties" doc:description="This is a configuration of Secure Properties: runtime.key and algorithm">
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
 
