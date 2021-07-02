@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 <flow name="implementationGetEmployees">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="2def4789-3109-478b-94c6-10c3db5b09c5" variableName="methodName"/>
-		<db:select doc:name="selectEmployees" doc:id="cf92446c-da39-4b1c-b84d-18bc5efaab59" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectEmployees" doc:id="cf92446c-da39-4b1c-b84d-18bc5efaab59" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM employees]]></db:sql>
 		</db:select>
@@ -37,7 +37,7 @@ payload groupBy $.employee_id pluck{
 <flow name="implementationGetEmployeeById">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="e0412b8a-016d-47f6-8266-b922d6950eda" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="75b65373-90de-4016-b888-9743c982119a" variableName="employeeId"/>
-		<db:select doc:name="selectEmployeeById" doc:id="fa6c7208-d34f-4ab0-95bf-9c5813eb96d6" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectEmployeeById" doc:id="fa6c7208-d34f-4ab0-95bf-9c5813eb96d6" config-ref="Shop_Management_Database_Config">
             <db:sql><![CDATA[SELECT * 
 FROM employees
 WHERE employee_id =:employee_id]]></db:sql>
@@ -65,7 +65,7 @@ payload groupBy $.employee_id pluck{
 </flow>
 <flow name="implementationPostEmployee">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="ba981ba9-c3ae-4193-8185-76c2fb6e38af" variableName="methodName"/>
-		<db:insert doc:name="insertEmployee" doc:id="05c0a01a-2664-4635-8746-a9246653abb6" config-ref="Database_Config_Shop_Management">
+		<db:insert doc:name="insertEmployee" doc:id="05c0a01a-2664-4635-8746-a9246653abb6" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[INSERT INTO employees (first_name, last_name, gender, birth_date, hire_date, role, salary) 
 VALUES (:first_name, :last_name, :gender, :birth_date, :hire_date, :role, :salary);]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
@@ -78,7 +78,7 @@ VALUES (:first_name, :last_name, :gender, :birth_date, :hire_date, :role, :salar
 	salary : payload.salary
 }]]]></db:input-parameters>
 		</db:insert>
-		<db:select doc:name="selectEmployee" doc:id="6447e54a-c0d0-459b-bf21-89f13ba9a974" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectEmployee" doc:id="6447e54a-c0d0-459b-bf21-89f13ba9a974" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM employees
 WHERE employee_id=(select last_insert_id())]]></db:sql>
@@ -106,7 +106,7 @@ payload groupBy $.employee_id pluck{
 <flow name="implementationUpdateEmployee">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="9665a3d5-1fbf-4956-a43e-e837e9fff3b6" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="f118ee73-786b-4146-839c-766e513f6b31" variableName="employeeId"/>
-		<db:update doc:name="updaateEmployee" doc:id="464e95b7-883c-4757-8a41-6702bc8ec08b" config-ref="Database_Config_Shop_Management">
+		<db:update doc:name="updaateEmployee" doc:id="464e95b7-883c-4757-8a41-6702bc8ec08b" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[UPDATE employees 
 SET first_name = :first_name, last_name = :last_name, gender = :gender, birth_date = :birth_date, hire_date = :hire_date, role = :role, salary = :salary 
 WHERE employee_id = :employee_id
@@ -122,7 +122,7 @@ WHERE employee_id = :employee_id
 	salary : payload.salary
 }]]]></db:input-parameters>
 		</db:update>
-        <db:select doc:name="selectEmploee" doc:id="453af9d2-a0fb-4b83-9f4f-255a9be9145e" config-ref="Database_Config_Shop_Management">
+        <db:select doc:name="selectEmploee" doc:id="453af9d2-a0fb-4b83-9f4f-255a9be9145e" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM employees
 WHERE employee_id =:employee_id]]></db:sql>
@@ -153,7 +153,7 @@ payload groupBy $.employee_id pluck{
 <flow name="implementationDeleteEmployee">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="d221592a-03af-498b-8fa3-0f0b4ffd8cac" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="36f29a23-3946-455d-aa34-45b60728bcfc" variableName="employeeId"/>
-		<db:delete doc:name="deleteEmployee" doc:id="70616bce-1ee3-4948-9836-fb490d4ad77a" config-ref="Database_Config_Shop_Management">
+		<db:delete doc:name="deleteEmployee" doc:id="70616bce-1ee3-4948-9836-fb490d4ad77a" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[DELETE FROM employees WHERE employee_id = :employee_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'employee_id' : vars.employeeId}]]]></db:input-parameters>
 		</db:delete>

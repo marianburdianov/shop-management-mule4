@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	
 	<flow name="implementationGetCustomers">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="d80641de-9cd2-4521-bdc7-37e6822731b0" variableName="methodName"/>
-		<db:select doc:name="selectCustomers" doc:id="cc6252c7-6462-4d94-b97a-0ce9ebcb80ca" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectCustomers" doc:id="cc6252c7-6462-4d94-b97a-0ce9ebcb80ca" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM customers]]></db:sql>
 		</db:select>
@@ -34,7 +34,7 @@ payload groupBy $.customer_id pluck{
 	<flow name="implementationGetCustomerById">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="351bb04e-d7e8-4b0f-9280-c98af8527b10" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="customerId" doc:id="0fd5737a-3ea1-4980-9a84-2fb30efa2c21" variableName="customerId"/>
-		<db:select doc:name="selectCustomerById" doc:id="8e7fc0bd-e508-42c8-9393-02751e357bb3" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectCustomerById" doc:id="8e7fc0bd-e508-42c8-9393-02751e357bb3" config-ref="Shop_Management_Database_Config">
             <db:sql><![CDATA[SELECT * 
 FROM customers
 WHERE customer_id =:customer_id]]></db:sql>
@@ -60,7 +60,7 @@ payload groupBy $.customer_id pluck{
 	
 	<flow name="implementationPostCustomer">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="b1734952-bf9b-46ea-af95-fed07eadc1df" variableName="methodName"/>
-		<db:insert doc:name="insertCustomer" doc:id="69f05a0f-025c-4893-bca3-077ce6b1adfc" config-ref="Database_Config_Shop_Management">
+		<db:insert doc:name="insertCustomer" doc:id="69f05a0f-025c-4893-bca3-077ce6b1adfc" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[INSERT INTO customers ( first_name, last_name, phone_number, address) 
 VALUES ( :first_name, :last_name, :phone_number, :address);]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{
@@ -70,7 +70,7 @@ VALUES ( :first_name, :last_name, :phone_number, :address);]]></db:sql>
 	address : payload.address
 }]]]></db:input-parameters>
 		</db:insert>
-		<db:select doc:name="selectCustomer" doc:id="396c0c93-d16c-44f0-a89a-d26f0dbda956" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectCustomer" doc:id="396c0c93-d16c-44f0-a89a-d26f0dbda956" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM customers
 WHERE customer_id=(select last_insert_id())]]></db:sql>
@@ -95,7 +95,7 @@ payload groupBy $.customer_id pluck{
 	<flow name="implementationUpdateCustomer">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="f4a697b5-445a-4759-8de3-ddefdf457c4d" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.customerId]" doc:name="customerId" doc:id="ca6c3085-d4e5-4384-b74d-9bc2735ac8ad" variableName="customerId"/>
-		<db:update doc:name="updateCustomer" doc:id="0054ae63-4700-4543-b7d6-ad7be2385e0b" config-ref="Database_Config_Shop_Management">
+		<db:update doc:name="updateCustomer" doc:id="0054ae63-4700-4543-b7d6-ad7be2385e0b" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[UPDATE customers 
 SET first_name = :first_name, last_name = :last_name, phone_number = :phone_number, address = :address 
 WHERE customer_id = :customer_id
@@ -108,7 +108,7 @@ WHERE customer_id = :customer_id
 	address : payload.address
 }]]]></db:input-parameters>
 		</db:update>
-		<db:select doc:name="selectCustomer" doc:id="9d9d3ba8-c2c9-4ebc-8423-bcc12260f5a7" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectCustomer" doc:id="9d9d3ba8-c2c9-4ebc-8423-bcc12260f5a7" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM customers
 WHERE customer_id =:customer_id]]></db:sql>
@@ -136,7 +136,7 @@ payload groupBy $.customer_id pluck{
 	<flow name="implementationDeleteCustomer">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="0b09dc8a-9ef4-49e5-bcbd-dd970a43dd77" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="customerId" doc:id="d399fdca-d470-40cb-ab5a-2697d4caf5fd" variableName="customerId"/>
-		<db:delete doc:name="deleteCustomer" doc:id="b6f67cee-40d1-4128-bdc0-0a75b0ee44e2" config-ref="Database_Config_Shop_Management">
+		<db:delete doc:name="deleteCustomer" doc:id="b6f67cee-40d1-4128-bdc0-0a75b0ee44e2" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[DELETE FROM customers WHERE customer_id = :customer_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'customer_id' : vars.customerId}]]]></db:input-parameters>
 		</db:delete>

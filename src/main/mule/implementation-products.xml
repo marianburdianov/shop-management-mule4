@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="implementationGetProducts">
 	
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="2c930dff-5b1f-4c24-b055-eeb4b165bc57" variableName="methodName"/>
-		<db:select doc:name="selectProducts" doc:id="49241c8b-fc19-439e-8e1f-aa794c903c23" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectProducts" doc:id="49241c8b-fc19-439e-8e1f-aa794c903c23" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM products]]></db:sql>
 		</db:select>
@@ -36,7 +36,7 @@ payload groupBy $.product_id pluck{
 	<flow name="implementationGetProductById">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="26f26eb4-5d7f-42ca-bddf-78ec0e944a4f" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.productId]" doc:name="productId" doc:id="592d7293-c041-4090-be93-1b286b1b0aaf" variableName="productId"/>
-		<db:select doc:name="selectProductById" doc:id="fd0cce34-4c31-4289-be03-cea7b5b8b0a0" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectProductById" doc:id="fd0cce34-4c31-4289-be03-cea7b5b8b0a0" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM products
 WHERE product_id = :product_id]]></db:sql>
@@ -60,7 +60,7 @@ payload groupBy $.product_id pluck{
 	</flow>
 	<flow name="implementationPostProduct">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="ce9a6c8b-b541-439f-8e67-e05ae968e7a7" variableName="methodName"/>
-		<db:insert doc:name="insertProduct" doc:id="f85108f4-ad75-4d1b-8c30-f3084c935af7" config-ref="Database_Config_Shop_Management">
+		<db:insert doc:name="insertProduct" doc:id="f85108f4-ad75-4d1b-8c30-f3084c935af7" config-ref="Shop_Management_Database_Config">
 			<db:sql><![CDATA[INSERT INTO products (name, price, quantity) 
 VALUES (:name, :price, :quantity);]]></db:sql>
 			<db:input-parameters><![CDATA[#[{
@@ -69,7 +69,7 @@ VALUES (:name, :price, :quantity);]]></db:sql>
 	quantity: payload.quantity
 }]]]></db:input-parameters>
 		</db:insert>
-		<db:select doc:name="selectProduct" doc:id="857ae30c-d4f6-43f9-b7e3-3a3444c60fa4" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectProduct" doc:id="857ae30c-d4f6-43f9-b7e3-3a3444c60fa4" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM products
 WHERE product_id=(select last_insert_id())]]></db:sql>
@@ -93,7 +93,7 @@ payload groupBy $.product_id pluck{
 	<flow name="implementationUpdateProduct">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="dac4ce69-ab2d-46a5-9ba6-ff5bdf500413" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.productId]" doc:name="productId" doc:id="3e55701b-92d1-4a57-97bf-995c8c5d2302" variableName="productId"/>
-		<db:update doc:name="updateProduct" doc:id="9296b8e0-3fd3-4ac9-8f81-d2f11fef16bb" config-ref="Database_Config_Shop_Management">
+		<db:update doc:name="updateProduct" doc:id="9296b8e0-3fd3-4ac9-8f81-d2f11fef16bb" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[UPDATE products 
 SET name = :name, price = :price, quantity = :quantity 
 WHERE product_id = :product_id]]></db:sql>
@@ -104,7 +104,7 @@ WHERE product_id = :product_id]]></db:sql>
 	quantity : payload.quantity
 }]]]></db:input-parameters>
 		</db:update>
-		<db:select doc:name="selectProduct" doc:id="323508c5-7532-4e71-ace0-bc9e0297f97f" config-ref="Database_Config_Shop_Management">
+		<db:select doc:name="selectProduct" doc:id="323508c5-7532-4e71-ace0-bc9e0297f97f" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
 FROM products 
 WHERE product_id = :product_id]]></db:sql>
@@ -131,7 +131,7 @@ payload groupBy $.product_id pluck{
 	<flow name="implementationDeleteProduct">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="19aa4389-40fe-4fa8-b251-ef171a4c2944" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.productId]" doc:name="prodcutId" doc:id="c789b2b8-2dac-4d50-9926-a814fe35aed7" variableName="productId"/>
-		<db:delete doc:name="deleteProduct" doc:id="45df7a7f-1b34-4827-9fc4-ae11c9391a85" config-ref="Database_Config_Shop_Management">
+		<db:delete doc:name="deleteProduct" doc:id="45df7a7f-1b34-4827-9fc4-ae11c9391a85" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[DELETE FROM products WHERE product_id = :product_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'product_id' : vars.productId}]]]></db:input-parameters>
 		</db:delete>
