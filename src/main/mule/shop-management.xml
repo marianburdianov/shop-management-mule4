@@ -182,7 +182,7 @@ output application/json
        
     </flow>
     <flow name="get:\products:shop-config">
-        <flow-ref doc:name="getProductsFlow" doc:id="1263b827-3fc2-476b-a98a-ec1bfd1e6b92" name="implementationGetProducts" />
+		<flow-ref doc:name="getProductsFlow" doc:id="433d4f61-6550-44a3-9ef8-dc46e66781ca" name="implementationGetProducts"/>
     </flow>
     <flow name="get:\employees:shop-config" doc:id="e6e9572e-7ecc-42de-90f2-48928ff89870">
         <flow-ref doc:name="getEmployeesFlow" doc:id="af02f97b-e4e5-431c-83f5-8970d7bc4c81" name="implementationGetEmployees" />

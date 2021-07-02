@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<flow name="implementationGetCustomers">
+		<db:select doc:name="selectCustomers" doc:id="cc6252c7-6462-4d94-b97a-0ce9ebcb80ca" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * 
+FROM customers]]></db:sql>
+		</db:select>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setCustomerPayload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy $.customer_id pluck{
+	customerId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
+    address:$.address distinctBy $ reduce $$+$
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="f8ffea87-6144-4331-93f1-f6e0b006ee31" message="Get all customers"/>
+	</flow>
+	<flow name="implementationGetCustomerById">
+		<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="customerId" doc:id="0fd5737a-3ea1-4980-9a84-2fb30efa2c21" variableName="customerId"/>
+		<db:select doc:name="selectCustomerById" doc:id="8e7fc0bd-e508-42c8-9393-02751e357bb3" config-ref="Database_Config">
+            <db:sql><![CDATA[SELECT * 
+FROM customers
+WHERE customer_id =:customer_id]]></db:sql>
+            <db:input-parameters><![CDATA[#[{'customer_id' : vars.customerId}]]]></db:input-parameters>
+        </db:select>
+        <ee:transform xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setCustomerPayload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy $.customer_id pluck{
+	customerId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
+    address:$.address distinctBy $ reduce $$+$
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="3ac16c76-a7d6-4e84-95d0-d61b397d781d" message="Get customer by id"/>
+	</flow>
+	
+	<flow name="implementationPostCustomer">
+		<db:insert doc:name="insertCustomer" doc:id="69f05a0f-025c-4893-bca3-077ce6b1adfc" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO customers ( first_name, last_name, phone_number, address) 
+VALUES ( :first_name, :last_name, :phone_number, :address);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	first_name : payload.firstName,
+	last_name : payload.lastName,
+	phone_number : payload.phoneNumber,
+	address : payload.address
+}]]]></db:input-parameters>
+		</db:insert>
+		<db:select doc:name="selectCustomer" doc:id="396c0c93-d16c-44f0-a89a-d26f0dbda956" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * 
+FROM customers
+WHERE customer_id=(select last_insert_id())]]></db:sql>
+		</db:select>
+		<ee:transform xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setCustomerPayload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy $.customer_id pluck{
+	customerId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
+    address:$.address distinctBy $ reduce $$+$
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="5a3ab564-2aee-43eb-b683-ea180e9aeb50" message="Customer created"/>
+	</flow>
+	<flow name="implementationUpdateCustomer">
+		<set-variable value="#[attributes.uriParams.customerId]" doc:name="customerId" doc:id="ca6c3085-d4e5-4384-b74d-9bc2735ac8ad" variableName="customerId"/>
+		<db:update doc:name="updateCustomer" doc:id="0054ae63-4700-4543-b7d6-ad7be2385e0b" config-ref="Database_Config">
+			<db:sql ><![CDATA[UPDATE customers 
+SET first_name = :first_name, last_name = :last_name, phone_number = :phone_number, address = :address 
+WHERE customer_id = :customer_id
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	customer_id : vars.customerId,
+	first_name : payload.firstName,
+	last_name : payload.lastName,
+	phone_number : payload.phoneNumber,
+	address : payload.address
+}]]]></db:input-parameters>
+		</db:update>
+		<db:select doc:name="selectCustomer" doc:id="9d9d3ba8-c2c9-4ebc-8423-bcc12260f5a7" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * 
+FROM customers
+WHERE customer_id =:customer_id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'customer_id' : vars.customerId}]]]></db:input-parameters>
+		</db:select>
+        <ee:transform xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setCustomerPayload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy $.customer_id pluck{
+	"Status":200,
+	"message":"Updated",
+	customerId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
+    address:$.address distinctBy $ reduce $$+$
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="df62b294-2bdc-43b0-b90e-7173f22e679a" message="Customer updated"/>
+	</flow>
+	<flow name="implementationDeleteCustomer">
+		<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="customerId" doc:id="d399fdca-d470-40cb-ab5a-2697d4caf5fd" variableName="customerId"/>
+		<db:delete doc:name="deleteCustomer" doc:id="b6f67cee-40d1-4128-bdc0-0a75b0ee44e2" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE FROM customers WHERE customer_id = :customer_id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'customer_id' : vars.customerId}]]]></db:input-parameters>
+		</db:delete>
+		<ee:transform doc:id="54101db3-3d41-4d52-8cf1-986529de510a" doc:name="setCustomerPayload">
+            <ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Status": 204,
+	"message": "Deleted"
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="Deleting customer  in data base" />
+	</flow>
+	
+	</mule>

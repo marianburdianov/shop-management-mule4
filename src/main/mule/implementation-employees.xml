@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+<flow name="implementationGetEmployees">
+	<db:select doc:name="selectEmployees" doc:id="cf92446c-da39-4b1c-b84d-18bc5efaab59" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * 
+FROM employees]]></db:sql>
+		</db:select>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setEmployeesPayload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy $.employee_id pluck{
+	employeeId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	gender:$.gender distinctBy $ reduce $$+$,
+    birthDate:$.birth_date distinctBy $ reduce $$+$,
+    hireDate:$.hire_date distinctBy $ reduce $$+$,
+    role:$.role distinctBy $ reduce $$+$,
+    salary:$.salary distinctBy $ reduce $$+$
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="07a0702b-24b8-4ab0-b3a8-55e1a754cfe8" message="Get all employees"/>
+</flow>
+<flow name="implementationGetEmployeeById">
+	<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="75b65373-90de-4016-b888-9743c982119a" variableName="employeeId"/>
+		<db:select doc:name="selectEmployeeById" doc:id="fa6c7208-d34f-4ab0-95bf-9c5813eb96d6" config-ref="Database_Config">
+            <db:sql><![CDATA[SELECT * 
+FROM employees
+WHERE employee_id =:employee_id]]></db:sql>
+            <db:input-parameters><![CDATA[#[{'employee_id' : attributes.uriParams.employeeId}]]]></db:input-parameters>
+        </db:select>
+		<ee:transform xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setEmployeePayload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy $.employee_id pluck{
+	employeeId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	gender:$.gender distinctBy $ reduce $$+$,
+    birthDate:$.birth_date distinctBy $ reduce $$+$,
+    hireDate:$.hire_date distinctBy $ reduce $$+$,
+    role:$.role distinctBy $ reduce $$+$,
+    salary:$.salary distinctBy $ reduce $$+$
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="cb5f2cd2-c8c9-481b-8303-63377ed9b41d" message="Get employee  by id"/>
+</flow>
+<flow name="implementationPostEmployee">
+	<db:insert doc:name="insertEmployee" doc:id="05c0a01a-2664-4635-8746-a9246653abb6" config-ref="Database_Config">
+			<db:sql ><![CDATA[INSERT INTO employees (first_name, last_name, gender, birth_date, hire_date, role, salary) 
+VALUES (:first_name, :last_name, :gender, :birth_date, :hire_date, :role, :salary);]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	first_name : payload.firstName,
+	last_name : payload.lastName,
+	gender : payload.gender,
+	birth_date : payload.birthDate,
+	hire_date : payload.hireDate,
+	role : payload.role,
+	salary : payload.salary
+}]]]></db:input-parameters>
+		</db:insert>
+		<db:select doc:name="selectEmployee" doc:id="6447e54a-c0d0-459b-bf21-89f13ba9a974" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * 
+FROM employees
+WHERE employee_id=(select last_insert_id())]]></db:sql>
+		</db:select>
+		<ee:transform xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setEmployeePayload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy $.employee_id pluck{
+	employeeId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	gender:$.gender distinctBy $ reduce $$+$,
+    birthDate:$.birth_date distinctBy $ reduce $$+$,
+    hireDate:$.hire_date distinctBy $ reduce $$+$,
+    role:$.role distinctBy $ reduce $$+$,
+    salary:$.salary distinctBy $ reduce $$+$
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="95dca17e-2df6-46ff-8f6c-70cbbb8f49de" message="Employee created"/>
+</flow>	
+<flow name="implementationUpdateEmployee">
+	<set-variable value="#[attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="f118ee73-786b-4146-839c-766e513f6b31" variableName="employeeId"/>
+		<db:update doc:name="updaateEmployee" doc:id="464e95b7-883c-4757-8a41-6702bc8ec08b" config-ref="Database_Config">
+			<db:sql ><![CDATA[UPDATE employees 
+SET first_name = :first_name, last_name = :last_name, gender = :gender, birth_date = :birth_date, hire_date = :hire_date, role = :role, salary = :salary 
+WHERE employee_id = :employee_id
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	employee_id : vars.employeeId,
+	first_name : payload.firstName,
+	last_name : payload.lastName,
+	gender : payload.gender,
+	birth_date : payload.birthDate,
+	hire_date : payload.hireDate,
+	role : payload.role,
+	salary : payload.salary
+}]]]></db:input-parameters>
+		</db:update>
+        <db:select doc:name="selectEmploee" doc:id="453af9d2-a0fb-4b83-9f4f-255a9be9145e" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * 
+FROM employees
+WHERE employee_id =:employee_id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{employee_id : vars.employeeId}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setEmployeePayload">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload groupBy $.employee_id pluck{
+	"Status":200,
+	"message":"Updated",
+	employeeId:$$,
+	firstName:$.first_name distinctBy $ reduce $$+$,
+	lastName:$.last_name distinctBy $ reduce $$+$,
+	gender:$.gender distinctBy $ reduce $$+$,
+    birthDate:$.birth_date distinctBy $ reduce $$+$,
+    hireDate:$.hire_date distinctBy $ reduce $$+$,
+    role:$.role distinctBy $ reduce $$+$,
+    salary:$.salary distinctBy $ reduce $$+$
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="36aa5ccc-70f0-486b-bacd-3e30cb3ba253" message="Employee updated"/>
+</flow>
+<flow name="implementationDeleteEmployee">
+	<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="36f29a23-3946-455d-aa34-45b60728bcfc" variableName="employeeId"/>
+		<db:delete doc:name="deleteEmployee" doc:id="70616bce-1ee3-4948-9836-fb490d4ad77a" config-ref="Database_Config">
+			<db:sql ><![CDATA[DELETE FROM employees WHERE employee_id = :employee_id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'employee_id' : vars.employeeId}]]]></db:input-parameters>
+		</db:delete>
+		<ee:transform doc:name="setEmployeePayload">
+            <ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Status": 204,
+	"message": "Deleted"
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables>
+                <ee:set-variable variableName="employeeId"><![CDATA[attributes.uriParams.'employeeId']]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <logger level="INFO" message="Deleting employee in database" />
+</flow>
+	
+</mule>
