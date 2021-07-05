@@ -108,6 +108,22 @@ output application/json
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="eeec1c46-766a-4921-aca6-bec3604b0379" type="#[error.errorType.identifier == 'INTERNAL_SERVER_ERROR']">
+				<ee:transform doc:name="Transform Message" doc:id="3db6897e-7ff8-400e-9ab8-157228993461" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code": 500,
+  "message": "Internal Server Error"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
         </error-handler>
     </flow>
     <flow name="shop-console">
