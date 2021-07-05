@@ -45,10 +45,10 @@ traits:
   response-200-get-all-employees: !include ../traits/employee-traits/response-200-get-all-employees-trait.raml
   response-200-get-employee-by-id: !include ../traits/employee-traits/response-200-get-employee-by-id-trait.raml
   response-200-put-employee: !include ../traits/employee-traits/response-200-put-employee-trait.raml
-  response-200-post-employee: !include ../traits/employee-traits/response-201-post-employee-trait.raml
+  response-201-post-employee: !include ../traits/employee-traits/response-201-post-employee-trait.raml
   
-  response-200-get-all-prodcuts: !include ../traits/product-traits/response-200-get-all-products-trait.raml
-  response-200-get-prodcut-by-id: !include ../traits/product-traits/response-200-get-product-by-id-trait.raml
+  response-200-get-all-products: !include ../traits/product-traits/response-200-get-all-products-trait.raml
+  response-200-get-product-by-id: !include ../traits/product-traits/response-200-get-product-by-id-trait.raml
   response-200-put-product: !include ../traits/product-traits/response-200-put-product-trait.raml
   response-201-post-product: !include ../traits/product-traits/response-201-post-product-trait.raml
   
@@ -62,82 +62,22 @@ traits:
   description: A collection of customers
   get:
     is: [response-200-get-all-customers, response-common-get-all]
-#    responses:
-#      200:
-#        body:
-#          application/json:
-#            type: customer[]
-#            example: !include api/examplesArray/customer-array.json
-#      400:
-#        body:
-#          application/json:
-#            example: errorcode-400
-#      500:
-#        body:
-#          application/json:
-#            example: errorcode-500       
+      
   post:
     is: [response-201-post-customer, response-common-post]
     body:
       application/json:
         type: customer
-#    responses:
-#      201:
-#        body:
-#          application/json:
-#            type: customer
-#            example: !include api/examples/customer-example.json
-#      400:
-#        body:
-#          application/json:
-#            type: errorcode-400
-#      403:
-#        body:
-#          application/json:
-#            type: errorcode-403
-#      501:
-#        body:
-#          application/json:
-#            type: errorcode-501                                  
+                                  
 /customers/{customerId}:
   is: [client-id-required, response-common-get-by-id]
   description: Get a customer by customerId
   get:
     is: [response-200-get-customer-by-id, response-common-get-by-id]
-#    responses:
-#      200:
-#        body:
-#          application/json:
-#            type: customer
-#            example: !include api/examples/customer-example.json
-#      304:
-#        body:
-#          application/json:
-#            type: errorcode-304
-#      404:
-#        body:
-#          application/json:
-#            type: errorcode-404
+
   delete:
     is: [response-common-delete]
-#    responses:
-#      200: {}
-#      400:
-#        body:
-#          application/json:
-#            type: errorcode-400
-#      404:
-#        body:
-#          application/json:
-#            type: errorcode-404
-#      405:
-#        body:
-#          application/json:
-#            type: errorcode-405
-#      406:
-#        body:
-#          application/json:
-#            type: errorcode-406             
+            
   put:
     is: [response-200-put-customer, response-common-put]
     description: Update a customer
@@ -145,306 +85,92 @@ traits:
       application/json:
         type: customer
         example: !include api/examples/customer-example.json
-#    responses:
-#      200:
-#        description: Customer has been modified successfully
-#        body:
-#          application/json:
-#            type: customer
-#            example: !include api/examples/customer-example.json
-#      304:
-#        body:
-#          application/json:
-#            type: errorcode-304      
-#      400:
-#        body:
-#          application/json:
-#            type: errorcode-400
-#      404:
-#        body:
-#          application/json:
-#            type: errorcode-404 
+
 /employees:
+  is: [client-id-required]
   description: A collection of empoyees
   get:
-    is: [client-id-required]
-    responses:
-      200:
-        body:
-          application/json:
-            type: employee[]
-            example: !include api/examplesArray/employee-array.json
-      400:
-        body:
-          application/json:
-            example: errorcode-400
-      500:
-        body:
-          application/json:
-            example: errorcode-500      
+    is: [response-200-get-all-employees, response-common-get-all]
+         
   post:
-    is: [client-id-required]
+    is: [response-201-post-employee, response-common-post]
     body:
       application/json:
         type: employee
-    responses:
-      201:
-        body:
-          application/json:
-            type: employee
-            example: !include api/examples/employee-example.json
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      403:
-        body:
-          application/json:
-            type: errorcode-403
-      406:
-        body:
-          application/json:
-            type: errorcode-406
-      415:
-        body:
-          application/json:
-            type: errorcode-415                                       
+                                     
 /employees/{employeeId}:
+  is: [client-id-required, response-common-get-by-id]
   description: Get a customer by employeeId
   get:
-    is: [client-id-required]
-    responses:
-      200:
-        body:
-          application/json:
-            type: employee
-            example: !include api/examples/employee-example.json
-      304:
-        body:
-          application/json:
-            type: errorcode-304
-      404:
-        body:
-          application/json:
-            type: errorcode-404
+    is: [response-200-get-employee-by-id, response-common-get-by-id]
+    
   delete:
-    is: [client-id-required]
-    responses:
-      200: {}
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      404:
-        body:
-          application/json:
-            type: errorcode-404
-      405:
-        body:
-          application/json:
-            type: errorcode-405      
+    is: [response-common-delete]
+        
   put:
-    is: [client-id-required]
+    is: [response-200-put-employee, response-common-put]
     description: Update an employee
     body:
       application/json:
         type: employee
         example: !include api/examples/employee-example.json
-    responses:
-      200:
-        description: Employee has been modified successfully
-        body:
-          application/json:
-            type: employee
-            example: !include api/examples/employee-example.json
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      404:
-        body:
-          application/json:
-            type: errorcode-404
+        
 /products:
+  is: [client-id-required]
   description: A collection of products
   get:
-    is: [client-id-required]
-    responses:
-      200:
-        body:
-          application/json:
-            type: product[]
-            example: !include api/examplesArray/product-array.json
-      400:
-        body:
-          application/json:
-            example: errorcode-400
-      500:
-        body:
-          application/json:
-            example: errorcode-500      
+    is: [response-200-get-all-products, response-common-get-all]
+         
   post:
-    is: [client-id-required]
+    is: [response-201-post-product, response-common-post]
     body:
       application/json:
         type: product
-    responses:
-      201:
-        body:
-          application/json:
-            type: product
-            example: !include api/examples/product-example.json
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      403:
-        body:
-          application/json:
-            type: errorcode-403                            
+                                
 /products/{productId}:
+  is: [client-id-required, response-common-get-by-id]
   description: Get a product by productId
   get:
-    is: [client-id-required]
-    responses:
-      200:
-        body:
-          application/json:
-            type: product
-            example: !include api/examples/product-example.json
-      304:
-        body:
-          application/json:
-            type: errorcode-304
-      404:
-        body:
-          application/json:
-            type: errorcode-404
+    is: [response-200-get-product-by-id, response-common-get-by-id]
+    
   delete:
-    is: [client-id-required]
-    responses:
-      200: {}
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      404:
-        body:
-          application/json:
-            type: errorcode-404
+    is: [response-common-delete]
+    
   put:
-    is: [client-id-required]
+    is: [response-200-put-product, response-common-put]
     description: Update an product
     body:
       application/json:
         type: product
         example: !include api/examples/product-example.json
-    responses:
-      200:
-        description: Product has been modified successfully
-        body:
-          application/json:
-            type: product
-            example: !include api/examples/product-example.json
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      404:
-        body:
-          application/json:
-            type: errorcode-404
-      415:
-        body:
-          application/json:
-            type: errorcode-415        
+       
 /purchaseInfos:
+  is: [client-id-required]
   description: A collection of purchaseInfos
   get:
-    is: [client-id-required]
-    responses:
-      200:
-        body:
-          application/json:
-            type: purchaseInfo[]
-            example: !include api/examplesArray/purchaseInfo-array.json
-      400:
-        body:
-          application/json:
-            example: errorcode-400
-      500:
-        body:
-          application/json:
-            example: errorcode-500      
+    is: [response-200-get-all-purchaseInfos, response-common-get-all]
+         
   post:
-    is: [client-id-required]
+    is: [response-201-post-purchaseInfo, response-common-post]
     body:
       application/json:
         type: purchaseInfo
-    responses:
-      201:
-        body:
-          application/json:
-            type: purchaseInfo
-            example: !include api/examples/purchaseInfo-example.json
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      403:
-        body:
-          application/json:
-            type: errorcode-403                            
+                          
 /purchaseInfos/{purchaseInfoId}:
+  is: [client-id-required, response-common-get-by-id]
   description: Get a purchaseInfo by purchaseInfoId
   get:
-    is: [client-id-required]
-    responses:
-      200:
-        body:
-          application/json:
-            type: purchaseInfo
-            example: !include api/examples/purchaseInfo-example.json
-      304:
-        body:
-          application/json:
-            type: errorcode-304
-      404:
-        body:
-          application/json:
-            type: errorcode-404
+    is: [response-200-get-all-purchaseInfos, response-common-get-all]
+    
   delete:
-    is: [client-id-required]
-    responses:
-      200: {}
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      404:
-        body:
-          application/json:
-            type: errorcode-404
+    is: [response-common-delete]
+    
   put:
-    is: [client-id-required]
+    is: [response-200-put-purchaseInfo, response-common-put]
     description: Update a purchaseInfo
     body:
       application/json:
         type: purchaseInfo
         example: !include api/examples/purchaseInfo-example.json
-    responses:
-      200:
-        description: purchaseInfo has been modified successfully
-        body:
-          application/json:
-            type: purchaseInfo
-            example: !include api/examples/purchaseInfo-example.json
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      404:
-        body:
-          application/json:
-            type: errorcode-404                                               
+                                                 
               
