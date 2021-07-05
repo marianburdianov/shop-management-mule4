@@ -29,113 +29,141 @@ types:
   errorcode-501: !include api/examples/errorcode-501-example.json
 
 traits:
-  client-id-required: !include ../traits/client-id-required.raml
-#traits:
-#  client-id-required:
-#    headers:
-#      client_id:
-#        type: string
-#      client_secret:
-#        type: string
-#    responses:
-#      401:
-#        description: Unauthorized or invalid client application credentials
-#      500:
-#        description: Bad response from authorization server                 
+  client-id-required: !include ../traits/common-traits/client-id-required-trait.raml
+
+  response-common-get-all: !include ../traits/common-traits/response-common-get-all-trait.raml
+  response-common-get-by-id: !include ../traits/common-traits/response-common-get-by-id.raml
+  response-common-post: !include ../traits/common-traits/response-common-post-trait.raml
+  response-common-delete: !include ../traits/common-traits/response-common-delete-trait.raml
+  response-common-put: !include ../traits/common-traits/response-common-put-trait.raml
+
+  response-200-get-all-customers: !include ../traits/customer-traits/response-200-get-all-customers-trait.raml
+  response-200-get-customer-by-id: !include ../traits/customer-traits/response-200-get-customer-by-id-trait.raml
+  response-200-put-customer: !include ../traits/customer-traits/response-200-put-customer-trait.raml
+  response-201-post-customer: !include ../traits/customer-traits/response-201-post-customer-trait.raml
+  
+  response-200-get-all-employees: !include ../traits/employee-traits/response-200-get-all-employees-trait.raml
+  response-200-get-employee-by-id: !include ../traits/employee-traits/response-200-get-employee-by-id-trait.raml
+  response-200-put-employee: !include ../traits/employee-traits/response-200-put-employee-trait.raml
+  response-200-post-employee: !include ../traits/employee-traits/response-201-post-employee-trait.raml
+  
+  response-200-get-all-prodcuts: !include ../traits/product-traits/response-200-get-all-products-trait.raml
+  response-200-get-prodcut-by-id: !include ../traits/product-traits/response-200-get-product-by-id-trait.raml
+  response-200-put-product: !include ../traits/product-traits/response-200-put-product-trait.raml
+  response-201-post-product: !include ../traits/product-traits/response-201-post-product-trait.raml
+  
+  response-200-get-all-purchaseInfos: !include ../traits/purchaseInfo-traits/response-200-get-all-purchaseInfos-trait.raml
+  response-200-get-purchaseInfo-by-id: !include ../traits/purchaseInfo-traits/response-200-get-purchaseInfo-by-id-trait.raml
+  response-200-put-purchaseInfo: !include ../traits/purchaseInfo-traits/response-200-put-purchaseInfo-trait.raml
+  response-201-post-purchaseInfo: !include ../traits/purchaseInfo-traits/response-201-post-purchaseInfo-trait.raml                                  
     
 /customers:
+  is: [client-id-required]
   description: A collection of customers
   get:
-    is: [client-id-required]
-    responses:
-      200:
-        body:
-          application/json:
-            type: customer[]
-            example: !include api/examplesArray/customer-array.json
-      400:
-        body:
-          application/json:
-            example: errorcode-400
-      500:
-        body:
-          application/json:
-            example: errorcode-500       
+    is: [response-200-get-all-customers, response-common-get-all]
+#    responses:
+#      200:
+#        body:
+#          application/json:
+#            type: customer[]
+#            example: !include api/examplesArray/customer-array.json
+#      400:
+#        body:
+#          application/json:
+#            example: errorcode-400
+#      500:
+#        body:
+#          application/json:
+#            example: errorcode-500       
   post:
-    is: [client-id-required]
+    is: [response-201-post-customer, response-common-post]
     body:
       application/json:
         type: customer
-    responses:
-      201:
-        body:
-          application/json:
-            type: customer
-            example: !include api/examples/customer-example.json
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      403:
-        body:
-          application/json:
-            type: errorcode-403
-      501:
-        body:
-          application/json:
-            type: errorcode-501                                  
+#    responses:
+#      201:
+#        body:
+#          application/json:
+#            type: customer
+#            example: !include api/examples/customer-example.json
+#      400:
+#        body:
+#          application/json:
+#            type: errorcode-400
+#      403:
+#        body:
+#          application/json:
+#            type: errorcode-403
+#      501:
+#        body:
+#          application/json:
+#            type: errorcode-501                                  
 /customers/{customerId}:
+  is: [client-id-required, response-common-get-by-id]
   description: Get a customer by customerId
   get:
-    is: [client-id-required]
-    responses:
-      200:
-        body:
-          application/json:
-            type: customer
-            example: !include api/examples/customer-example.json
-      304:
-        body:
-          application/json:
-            type: errorcode-304
-      404:
-        body:
-          application/json:
-            type: errorcode-404
+    is: [response-200-get-customer-by-id, response-common-get-by-id]
+#    responses:
+#      200:
+#        body:
+#          application/json:
+#            type: customer
+#            example: !include api/examples/customer-example.json
+#      304:
+#        body:
+#          application/json:
+#            type: errorcode-304
+#      404:
+#        body:
+#          application/json:
+#            type: errorcode-404
   delete:
-    is: [client-id-required]
-    responses:
-      200: {}
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      404:
-        body:
-          application/json:
-            type: errorcode-404
+    is: [client-id-required, response-common-delete]
+#    responses:
+#      200: {}
+#      400:
+#        body:
+#          application/json:
+#            type: errorcode-400
+#      404:
+#        body:
+#          application/json:
+#            type: errorcode-404
+#      405:
+#        body:
+#          application/json:
+#            type: errorcode-405
+#      406:
+#        body:
+#          application/json:
+#            type: errorcode-406             
   put:
-    is: [client-id-required]
+    is: [client-id-required, response-200-put-customer, response-common-put]
     description: Update a customer
     body:
       application/json:
         type: customer
         example: !include api/examples/customer-example.json
-    responses:
-      200:
-        description: Customer has been modified successfully
-        body:
-          application/json:
-            type: customer
-            example: !include api/examples/customer-example.json
-      400:
-        body:
-          application/json:
-            type: errorcode-400
-      404:
-        body:
-          application/json:
-            type: errorcode-404 
+#    responses:
+#      200:
+#        description: Customer has been modified successfully
+#        body:
+#          application/json:
+#            type: customer
+#            example: !include api/examples/customer-example.json
+#      304:
+#        body:
+#          application/json:
+#            type: errorcode-304      
+#      400:
+#        body:
+#          application/json:
+#            type: errorcode-400
+#      404:
+#        body:
+#          application/json:
+#            type: errorcode-404 
 /employees:
   description: A collection of empoyees
   get:
@@ -176,7 +204,11 @@ traits:
       406:
         body:
           application/json:
-            type: errorcode-406                                 
+            type: errorcode-406
+      415:
+        body:
+          application/json:
+            type: errorcode-415                                       
 /employees/{employeeId}:
   description: Get a customer by employeeId
   get:
