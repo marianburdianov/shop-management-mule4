@@ -119,7 +119,7 @@ traits:
 #          application/json:
 #            type: errorcode-404
   delete:
-    is: [client-id-required, response-common-delete]
+    is: [response-common-delete]
 #    responses:
 #      200: {}
 #      400:
@@ -139,7 +139,7 @@ traits:
 #          application/json:
 #            type: errorcode-406             
   put:
-    is: [client-id-required, response-200-put-customer, response-common-put]
+    is: [response-200-put-customer, response-common-put]
     description: Update a customer
     body:
       application/json:
