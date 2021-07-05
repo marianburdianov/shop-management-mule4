@@ -25,6 +25,7 @@ types:
   errorcode-405: !include api/examples/errorcode-405-example.json
   errorcode-406: !include api/examples/errorcode-406-example.json
   errorcode-415: !include api/examples/errorcode-415-example.json
+  errorcode-500: !include api/examples/errorcode-500-example.json
   errorcode-501: !include api/examples/errorcode-501-example.json
 
 traits:
@@ -54,6 +55,10 @@ traits:
         body:
           application/json:
             example: errorcode-400
+      500:
+        body:
+          application/json:
+            example: errorcode-500       
   post:
     is: [client-id-required]
     body:
@@ -143,6 +148,10 @@ traits:
         body:
           application/json:
             example: errorcode-400
+      500:
+        body:
+          application/json:
+            example: errorcode-500      
   post:
     is: [client-id-required]
     body:
@@ -236,6 +245,10 @@ traits:
         body:
           application/json:
             example: errorcode-400
+      500:
+        body:
+          application/json:
+            example: errorcode-500      
   post:
     is: [client-id-required]
     body:
@@ -325,6 +338,10 @@ traits:
         body:
           application/json:
             example: errorcode-400
+      500:
+        body:
+          application/json:
+            example: errorcode-500      
   post:
     is: [client-id-required]
     body:
