@@ -29,17 +29,19 @@ types:
   errorcode-501: !include api/examples/errorcode-501-example.json
 
 traits:
-  client-id-required:
-    headers:
-      client_id:
-        type: string
-      client_secret:
-        type: string
-    responses:
-      401:
-        description: Unauthorized or invalid client application credentials
-      500:
-        description: Bad response from authorization server                 
+  client-id-required: !include ../traits/client-id-required.raml
+#traits:
+#  client-id-required:
+#    headers:
+#      client_id:
+#        type: string
+#      client_secret:
+#        type: string
+#    responses:
+#      401:
+#        description: Unauthorized or invalid client application credentials
+#      500:
+#        description: Bad response from authorization server                 
     
 /customers:
   description: A collection of customers
