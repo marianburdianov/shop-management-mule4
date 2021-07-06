@@ -20,12 +20,12 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.customer_id pluck{
-	customerId:$$,
-	firstName:$.first_name distinctBy $ reduce $$+$,
-	lastName:$.last_name distinctBy $ reduce $$+$,
-	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
-    address:$.address distinctBy $ reduce $$+$
+payload map (customer, index) ->{
+	customerId:customer.customer_id,
+	firstName:customer.first_name,
+	lastName:customer.last_name,
+	phoneNumber:customer.phone_number,
+    address:customer.address
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -46,12 +46,12 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.customer_id pluck{
-	customerId:$$,
-	firstName:$.first_name distinctBy $ reduce $$+$,
-	lastName:$.last_name distinctBy $ reduce $$+$,
-	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
-    address:$.address distinctBy $ reduce $$+$
+payload map (customer, index) ->{
+	customerId:customer.customer_id,
+	firstName:customer.first_name,
+	lastName:customer.last_name,
+	phoneNumber:customer.phone_number,
+    address:customer.address
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -81,12 +81,12 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.customer_id pluck{
-	customerId:$$,
-	firstName:$.first_name distinctBy $ reduce $$+$,
-	lastName:$.last_name distinctBy $ reduce $$+$,
-	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
-    address:$.address distinctBy $ reduce $$+$
+payload map (customer, index) ->{
+	customerId:customer.customer_id,
+	firstName:customer.first_name,
+	lastName:customer.last_name,
+	phoneNumber:customer.phone_number,
+    address:customer.address
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -120,14 +120,14 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.customer_id pluck{
+payload map (customer, index) ->{
 	"Status":200,
 	"message":"Updated",
-	customerId:$$,
-	firstName:$.first_name distinctBy $ reduce $$+$,
-	lastName:$.last_name distinctBy $ reduce $$+$,
-	phoneNumber:$.phone_number distinctBy $ reduce $$+$,
-    address:$.address distinctBy $ reduce $$+$
+	customerId:customer.customer_id,
+	firstName:customer.first_name,
+	lastName:customer.last_name,
+	phoneNumber:customer.phone_number,
+    address:customer.address
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
