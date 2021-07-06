@@ -22,11 +22,11 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.product_id pluck{
-	productId:$$,
-	name:$.name distinctBy $ reduce $$+$,
-	price:$.price distinctBy $ reduce $$+$,
-	quantity:$.quantity distinctBy $ reduce $$+$,
+payload map (product, index) ->{
+	productId:product.product_id,
+	name:product.name,
+	price:product.price,
+	quantity:product.quantity
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -48,11 +48,11 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.product_id pluck{
-	productId:$$,
-	name:$.name distinctBy $ reduce $$+$,
-	price:$.price distinctBy $ reduce $$+$,
-	quantity:$.quantity distinctBy $ reduce $$+$
+payload map (product, index) ->{
+	productId:product.product_id,
+	name:product.name,
+	price:product.price,
+	quantity:product.quantity
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -80,11 +80,11 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.product_id pluck{
-	productId:$$,
-	name:$.name distinctBy $ reduce $$+$,
-	price:$.price distinctBy $ reduce $$+$,
-	quantity:$.quantity distinctBy $ reduce $$+$
+payload map (product, index) ->{
+	productId:product.product_id,
+	name:product.name,
+	price:product.price,
+	quantity:product.quantity
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -116,13 +116,13 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.product_id pluck{
+payload map (product, index) ->{
 	"Status":200,
 	"message":"Updated",
-	productId:$$,
-	name:$.name distinctBy $ reduce $$+$,
-	price:$.price distinctBy $ reduce $$+$,
-	quantity:$.quantity distinctBy $ reduce $$+$
+	productId:product.product_id,
+	name:product.name,
+	price:product.price,
+	quantity:product.quantity
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -149,5 +149,25 @@ output application/json
             </ee:variables>
         </ee:transform>
         <logger level="INFO" message="#[payload.prodcutId]" />
+	</flow>
+	<flow name="implementation-productsFlow" doc:id="375be001-85e4-405e-8623-d1cf2f234387" >
+		<ee:transform doc:name="Transform Message" doc:id="b39082ea-030c-4789-9c00-af51cc122630" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var requestBody= 
+{
+    "name":"Jack",
+    "name":"James",
+    "name":"Joseph"
+}
+---
+{
+	value: requestBody pluck $,
+	keys: requestBody pluck $$,
+	indexes: requestBody pluck $$$
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</flow>
 	</mule>
