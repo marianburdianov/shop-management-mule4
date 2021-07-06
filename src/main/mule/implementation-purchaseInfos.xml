@@ -53,14 +53,14 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.purchaseinfo_id pluck{
-	purchaseinfoId:$$,
-	date:$.date distinctBy $ reduce $$+$,
-	amount:$.amount distinctBy $ reduce $$+$,
-	cost:$.cost distinctBy $ reduce $$+$,
-    employeeId:$.employee_id distinctBy $ reduce $$+$,
-    customerId:$.customer_id distinctBy $ reduce $$+$,
-	productId:$.product_id distinctBy $
+payload groupBy ((item) -> item.purchaseinfo_id) pluck{
+	purchaseinfoId:payload.purchaseinfo_id distinctBy payload reduce ((item, acc) -> acc + item),
+	date:payload.date distinctBy payload reduce ((item, acc) -> acc + item),
+	amount:payload.amount distinctBy payload reduce ((item, acc) -> acc + item),
+	cost:payload.cost distinctBy payload reduce ((item, acc) -> acc + item),
+    employeeId:payload.employee_id distinctBy payload reduce ((item, acc) -> acc + item),
+    customerId:payload.customer_id distinctBy payload reduce ((item, acc) -> acc + item),
+	productId:payload.product_id distinctBy (value) -> { "unique" : value }
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -112,14 +112,14 @@ WHERE pi.purchaseinfo_id = :last_id]]></db:sql>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.purchaseinfo_id pluck{
-	purchaseInfoId:$$,
-	date:$.date distinctBy $ reduce $$+$,
-	amount:$.amount distinctBy $ reduce $$+$,
-	cost:$.cost distinctBy $ reduce $$+$,
-    employeeId:$.employee_id distinctBy $ reduce $$+$,
-    customerId:$.customer_id distinctBy $ reduce $$+$,
-	productId:$.product_id distinctBy $
+payload groupBy ((item) -> item.purchaseinfo_id) pluck{
+	purchaseinfoId:payload.purchaseinfo_id distinctBy payload reduce ((item, acc) -> acc + item),
+	date:payload.date distinctBy payload reduce ((item, acc) -> acc + item),
+	amount:payload.amount distinctBy payload reduce ((item, acc) -> acc + item),
+	cost:payload.cost distinctBy payload reduce ((item, acc) -> acc + item),
+    employeeId:payload.employee_id distinctBy payload reduce ((item, acc) -> acc + item),
+    customerId:payload.customer_id distinctBy payload reduce ((item, acc) -> acc + item),
+	productId:payload.product_id distinctBy (value) -> { "unique" : value }
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -180,16 +180,16 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.purchaseinfo_id pluck{
+payload groupBy ((item) -> item.purchaseinfo_id) pluck{
 	"Status":200,
 	"message":"Updated",
-	purchaseInfoId:$$,
-	date:$.date distinctBy $ reduce $$+$,
-	amount:$.amount distinctBy $ reduce $$+$,
-	cost:$.cost distinctBy $ reduce $$+$,
-    employeeId:$.employee_id distinctBy $ reduce $$+$,
-    customerId:$.customer_id distinctBy $ reduce $$+$,
-	productId:$.product_id distinctBy $
+	purchaseinfoId:payload.purchaseinfo_id distinctBy payload reduce ((item, acc) -> acc + item),
+	date:payload.date distinctBy payload reduce ((item, acc) -> acc + item),
+	amount:payload.amount distinctBy payload reduce ((item, acc) -> acc + item),
+	cost:payload.cost distinctBy payload reduce ((item, acc) -> acc + item),
+    employeeId:payload.employee_id distinctBy payload reduce ((item, acc) -> acc + item),
+    customerId:payload.customer_id distinctBy payload reduce ((item, acc) -> acc + item),
+	productId:payload.product_id distinctBy (value) -> { "unique" : value }
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
