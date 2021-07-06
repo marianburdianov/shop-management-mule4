@@ -20,15 +20,15 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.employee_id pluck{
-	employeeId:$$,
-	firstName:$.first_name distinctBy $ reduce $$+$,
-	lastName:$.last_name distinctBy $ reduce $$+$,
-	gender:$.gender distinctBy $ reduce $$+$,
-    birthDate:$.birth_date distinctBy $ reduce $$+$,
-    hireDate:$.hire_date distinctBy $ reduce $$+$,
-    role:$.role distinctBy $ reduce $$+$,
-    salary:$.salary distinctBy $ reduce $$+$
+payload map (employee, index) ->{
+    employee:employee.employee_id,
+	firstName:employee.first_name,
+	lastName:employee.last_name,
+	gender:employee.gender,
+    birthDate:employee.birth_date,
+    hireDate:employee.hire_date,
+    role:employee.role,
+    salary:employee.salary
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -49,15 +49,15 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.employee_id pluck{
-	employeeId:$$,
-	firstName:$.first_name distinctBy $ reduce $$+$,
-	lastName:$.last_name distinctBy $ reduce $$+$,
-	gender:$.gender distinctBy $ reduce $$+$,
-    birthDate:$.birth_date distinctBy $ reduce $$+$,
-    hireDate:$.hire_date distinctBy $ reduce $$+$,
-    role:$.role distinctBy $ reduce $$+$,
-    salary:$.salary distinctBy $ reduce $$+$
+payload map (employee, index) ->{
+    employee:employee.employee_id,
+	firstName:employee.first_name,
+	lastName:employee.last_name,
+	gender:employee.gender,
+    birthDate:employee.birth_date,
+    hireDate:employee.hire_date,
+    role:employee.role,
+    salary:employee.salary
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -89,15 +89,15 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.employee_id pluck{
-	employeeId:$$,
-	firstName:$.first_name distinctBy $ reduce $$+$,
-	lastName:$.last_name distinctBy $ reduce $$+$,
-	gender:$.gender distinctBy $ reduce $$+$,
-    birthDate:$.birth_date distinctBy $ reduce $$+$,
-    hireDate:$.hire_date distinctBy $ reduce $$+$,
-    role:$.role distinctBy $ reduce $$+$,
-    salary:$.salary distinctBy $ reduce $$+$
+payload map (employee, index) ->{
+    employee:employee.employee_id,
+	firstName:employee.first_name,
+	lastName:employee.last_name,
+	gender:employee.gender,
+    birthDate:employee.birth_date,
+    hireDate:employee.hire_date,
+    role:employee.role,
+    salary:employee.salary
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
@@ -134,17 +134,17 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload groupBy $.employee_id pluck{
+payload map (employee, index) ->{
 	"Status":200,
 	"message":"Updated",
-	employeeId:$$,
-	firstName:$.first_name distinctBy $ reduce $$+$,
-	lastName:$.last_name distinctBy $ reduce $$+$,
-	gender:$.gender distinctBy $ reduce $$+$,
-    birthDate:$.birth_date distinctBy $ reduce $$+$,
-    hireDate:$.hire_date distinctBy $ reduce $$+$,
-    role:$.role distinctBy $ reduce $$+$,
-    salary:$.salary distinctBy $ reduce $$+$
+    employee:employee.employee_id,
+	firstName:employee.first_name,
+	lastName:employee.last_name,
+	gender:employee.gender,
+    birthDate:employee.birth_date,
+    hireDate:employee.hire_date,
+    role:employee.role,
+    salary:employee.salary
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
