@@ -12,7 +12,7 @@ clone this application by command:
 
 **git clone https://github.com/marianburdianov/shop-management-mule4.git**
 
-open cmd and change directory to cloned repository
+change directory to cloned repository
 
 for building jar file run from cmd:
 
