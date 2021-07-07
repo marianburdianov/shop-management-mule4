@@ -22,7 +22,8 @@ after this commend, the .jar file is build in target folder
 
 for deploying on CloudHub run from cmd:
 
-**$ mvn clean install deploy -DskipTests -Dmule.env=dev -Druntime.key=******  **
+**$ mvn clean package deploy -DskipTests -Dusername=marianburdianov1 -Dpassword=******** -Denviroment=Sandbox -Dmule.version=4.3.0 -Dworker=1 -Dworker.type=Micro -Dapplication.name=shop-management-mule4 -DmuleDeploy
+  **
 
 ## How to test application
 
