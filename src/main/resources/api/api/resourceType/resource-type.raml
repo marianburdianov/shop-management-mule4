@@ -1,6 +1,8 @@
+#%RAML 1.0 Library
+
 resourceTypes:
   collection:
-    get:
+    get?:
       description: This is used to fetch <<resourcePathName>>
       responses:
         200:
@@ -28,7 +30,7 @@ resourceTypes:
             application/json:
               type: <<errorcode-reference-type>>
               example: <<errorcode-500-reference-example>>
-    post:
+    post?:
       description: This is uset to create <<resourcePathName>>
       body:
         application/json:
@@ -43,42 +45,43 @@ resourceTypes:
         400:
           body:
             application/json:
-              type: <<errorcode-400-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-400-reference-example>>
         403:
           body:
             application/json:
-              type: <<errorcode-403-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-403-reference-example>>
         501:
           body:
             application/json:
-              type: <<errorcode-501-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-501-reference-example>>
-    delete:
+    delete?:
       description: This is used to delete <<resourcePathName>>
       responses:
         204:
         400:
           body:
             application/json:
-              type: <<errorcode-400-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-400-reference-example>>
         404:
           body:
             application/json:
-              type: <<errorcode-404-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-404-reference-example>>
         405:
           body:
             application/json:
-              type: <<errorcode-405-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-405-reference-example>>
         406:
           body:
             application/json:
-            type: <<errorcode-406-reference-type>>
-    put:
+              type: <<errorcode-reference-type>>
+              example: <<errorcode-406-reference-example>>
+    put?:
       description: This is used to update <<resourcePathName>>
       body:
         application/json:
@@ -93,17 +96,17 @@ resourceTypes:
         304:
           body:
             application/json:
-              type: <<errorcode-304-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-304-reference-example>>      
         400:
           body:
             application/json:
-              type: <<errorcode-400-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-400-reference-example>>
         404:
           body:
             application/json:
-              type: <<errorcode-404-reference-type>>
+              type: <<errorcode-reference-type>>
               example: <<errorcode-404-reference-example>>                              
                         
                                                 
