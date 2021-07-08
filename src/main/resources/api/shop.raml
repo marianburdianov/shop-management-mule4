@@ -8,60 +8,16 @@ mediaType:
 
 protocols:
   - HTTP
-
-types:
-  customer: !include api/dataTypes/customer-datatype.raml
-  employee: !include api/dataTypes/employee-datatype.raml
-  product: !include api/dataTypes/product-datatype.raml
-  purchaseInfo: !include api/dataTypes/purchaseInfo-datatype.raml
   
-#  errorcode-type: !include api/dataTypes/error-datatype.raml
-  
-#  errorcode-304: !include api/examples/errorcode-304-example.json
-#  errorcode-400: !include api/examples/errorcode-400-example.json
-#  errorcode-403: !include api/examples/errorcode-403-example.json
-#  errorcode-404: !include api/examples/errorcode-404-example.json
-#  errorcode-405: !include api/examples/errorcode-405-example.json
-#  errorcode-406: !include api/examples/errorcode-406-example.json
-#  errorcode-415: !include api/examples/errorcode-415-example.json
-#  errorcode-500: !include api/examples/errorcode-500-example.json
-#  errorcode-501: !include api/examples/errorcode-501-example.json
-
 traits:
-  client-id-required: !include ../traits/common-traits/client-id-required-trait.raml
-
-#  response-common-get-all: !include ../traits/common-traits/response-common-get-all-trait.raml
-#  response-common-get-by-id: !include ../traits/common-traits/response-common-get-by-id.raml
-#  response-common-post: !include ../traits/common-traits/response-common-post-trait.raml
-#  response-common-delete: !include ../traits/common-traits/response-common-delete-trait.raml
-#  response-common-put: !include ../traits/common-traits/response-common-put-trait.raml
-#
-#  response-200-get-all-customers: !include ../traits/customer-traits/response-200-get-all-customers-trait.raml
-#  response-200-get-customer-by-id: !include ../traits/customer-traits/response-200-get-customer-by-id-trait.raml
-#  response-200-put-customer: !include ../traits/customer-traits/response-200-put-customer-trait.raml
-#  response-201-post-customer: !include ../traits/customer-traits/response-201-post-customer-trait.raml
-#  
-#  response-200-get-all-employees: !include ../traits/employee-traits/response-200-get-all-employees-trait.raml
-#  response-200-get-employee-by-id: !include ../traits/employee-traits/response-200-get-employee-by-id-trait.raml
-#  response-200-put-employee: !include ../traits/employee-traits/response-200-put-employee-trait.raml
-#  response-201-post-employee: !include ../traits/employee-traits/response-201-post-employee-trait.raml
-#  
-#  response-200-get-all-products: !include ../traits/product-traits/response-200-get-all-products-trait.raml
-#  response-200-get-product-by-id: !include ../traits/product-traits/response-200-get-product-by-id-trait.raml
-#  response-200-put-product: !include ../traits/product-traits/response-200-put-product-trait.raml
-#  response-201-post-product: !include ../traits/product-traits/response-201-post-product-trait.raml
-#  
-#  response-200-get-all-purchaseInfos: !include ../traits/purchaseInfo-traits/response-200-get-all-purchaseInfos-trait.raml
-#  response-200-get-purchaseInfo-by-id: !include ../traits/purchaseInfo-traits/response-200-get-purchaseInfo-by-id-trait.raml
-#  response-200-put-purchaseInfo: !include ../traits/purchaseInfo-traits/response-200-put-purchaseInfo-trait.raml
-#  response-201-post-purchaseInfo: !include ../traits/purchaseInfo-traits/response-201-post-purchaseInfo-trait.raml                                                                      
+  client-id-required: !include ../traits/common-traits/client-id-required-trait.raml                                                                      
 
 uses:
   Collection: api/resourceType/resource-type.raml
 
 /customers:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: customer,
+  type: {Collection.collection: {typeReference: !include api/dataTypes/customer-datatype.raml,
     exampleReference: !include api/examples/customer-example.json,
     errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
     errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
@@ -76,7 +32,7 @@ uses:
   
 /customers/{customerId}:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: customer,
+  type: {Collection.collection: {typeReference: !include api/dataTypes/customer-datatype.raml,
     exampleReference: !include api/examples/customer-example.json,
     errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
     errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
@@ -92,38 +48,9 @@ uses:
   put:
   
                                                                                                                                                                                                                                                                                             
-#/customers:
-#  is: [client-id-required]
-#  description: A collection of customers
-#  get:
-#    is: [response-200-get-all-customers, response-common-get-all]
-#      
-#  post:
-#    is: [response-201-post-customer, response-common-post]
-#    body:
-#      application/json:
-#        type: customer
-#                                  
-#/customers/{customerId}:
-#  is: [client-id-required, response-common-get-by-id]
-#  description: Get a customer by customerId
-#  get:
-#    is: [response-200-get-customer-by-id, response-common-get-by-id]
-#
-#  delete:
-#    is: [response-common-delete]
-#            
-#  put:
-#    is: [response-200-put-customer, response-common-put]
-#    description: Update a customer
-#    body:
-#      application/json:
-#        type: customer
-#        example: !include api/examples/customer-example.json
-
 /employees:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: employee,
+  type: {Collection.collection: {typeReference: !include api/dataTypes/employee-datatype.raml,
     exampleReference: !include api/examples/employee-example.json,
     errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
     errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
@@ -138,7 +65,7 @@ uses:
   
 /employees/{employeeId}:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: employee,
+  type: {Collection.collection: {typeReference: !include api/dataTypes/employee-datatype.raml,
     exampleReference: !include api/examples/employee-example.json,
     errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
     errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
@@ -153,67 +80,9 @@ uses:
   
   put:
 
-#/employees:
-#  is: [client-id-required]
-#  description: A collection of empoyees
-#  get:
-#    is: [response-200-get-all-employees, response-common-get-all]
-#         
-#  post:
-#    is: [response-201-post-employee, response-common-post]
-#    body:
-#      application/json:
-#        type: employee
-#                                     
-#/employees/{employeeId}:
-#  is: [client-id-required, response-common-get-by-id]
-#  description: Get a customer by employeeId
-#  get:
-#    is: [response-200-get-employee-by-id, response-common-get-by-id]
-#    
-#  delete:
-#    is: [response-common-delete]
-#        
-#  put:
-#    is: [response-200-put-employee, response-common-put]
-#    description: Update an employee
-#    body:
-#      application/json:
-#        type: employee
-#        example: !include api/examples/employee-example.json
-        
-#/products:
-#  is: [client-id-required]
-#  description: A collection of products
-#  get:
-#    is: [response-200-get-all-products, response-common-get-all]
-#         
-#  post:
-#    is: [response-201-post-product, response-common-post]
-#    body:
-#      application/json:
-#        type: product
-#                                
-#/products/{productId}:
-#  is: [client-id-required, response-common-get-by-id]
-#  description: Get a product by productId
-#  get:
-#    is: [response-200-get-product-by-id, response-common-get-by-id]
-#    
-#  delete:
-#    is: [response-common-delete]
-#    
-#  put:
-#    is: [response-200-put-product, response-common-put]
-#    description: Update an product
-#    body:
-#      application/json:
-#        type: product
-#        example: !include api/examples/product-example.json
-
 /products:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: product,
+  type: {Collection.collection: {typeReference: !include api/dataTypes/product-datatype.raml,
     exampleReference: !include api/examples/product-example.json,
     errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
     errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
@@ -228,7 +97,7 @@ uses:
   
 /products/{productId}:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: product,
+  type: {Collection.collection: {typeReference: !include api/dataTypes/product-datatype.raml,
     exampleReference: !include api/examples/product-example.json,
     errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
     errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
@@ -242,39 +111,10 @@ uses:
   delete:
   
   put:                     
-                            
-#/purchaseInfos:
-#  is: [client-id-required]
-#  description: A collection of purchaseInfos
-#  get:
-#    is: [response-200-get-all-purchaseInfos, response-common-get-all]
-#         
-#  post:
-#    is: [response-201-post-purchaseInfo, response-common-post]
-#    body:
-#      application/json:
-#        type: purchaseInfo
-#                          
-#/purchaseInfos/{purchaseInfoId}:
-#  is: [client-id-required, response-common-get-by-id]
-#  description: Get a purchaseInfo by purchaseInfoId
-#  get:
-#    is: [response-200-get-all-purchaseInfos, response-common-get-all]
-#    
-#  delete:
-#    is: [response-common-delete]
-#    
-#  put:
-#    is: [response-200-put-purchaseInfo, response-common-put]
-#    description: Update a purchaseInfo
-#    body:
-#      application/json:
-#        type: purchaseInfo
-#        example: !include api/examples/purchaseInfo-example.json
 
 /purchaseInfos:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: purchaseInfo,
+  type: {Collection.collection: {typeReference: !include api/dataTypes/purchaseInfo-datatype.raml,
     exampleReference: !include api/examples/purchaseInfo-example.json,
     errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
     errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
@@ -287,9 +127,9 @@ uses:
   
   post:
   
-/purchaseInfos/{purhcaseInfoId}:
+/purchaseInfos/{purchaseInfoId}:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: purchaseInfo,
+  type: {Collection.collection: {typeReference: !include api/dataTypes/purchaseInfo-datatype.raml,
     exampleReference: !include api/examples/purchaseInfo-example.json,
     errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
     errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
