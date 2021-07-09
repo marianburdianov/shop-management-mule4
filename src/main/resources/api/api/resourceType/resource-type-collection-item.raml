@@ -1,7 +1,7 @@
 #%RAML 1.0 Library
 
-resourceTypes:
-  collection:
+resourceTypes:    
+  collection-item:
     get?:
       description: This is used to fetch <<resourcePathName>>
       responses:
@@ -14,49 +14,12 @@ resourceTypes:
           body:
             application/json:
               type: <<errorcode-reference-type>>
-              example: <<errorcode-304-reference-example>>  
-        400:
-          body:
-            application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-400-reference-example>>      
+              example: <<errorcode-304-reference-example>>        
         404:
           body:
             application/json:
               type: <<errorcode-reference-type>>
               example: <<errorcode-404-reference-example>>      
-        500:
-          body:
-            application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-500-reference-example>>
-    post?:
-      description: This is uset to create <<resourcePathName>>
-      body:
-        application/json:
-          type: <<typeReference>>
-          example: <<exampleReference>>
-      responses:
-        201:
-          body:
-            application/json:
-              type: <<typeReference>>
-              example: <<exampleReference>>
-        400:
-          body:
-            application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-400-reference-example>>
-        403:
-          body:
-            application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-403-reference-example>>
-        501:
-          body:
-            application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-501-reference-example>>
     delete?:
       description: This is used to delete <<resourcePathName>>
       responses:
@@ -107,6 +70,4 @@ resourceTypes:
           body:
             application/json:
               type: <<errorcode-reference-type>>
-              example: <<errorcode-404-reference-example>>                              
-                        
-                                                
+              example: <<errorcode-404-reference-example>>     

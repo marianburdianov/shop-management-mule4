@@ -13,134 +13,121 @@ traits:
   client-id-required: !include ../traits/common-traits/client-id-required-trait.raml                                                                      
 
 uses:
-  Collection: api/resourceType/resource-type.raml
-
+  Collection: api/resourceType/resource-type-collection.raml
+  CollectionItem: api/resourceType/resource-type-collection-item.raml
+  
 /customers:
   is: [client-id-required]
   type: {Collection.collection: {typeReference: !include api/dataTypes/customer-datatype.raml,
-    exampleReference: !include api/examples/customer-example.json,
-    errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
-    errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
-    errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
-    errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
-    errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
-    errorcode-500-reference-example: !include api/examples/errorcode-500-example.json,
-    errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}}
+  exampleReference: !include api/examples/customer-example.json,
+  errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
+  errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
+  errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
+  errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-500-reference-example: !include api/examples/errorcode-500-example.json,
+  errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}}
   get:
-  
-  post:
-  
+  post:  
+
 /customers/{customerId}:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: !include api/dataTypes/customer-datatype.raml,
-    exampleReference: !include api/examples/customer-example.json,
-    errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
-    errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
-    errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
-    errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
-    errorcode-405-reference-example: !include api/examples/errorcode-405-example.json,
-    errorcode-406-reference-example: !include api/examples/errorcode-406-example.json,
-    errorcode-500-reference-example: !include api/examples/errorcode-500-example.json}}
+  type: {CollectionItem.collection-item: {typeReference: !include api/dataTypes/customer-datatype.raml,
+  exampleReference: !include api/examples/customer-example.json,
+  errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
+  errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
+  errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
+  errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
+  errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-405-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-406-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}}    
   get:
-  
   delete:
+  put: 
   
-  put:
-  
-                                                                                                                                                                                                                                                                                            
 /employees:
   is: [client-id-required]
   type: {Collection.collection: {typeReference: !include api/dataTypes/employee-datatype.raml,
-    exampleReference: !include api/examples/employee-example.json,
-    errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
-    errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
-    errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
-    errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
-    errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
-    errorcode-500-reference-example: !include api/examples/errorcode-500-example.json,
-    errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}}
+  exampleReference: !include api/examples/employee-example.json,
+  errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
+  errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
+  errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
+  errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-500-reference-example: !include api/examples/errorcode-500-example.json,
+  errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}} 
   get:
-  
   post:
   
 /employees/{employeeId}:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: !include api/dataTypes/employee-datatype.raml,
-    exampleReference: !include api/examples/employee-example.json,
-    errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
-    errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
-    errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
-    errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
-    errorcode-405-reference-example: !include api/examples/errorcode-405-example.json,
-    errorcode-406-reference-example: !include api/examples/errorcode-406-example.json,
-    errorcode-500-reference-example: !include api/examples/errorcode-500-example.json}}
+  type: {CollectionItem.collection-item: {typeReference: !include api/dataTypes/employee-datatype.raml,
+  exampleReference: !include api/examples/employee-example.json,
+  errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
+  errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
+  errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
+  errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
+  errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-405-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-406-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}} 
   get:
-  
   delete:
-  
-  put:
+  put:                                                                                                                                                                                                                                                                                           
 
 /products:
   is: [client-id-required]
   type: {Collection.collection: {typeReference: !include api/dataTypes/product-datatype.raml,
-    exampleReference: !include api/examples/product-example.json,
-    errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
-    errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
-    errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
-    errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
-    errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
-    errorcode-500-reference-example: !include api/examples/errorcode-500-example.json,
-    errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}}
+  exampleReference: !include api/examples/product-example.json,
+  errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
+  errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
+  errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
+  errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-500-reference-example: !include api/examples/errorcode-500-example.json,
+  errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}} 
   get:
-  
   post:
   
 /products/{productId}:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: !include api/dataTypes/product-datatype.raml,
-    exampleReference: !include api/examples/product-example.json,
-    errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
-    errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
-    errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
-    errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
-    errorcode-405-reference-example: !include api/examples/errorcode-405-example.json,
-    errorcode-406-reference-example: !include api/examples/errorcode-406-example.json,
-    errorcode-500-reference-example: !include api/examples/errorcode-500-example.json}}
+  type: {CollectionItem.collection-item: {typeReference: !include api/dataTypes/product-datatype.raml,
+  exampleReference: !include api/examples/product-example.json,
+  errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
+  errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
+  errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
+  errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
+  errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-405-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-406-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}}
   get:
-  
   delete:
-  
-  put:                     
+  put:            
 
 /purchaseInfos:
   is: [client-id-required]
   type: {Collection.collection: {typeReference: !include api/dataTypes/purchaseInfo-datatype.raml,
-    exampleReference: !include api/examples/purchaseInfo-example.json,
-    errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
-    errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
-    errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
-    errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
-    errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
-    errorcode-500-reference-example: !include api/examples/errorcode-500-example.json,
-    errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}}
+  exampleReference: !include api/examples/purchaseInfo-example.json,
+  errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
+  errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
+  errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
+  errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-500-reference-example: !include api/examples/errorcode-500-example.json,
+  errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}} 
   get:
-  
   post:
   
 /purchaseInfos/{purchaseInfoId}:
   is: [client-id-required]
-  type: {Collection.collection: {typeReference: !include api/dataTypes/purchaseInfo-datatype.raml,
-    exampleReference: !include api/examples/purchaseInfo-example.json,
-    errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
-    errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
-    errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
-    errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
-    errorcode-405-reference-example: !include api/examples/errorcode-405-example.json,
-    errorcode-406-reference-example: !include api/examples/errorcode-406-example.json,
-    errorcode-500-reference-example: !include api/examples/errorcode-500-example.json}}
+  type: {CollectionItem.collection-item: {typeReference: !include api/dataTypes/purchaseInfo-datatype.raml,
+  exampleReference: !include api/examples/purchaseInfo-example.json,
+  errorcode-reference-type: !include api/dataTypes/error-datatype.raml,
+  errorcode-304-reference-example: !include api/examples/errorcode-304-example.json,
+  errorcode-400-reference-example: !include api/examples/errorcode-400-example.json,
+  errorcode-403-reference-example: !include api/examples/errorcode-403-example.json,
+  errorcode-404-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-405-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-406-reference-example: !include api/examples/errorcode-404-example.json,
+  errorcode-501-reference-example: !include api/examples/errorcode-501-example.json}}
   get:
-  
   delete:
-  
-  put:                                                                                                  
-              
+  put:                                                                                                         
