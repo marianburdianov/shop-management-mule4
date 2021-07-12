@@ -8,7 +8,7 @@
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-<flow name="implementationGetEmployees">
+<sub-flow name="implementationGetEmployees">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="2def4789-3109-478b-94c6-10c3db5b09c5" variableName="methodName"/>
 		<db:select doc:name="selectEmployees" doc:id="cf92446c-da39-4b1c-b84d-18bc5efaab59" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
@@ -32,9 +32,8 @@ payload map (employee, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="07a0702b-24b8-4ab0-b3a8-55e1a754cfe8" message="#[vars.methodName]"/>
-</flow>
-<flow name="implementationGetEmployeeById">
+</sub-flow>
+<sub-flow name="implementationGetEmployeeById">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="e0412b8a-016d-47f6-8266-b922d6950eda" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="75b65373-90de-4016-b888-9743c982119a" variableName="employeeId"/>
 		<db:select doc:name="selectEmployeeById" doc:id="fa6c7208-d34f-4ab0-95bf-9c5813eb96d6" config-ref="Shop_Management_Database_Config">
@@ -43,7 +42,9 @@ FROM employees
 WHERE employee_id =:employee_id]]></db:sql>
             <db:input-parameters><![CDATA[#[{'employee_id' : attributes.uriParams.employeeId}]]]></db:input-parameters>
         </db:select>
-		<ee:transform xsi:schemaLocation="
+		<choice doc:name="Choice" doc:id="930f06f9-16b2-4b2e-838a-cf9fe62b04b7" >
+			<when expression="#[payload[0] != null]">
+				<ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setEmployeePayload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -61,9 +62,25 @@ payload map (employee, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="cb5f2cd2-c8c9-481b-8303-63377ed9b41d" message='#[vars.methodName]'/>
-</flow>
-<flow name="implementationPostEmployee">
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="3f3d89d9-4e5a-48e8-ab2b-05699ef7ff34" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+</sub-flow>
+<sub-flow name="implementationPostEmployee">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="ba981ba9-c3ae-4193-8185-76c2fb6e38af" variableName="methodName"/>
 		<db:insert doc:name="insertEmployee" doc:id="05c0a01a-2664-4635-8746-a9246653abb6" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[INSERT INTO employees (first_name, last_name, gender, birth_date, hire_date, role, salary) 
@@ -101,9 +118,8 @@ payload map (employee, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="95dca17e-2df6-46ff-8f6c-70cbbb8f49de" message="#[vars.methodName]"/>
-</flow>	
-<flow name="implementationUpdateEmployee">
+</sub-flow>	
+<sub-flow name="implementationUpdateEmployee">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="9665a3d5-1fbf-4956-a43e-e837e9fff3b6" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="f118ee73-786b-4146-839c-766e513f6b31" variableName="employeeId"/>
 		<db:update doc:name="updaateEmployee" doc:id="464e95b7-883c-4757-8a41-6702bc8ec08b" config-ref="Shop_Management_Database_Config">
@@ -128,7 +144,9 @@ FROM employees
 WHERE employee_id =:employee_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{employee_id : vars.employeeId}]]]></db:input-parameters>
 		</db:select>
-		<ee:transform xsi:schemaLocation="
+		<choice doc:name="Choice" doc:id="deedb549-9d60-48a4-8691-7df37998c5a5" >
+			<when expression="#[payload[0] != null]">
+				<ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setEmployeePayload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -148,9 +166,25 @@ payload map (employee, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="36aa5ccc-70f0-486b-bacd-3e30cb3ba253" message="#[vars.methodName]"/>
-</flow>
-<flow name="implementationDeleteEmployee">
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="15534afe-aeed-4410-ac96-0416bb567fa5" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+</sub-flow>
+<sub-flow name="implementationDeleteEmployee">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="d221592a-03af-498b-8fa3-0f0b4ffd8cac" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="36f29a23-3946-455d-aa34-45b60728bcfc" variableName="employeeId"/>
 		<db:delete doc:name="deleteEmployee" doc:id="70616bce-1ee3-4948-9836-fb490d4ad77a" config-ref="Shop_Management_Database_Config">
@@ -171,7 +205,6 @@ output application/json
                 <ee:set-variable variableName="employeeId"><![CDATA[attributes.uriParams.'employeeId']]></ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <logger level="INFO" message="#[vars.methodName]" />
-</flow>
+</sub-flow>
 	
 </mule>

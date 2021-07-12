@@ -145,6 +145,22 @@ output application/json
 					</ee:variables>
 				</ee:transform>
 			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate 404" doc:id="d16913a1-cd72-4abd-bf31-51856ee87215" when="#[error.errorType.identifier == 'NOT_FOUND']" type="APIKIT:NOT_FOUND">
+				<ee:transform doc:name="Transform Message" doc:id="44975999-28d1-4428-9ffa-eba5b156e330" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
 		</error-handler>
 	</flow>
 	<flow name="shop-console">
@@ -164,8 +180,7 @@ output application/json
 		<apikit:console config-ref="shop-config" />
 		<error-handler>
 			<on-error-propagate type="APIKIT:NOT_FOUND">
-				<ee:transform
-					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+				<ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json

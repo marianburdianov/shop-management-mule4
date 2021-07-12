@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	
 	
-	<flow name="implementationGetProducts">
+	<sub-flow name="implementationGetProducts">
 	
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="2c930dff-5b1f-4c24-b055-eeb4b165bc57" variableName="methodName"/>
 		<db:select doc:name="selectProducts" doc:id="49241c8b-fc19-439e-8e1f-aa794c903c23" config-ref="Shop_Management_Database_Config">
@@ -30,10 +31,9 @@ payload map (product, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="2b519460-2c8c-419b-a32b-776b5320a3d7" message="#[vars.methodName]"/>
 	
-	</flow>
-	<flow name="implementationGetProductById">
+	</sub-flow>
+	<sub-flow name="implementationGetProductById">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="26f26eb4-5d7f-42ca-bddf-78ec0e944a4f" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.productId]" doc:name="productId" doc:id="592d7293-c041-4090-be93-1b286b1b0aaf" variableName="productId"/>
 		<db:select doc:name="selectProductById" doc:id="fd0cce34-4c31-4289-be03-cea7b5b8b0a0" config-ref="Shop_Management_Database_Config">
@@ -42,7 +42,9 @@ FROM products
 WHERE product_id = :product_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'product_id' : vars.productId}]]]></db:input-parameters>
 		</db:select>
-		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="
+		<choice doc:name="Choice" doc:id="71c2a47e-955a-46aa-bc28-4d05b0de9350" >
+			<when expression="#[payload[0] != null]">
+				<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setProdcutPayload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -56,9 +58,26 @@ payload map (product, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="d4922c43-b5f1-4f21-9fb0-c639703f4cb8" message='#[vars.methodName]'/>
-	</flow>
-	<flow name="implementationPostProduct">
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="b2f0fb50-5af9-45e8-9196-938db75f2c8e" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<sub-flow name="implementationPostProduct">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="ce9a6c8b-b541-439f-8e67-e05ae968e7a7" variableName="methodName"/>
 		<db:insert doc:name="insertProduct" doc:id="f85108f4-ad75-4d1b-8c30-f3084c935af7" config-ref="Shop_Management_Database_Config">
 			<db:sql><![CDATA[INSERT INTO products (name, price, quantity) 
@@ -88,9 +107,8 @@ payload map (product, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="9350fdc2-69f9-451a-8f2d-afd8e8008807" message="#[vars.methodName]"/>
-	</flow>
-	<flow name="implementationUpdateProduct">
+	</sub-flow>
+	<sub-flow name="implementationUpdateProduct">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="dac4ce69-ab2d-46a5-9ba6-ff5bdf500413" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.productId]" doc:name="productId" doc:id="3e55701b-92d1-4a57-97bf-995c8c5d2302" variableName="productId"/>
 		<db:update doc:name="updateProduct" doc:id="9296b8e0-3fd3-4ac9-8f81-d2f11fef16bb" config-ref="Shop_Management_Database_Config">
@@ -110,7 +128,9 @@ FROM products
 WHERE product_id = :product_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'product_id' : vars.productId}]]]></db:input-parameters>
 		</db:select>
-		<ee:transform xsi:schemaLocation="
+		<choice doc:name="Choice" doc:id="2bcf62d6-bb50-4dfa-b0de-3854d20d45ff" >
+			<when expression="#[payload[0] != null]">
+				<ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setProductPayload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -126,48 +146,75 @@ payload map (product, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="d3e53177-ffda-453f-b414-c9cd4366f622" message="#[vars.methodName]"/>
-	</flow>
-	<flow name="implementationDeleteProduct">
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="7760e171-8ffa-4b26-b384-22c364f151d0">
+					<ee:message>
+						<ee:set-payload><![CDATA[output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<sub-flow name="implementationDeleteProduct">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="19aa4389-40fe-4fa8-b251-ef171a4c2944" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.productId]" doc:name="prodcutId" doc:id="c789b2b8-2dac-4d50-9926-a814fe35aed7" variableName="productId"/>
-		<db:delete doc:name="deleteProduct" doc:id="45df7a7f-1b34-4827-9fc4-ae11c9391a85" config-ref="Shop_Management_Database_Config">
-			<db:sql ><![CDATA[DELETE FROM products WHERE product_id = :product_id]]></db:sql>
+		<db:select doc:name="selectProductById" doc:id="fe15f2f1-5ae9-42c5-8bf6-bf8a39ea6339" config-ref="Shop_Management_Database_Config">
+			<db:sql ><![CDATA[SELECT * 
+FROM products
+WHERE product_id = :product_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'product_id' : vars.productId}]]]></db:input-parameters>
+		</db:select>
+		<choice doc:name="Choice" doc:id="f4a88f60-9200-4a48-b9b9-05c25c9a162f" >
+			<when expression="#[payload[0] != null]">
+				<flow-ref doc:name="deleteProductIfExistsFlow" doc:id="fa4c20fe-43ae-45ac-b9a9-9ac0e619d9de" name="implementationDeleteProductIfExists"/>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="throw404Flow" doc:id="a3d3db94-7370-440d-868e-440334a5f217" name="implementationThrow404"/>
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<sub-flow name="implementationDeleteProductIfExists" doc:id="37124231-a48a-4709-a6cc-ddc099c42457" >
+		<db:delete doc:name="deleteProduct" doc:id="45df7a7f-1b34-4827-9fc4-ae11c9391a85" config-ref="Shop_Management_Database_Config">
+			<db:sql><![CDATA[DELETE FROM products WHERE product_id = :product_id]]></db:sql>
+			<db:input-parameters><![CDATA[#[{'product_id' : vars.productId}]]]></db:input-parameters>
 		</db:delete>
-		<ee:transform doc:name="setProductPayload">
-            <ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+		<ee:transform doc:name="setProductPayload" doc:id="dcc3f77c-2e50-4176-82bb-25c8a2530411">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	"Status": 204,
+	"code": 204,
 	"message": "Deleted"
 }]]></ee:set-payload>
-			</ee:message>
-			<ee:variables>
-            </ee:variables>
-        </ee:transform>
-        <logger level="INFO" message="#[payload.prodcutId]" />
-	</flow>
-	<flow name="implementation-productsFlow" doc:id="375be001-85e4-405e-8623-d1cf2f234387" >
-		<ee:transform doc:name="Transform Message" doc:id="b39082ea-030c-4789-9c00-af51cc122630" >
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus"><![CDATA[204]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+	</sub-flow>
+	<sub-flow name="implementationThrow404" doc:id="e79ead03-4435-4b1f-b030-1af16146f667" >
+		<ee:transform doc:name="setError404" doc:id="eb65cb69-fbaa-416b-b281-3afc5c9f88e1" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-var requestBody= 
-{
-    "name":"Jack",
-    "name":"James",
-    "name":"Joseph"
-}
+				<ee:set-payload ><![CDATA[output application/json
 ---
 {
-	value: requestBody pluck $,
-	keys: requestBody pluck $$,
-	indexes: requestBody pluck $$$
+  "code": 404,
+  "message": "Not found"
 }]]></ee:set-payload>
 			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+			</ee:variables>
 		</ee:transform>
-	</flow>
+	</sub-flow>
 	</mule>

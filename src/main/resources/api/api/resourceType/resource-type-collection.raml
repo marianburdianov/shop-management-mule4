@@ -2,7 +2,7 @@
       
 resourceTypes:
   collection:
-    get?:
+    get:
       description: This is used to fetch <<resourcePathName>>
       responses:
         200:
@@ -10,27 +10,17 @@ resourceTypes:
             application/json:
               type: <<typeReference>>
               example: <<exampleReference>>
-#        304:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-304-reference-example>> 
         400:
           body:
             application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-400-reference-example>>      
-#        404:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-404-reference-example>>      
+              type: !include ../dataTypes/error-datatype.raml
+              example: !include ../examples/errorcode-400-example.json           
         500:
           body:
             application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-500-reference-example>>
-    post?:
+              type: !include ../dataTypes/error-datatype.raml
+              example: !include ../examples/errorcode-500-example.json
+    post:
       description: This is uset to create <<resourcePathName>>
       body:
         application/json:
@@ -45,68 +35,15 @@ resourceTypes:
         400:
           body:
             application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-400-reference-example>>
+              type: !include ../dataTypes/error-datatype.raml
+              example: !include ../examples/errorcode-400-example.json
         403:
           body:
             application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-403-reference-example>>
+              type: !include ../dataTypes/error-datatype.raml
+              example: !include ../examples/errorcode-403-example.json
         501:
           body:
             application/json:
-              type: <<errorcode-reference-type>>
-              example: <<errorcode-501-reference-example>>
-#    delete?:
-#      description: This is used to delete <<resourcePathName>>
-#      responses:
-#        204:
-#        400:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-400-reference-example>>
-#        404:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-404-reference-example>>
-#        405:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-405-reference-example>>
-#        406:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-406-reference-example>>
-#    put?:
-#      description: This is used to update <<resourcePathName>>
-#      body:
-#        application/json:
-#          type: <<typeReference>>
-#          example: <<exampleReference>>
-#      responses:
-#        200:
-#          body:
-#            application/json:
-#              type: <<typeReference>>
-#              example: <<exampleReference>>
-#        304:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-304-reference-example>>      
-#        400:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-400-reference-example>>
-#        404:
-#          body:
-#            application/json:
-#              type: <<errorcode-reference-type>>
-#              example: <<errorcode-404-reference-example>>                              
-                        
-                                                
+              type: !include ../dataTypes/error-datatype.raml
+              example: !include ../examples/errorcode-501-example.json                                                

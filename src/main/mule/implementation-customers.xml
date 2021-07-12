@@ -8,7 +8,7 @@
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	
-	<flow name="implementationGetCustomers">
+	<sub-flow name="implementationGetCustomers">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="d80641de-9cd2-4521-bdc7-37e6822731b0" variableName="methodName"/>
 		<db:select doc:name="selectCustomers" doc:id="cc6252c7-6462-4d94-b97a-0ce9ebcb80ca" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT * 
@@ -29,9 +29,8 @@ payload map (customer, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="f8ffea87-6144-4331-93f1-f6e0b006ee31" message="#[vars.methodName]"/>
-	</flow>
-	<flow name="implementationGetCustomerById">
+	</sub-flow>
+	<sub-flow name="implementationGetCustomerById">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="351bb04e-d7e8-4b0f-9280-c98af8527b10" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="customerId" doc:id="0fd5737a-3ea1-4980-9a84-2fb30efa2c21" variableName="customerId"/>
 		<db:select doc:name="selectCustomerById" doc:id="8e7fc0bd-e508-42c8-9393-02751e357bb3" config-ref="Shop_Management_Database_Config">
@@ -40,7 +39,9 @@ FROM customers
 WHERE customer_id =:customer_id]]></db:sql>
             <db:input-parameters><![CDATA[#[{'customer_id' : vars.customerId}]]]></db:input-parameters>
         </db:select>
-        <ee:transform xsi:schemaLocation="
+        <choice doc:name="Choice" doc:id="d297bd5b-9e15-4f1c-b7aa-50b16fa9bc66" >
+			<when expression="#[payload[0] != null]">
+				<ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setCustomerPayload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -55,10 +56,27 @@ payload map (customer, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="3ac16c76-a7d6-4e84-95d0-d61b397d781d" message='#[vars.methodName]'/>
-	</flow>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="4bc4745a-bf30-44fe-8b6a-ccc32b197c38" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</sub-flow>
 	
-	<flow name="implementationPostCustomer">
+	<sub-flow name="implementationPostCustomer">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="b1734952-bf9b-46ea-af95-fed07eadc1df" variableName="methodName"/>
 		<db:insert doc:name="insertCustomer" doc:id="69f05a0f-025c-4893-bca3-077ce6b1adfc" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[INSERT INTO customers ( first_name, last_name, phone_number, address) 
@@ -90,9 +108,8 @@ payload map (customer, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="5a3ab564-2aee-43eb-b683-ea180e9aeb50" message="#[vars.methodName]"/>
-	</flow>
-	<flow name="implementationUpdateCustomer">
+	</sub-flow>
+	<sub-flow name="implementationUpdateCustomer">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="f4a697b5-445a-4759-8de3-ddefdf457c4d" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.customerId]" doc:name="customerId" doc:id="ca6c3085-d4e5-4384-b74d-9bc2735ac8ad" variableName="customerId"/>
 		<db:update doc:name="updateCustomer" doc:id="0054ae63-4700-4543-b7d6-ad7be2385e0b" config-ref="Shop_Management_Database_Config">
@@ -114,7 +131,9 @@ FROM customers
 WHERE customer_id =:customer_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'customer_id' : vars.customerId}]]]></db:input-parameters>
 		</db:select>
-        <ee:transform xsi:schemaLocation="
+        <choice doc:name="Choice" doc:id="7381e69d-977b-4284-9315-a0fed19ca453" >
+			<when expression="#[payload[0] != null]">
+				<ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setCustomerPayload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -131,9 +150,30 @@ payload map (customer, index) ->{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="df62b294-2bdc-43b0-b90e-7173f22e679a" message="#[vars.methodName]"/>
-	</flow>
-	<flow name="implementationDeleteCustomer">
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="776efd62-2ed1-4267-94c1-86c3e47f352a" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<sub-flow name="implementationDeleteCustomer">
 		<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="0b09dc8a-9ef4-49e5-bcbd-dd970a43dd77" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.customerId]" doc:name="customerId" doc:id="d399fdca-d470-40cb-ab5a-2697d4caf5fd" variableName="customerId"/>
 		<db:delete doc:name="deleteCustomer" doc:id="b6f67cee-40d1-4128-bdc0-0a75b0ee44e2" config-ref="Shop_Management_Database_Config">
@@ -153,7 +193,6 @@ output application/json
 			<ee:variables>
             </ee:variables>
         </ee:transform>
-        <logger level="INFO" message="#[vars.methodName]" />
-	</flow>
+	</sub-flow>
 	
 	</mule>

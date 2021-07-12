@@ -8,7 +8,7 @@
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-<flow name="implementationGetPurchaseInfos">
+<sub-flow name="implementationGetPurchaseInfos">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="276bfb9b-af57-462a-a7d1-b10f53ac9638" variableName="methodName"/>
 		<db:select doc:name="selectPurchaseInfos" doc:id="54431c9e-b054-4cdb-8526-5e4691831bdd" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
@@ -33,10 +33,9 @@ payload groupBy $.purchaseinfo_id pluck{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="2d15dfb1-a2be-48ce-af38-56d05c7ced73" message="#[vars.methodName]"/>
     
-</flow>
-<flow name="implementationGetPurchaseInfoById">
+</sub-flow>
+<sub-flow name="implementationGetPurchaseInfoById">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="bb3e7178-20c7-46f8-b56e-05a961516074" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.purchaseInfoId]" doc:name="purchaseInfoId" doc:id="26be9568-b0e1-46bd-b298-7b46cdc0ca23" variableName="purchaseInfoId"/>
 		<db:select doc:name="selectPurchaseInfoById" doc:id="b224e810-5122-4f33-ae0a-d23b42aaa2cf" config-ref="Shop_Management_Database_Config">
@@ -47,7 +46,9 @@ ON pi.purchaseinfo_id = pp.purchaseinfo_id
 WHERE pi.purchaseinfo_id = :purchaseInfo_id]]></db:sql>
             <db:input-parameters><![CDATA[#[{'purchaseInfo_id' : attributes.uriParams.purchaseInfoId}]]]></db:input-parameters>
         </db:select>
-        <ee:transform xsi:schemaLocation="
+		<choice doc:name="Choice" doc:id="6ddcd3a9-3afc-4f6f-b450-b74ade950c7d" >
+			<when expression="#[payload[0] != null]">
+				<ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="871a5f64-02b3-4350-a39e-1b1217858b16" doc:name="setPurchaseInfoPayload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -64,9 +65,26 @@ payload groupBy ((item) -> item.purchaseinfo_id) pluck{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="92e0de67-9d85-4c31-8680-8a5568c40642" message='#[vars.methodName]'/>
-</flow>
-<flow name="implementationPostPurchaseInfo">
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="ddad2807-8107-4ad0-b3f2-814921177776" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+</sub-flow>
+<sub-flow name="implementationPostPurchaseInfo">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="f0cdca7c-cb57-47b4-b0ec-ece18ade673a" variableName="methodName"/>
 		<set-variable value="#[payload]" doc:name="originalPayload" doc:id="92c3892c-f7a7-4096-b2c9-bd6b2951bd73" variableName="originalPayload"/>
 		<db:insert doc:name="insertPurchaseInfo" doc:id="d928de9d-8344-4f6b-bee6-90a382247484" config-ref="Shop_Management_Database_Config">
@@ -87,7 +105,6 @@ VALUES (:employee_id, :customer_id, :cost, :amount, :date);
 		<db:select doc:name="selectIdOfLastCreated" doc:id="91d748e2-962f-403e-b80c-aa449c99b2e2" target="lastId" config-ref="Shop_Management_Database_Config" targetValue="#[payload[0].purchaseinfo_id]">
 			<db:sql ><![CDATA[SELECT purchaseinfo_id FROM purchaseinfos WHERE purchaseinfo_id=(select last_insert_id())]]></db:sql>
 		</db:select>
-		<logger level="INFO" doc:name="Logger" doc:id="55fbef73-5a20-45e3-a8e9-9d49b8177699" message="#[vars.lastId]"/>
 		<foreach doc:name="For Each" doc:id="3533ee39-06d4-475e-9188-ed6f4e9e0125" collection="#[vars.originalPayload.productId]">
 			<set-variable value="#[payload]" doc:name="productId" doc:id="583e6405-b38d-4f81-83e3-ef2c669f68cf" variableName="productId"/>
 			<db:insert doc:name="insertProduct" doc:id="cd2317bd-8912-496e-ab24-9870ad46b8b5" config-ref="Shop_Management_Database_Config">
@@ -123,13 +140,11 @@ payload groupBy ((item) -> item.purchaseinfo_id) pluck{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="d93827b1-67f0-4914-b7c4-e37c1d346d3e" message="#[vars.methodName]"/>
-</flow>
-<flow name="implementationUpdatePurchaseInfo">
+</sub-flow>
+<sub-flow name="implementationUpdatePurchaseInfo">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="cff18ea8-8541-41a4-b777-5e768b34bd98" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.purchaseInfoId]" doc:name="purchaseInfoId" doc:id="180c8550-7a1b-4a94-92ef-87ce4fe16a03" variableName="purchaseInfoId"/>
 		<set-variable value="#[payload]" doc:name="originalPayload" doc:id="9f125a00-78fc-4cfc-8538-0076a5f8817a" variableName="originalPayload"/>
-		<logger level="INFO" doc:name="Logger" doc:id="33f3b17f-5041-46b3-8f90-afbdd5bcbda2" message="received payload #[payload]"/>
 		<db:delete doc:name="deleteAllProducts" doc:id="0b0bb99c-031a-4762-924b-64d75fa70620" config-ref="Shop_Management_Database_Config" queryTimeoutUnit="HOURS">
 				<db:sql><![CDATA[DELETE FROM purchaseinfos_products 
 WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>
@@ -150,7 +165,6 @@ WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>
 				<db:auto-generated-keys-column-indexes />
 				<db:auto-generated-keys-column-names />
 			</db:insert>
-			<logger level="TRACE" doc:name="Logger" doc:id="e0ef9f3a-8804-41fa-b978-b53a3948582a" message="#[vars.productId]" />
 		</foreach>
 		<db:update doc:name="updatePurchaseInfo" doc:id="42710466-04e4-45a4-81f4-ae41358f8b0f" config-ref="Shop_Management_Database_Config">
 			<db:sql><![CDATA[UPDATE purchaseinfos 
@@ -165,7 +179,6 @@ WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>
 	date : vars.originalPayload.date
 }]]]></db:input-parameters>
 		</db:update>
-		<logger level="INFO" doc:name="Logger" doc:id="e0b69834-3e97-4f38-9a81-8d529d1f697b" message="#[payload]"/>
         <db:select doc:name="selectPurchaseInfo" doc:id="5cc0f3ad-1f60-4ce4-958d-160a5623e86f" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
 FROM purchaseinfos AS pi
@@ -174,7 +187,9 @@ ON pi.purchaseinfo_id = pp.purchaseinfo_id
 WHERE pi.purchaseinfo_id = :purchaseInfo_id]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'purchaseInfo_id' : vars.purchaseInfoId}]]]></db:input-parameters>
 		</db:select>
-		<ee:transform xsi:schemaLocation="
+		<choice doc:name="Choice" doc:id="9f477a48-9cc0-48c0-8dd7-5df8c15c60fb" >
+			<when expression="#[payload[0] != null]">
+				<ee:transform xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="setPurchaseInfoPayload">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
@@ -193,9 +208,26 @@ payload groupBy ((item) -> item.purchaseinfo_id) pluck{
 }]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="7813abc3-bd06-42c6-997b-b12fd39fa8ff" message="#[vars.methodName]"/>
-</flow>
-<flow name="implementationDeletePurchaseInfo">
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="382216e8-24df-4092-9b87-665de5f41816" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+</sub-flow>
+<sub-flow name="implementationDeletePurchaseInfo">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="d313d605-0f0a-4537-8914-5a1696e9d1e7" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.purchaseInfoId]" doc:name="purchaseInfoId" doc:id="e156589c-faf6-42d4-b986-44479baec492" variableName="purchaseInfoId"/>
 		<db:delete doc:name="deletePurchaseInfo" doc:id="3a4d3482-aa1a-4a4f-9af9-dbe453410569" config-ref="Shop_Management_Database_Config">
@@ -217,7 +249,6 @@ output application/json
 			<ee:variables>
             </ee:variables>
         </ee:transform>
-        <logger level="INFO" message="#[vars.methodName]" />
-</flow>
+</sub-flow>
 	
 </mule>
