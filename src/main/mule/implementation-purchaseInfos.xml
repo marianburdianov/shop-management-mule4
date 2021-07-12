@@ -9,7 +9,6 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 <sub-flow name="implementationGetPurchaseInfos">
-	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="276bfb9b-af57-462a-a7d1-b10f53ac9638" variableName="methodName"/>
 		<db:select doc:name="selectPurchaseInfos" doc:id="54431c9e-b054-4cdb-8526-5e4691831bdd" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
 FROM purchaseinfos AS pi
@@ -36,7 +35,6 @@ payload groupBy $.purchaseinfo_id pluck{
     
 </sub-flow>
 <sub-flow name="implementationGetPurchaseInfoById">
-	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="bb3e7178-20c7-46f8-b56e-05a961516074" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.purchaseInfoId]" doc:name="purchaseInfoId" doc:id="26be9568-b0e1-46bd-b298-7b46cdc0ca23" variableName="purchaseInfoId"/>
 		<db:select doc:name="selectPurchaseInfoById" doc:id="b224e810-5122-4f33-ae0a-d23b42aaa2cf" config-ref="Shop_Management_Database_Config">
             <db:sql><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
@@ -85,7 +83,6 @@ output application/json
 		</choice>
 </sub-flow>
 <sub-flow name="implementationPostPurchaseInfo">
-	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="f0cdca7c-cb57-47b4-b0ec-ece18ade673a" variableName="methodName"/>
 		<set-variable value="#[payload]" doc:name="originalPayload" doc:id="92c3892c-f7a7-4096-b2c9-bd6b2951bd73" variableName="originalPayload"/>
 		<db:insert doc:name="insertPurchaseInfo" doc:id="d928de9d-8344-4f6b-bee6-90a382247484" config-ref="Shop_Management_Database_Config">
 			<db:sql><![CDATA[INSERT INTO purchaseinfos (employee_id, customer_id, cost, amount, date) 
@@ -142,7 +139,6 @@ payload groupBy ((item) -> item.purchaseinfo_id) pluck{
         </ee:transform>
 </sub-flow>
 <sub-flow name="implementationUpdatePurchaseInfo">
-	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="cff18ea8-8541-41a4-b777-5e768b34bd98" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.purchaseInfoId]" doc:name="purchaseInfoId" doc:id="180c8550-7a1b-4a94-92ef-87ce4fe16a03" variableName="purchaseInfoId"/>
 		<set-variable value="#[payload]" doc:name="originalPayload" doc:id="9f125a00-78fc-4cfc-8538-0076a5f8817a" variableName="originalPayload"/>
 		<db:delete doc:name="deleteAllProducts" doc:id="0b0bb99c-031a-4762-924b-64d75fa70620" config-ref="Shop_Management_Database_Config" queryTimeoutUnit="HOURS">
@@ -228,7 +224,6 @@ output application/json
 		</choice>
 </sub-flow>
 <sub-flow name="implementationDeletePurchaseInfo">
-	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="d313d605-0f0a-4537-8914-5a1696e9d1e7" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.purchaseInfoId]" doc:name="purchaseInfoId" doc:id="e156589c-faf6-42d4-b986-44479baec492" variableName="purchaseInfoId"/>
 		<db:select doc:name="selectPruchaseInfoById" doc:id="e24bcc4e-e7ee-47b3-b6df-9d15c24afe2d" config-ref="Shop_Management_Database_Config">
 			<db:sql ><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
