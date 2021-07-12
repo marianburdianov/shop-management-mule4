@@ -187,24 +187,49 @@ payload map (employee, index) ->{
 <sub-flow name="implementationDeleteEmployee">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="d221592a-03af-498b-8fa3-0f0b4ffd8cac" variableName="methodName"/>
 		<set-variable value="#[message.attributes.uriParams.employeeId]" doc:name="employeeId" doc:id="36f29a23-3946-455d-aa34-45b60728bcfc" variableName="employeeId"/>
-		<db:delete doc:name="deleteEmployee" doc:id="70616bce-1ee3-4948-9836-fb490d4ad77a" config-ref="Shop_Management_Database_Config">
-			<db:sql ><![CDATA[DELETE FROM employees WHERE employee_id = :employee_id]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{'employee_id' : vars.employeeId}]]]></db:input-parameters>
+		<db:select doc:name="selectEmployeeById" doc:id="8c546626-5f39-4a7c-a78e-12b5b6b52442" config-ref="Shop_Management_Database_Config">
+			<db:sql ><![CDATA[SELECT * 
+FROM employees
+WHERE employee_id =:employee_id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'employee_id' : attributes.uriParams.employeeId}]]]></db:input-parameters>
+		</db:select>
+		<choice doc:name="Choice" doc:id="bdad7f22-4dc9-482b-9cdb-1a3933df9ff0" >
+			<when expression="#[payload[0] != null]">
+				<db:delete doc:name="deleteEmployee" doc:id="70616bce-1ee3-4948-9836-fb490d4ad77a" config-ref="Shop_Management_Database_Config">
+			<db:sql><![CDATA[DELETE FROM employees WHERE employee_id = :employee_id]]></db:sql>
+			<db:input-parameters><![CDATA[#[{'employee_id' : vars.employeeId}]]]></db:input-parameters>
 		</db:delete>
-		<ee:transform doc:name="setEmployeePayload">
-            <ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+				<ee:transform doc:name="setStatus200">
+            <ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	"Status": 204,
+	"Status": 200,
 	"message": "Deleted"
 }]]></ee:set-payload>
 			</ee:message>
 			<ee:variables>
-                <ee:set-variable variableName="employeeId"><![CDATA[attributes.uriParams.'employeeId']]></ee:set-variable>
+				<ee:set-variable variableName="httpStatus"><![CDATA[200]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="1b2c1463-9d7a-4ce5-bf34-24e1ce655c07" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
 </sub-flow>
 	
 </mule>

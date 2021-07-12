@@ -175,46 +175,40 @@ WHERE product_id = :product_id]]></db:sql>
 		</db:select>
 		<choice doc:name="Choice" doc:id="f4a88f60-9200-4a48-b9b9-05c25c9a162f" >
 			<when expression="#[payload[0] != null]">
-				<flow-ref doc:name="deleteProductIfExistsFlow" doc:id="fa4c20fe-43ae-45ac-b9a9-9ac0e619d9de" name="implementationDeleteProductIfExists"/>
-			</when>
-			<otherwise >
-				<flow-ref doc:name="throw404Flow" doc:id="a3d3db94-7370-440d-868e-440334a5f217" name="implementationThrow404"/>
-			</otherwise>
-		</choice>
-	</sub-flow>
-	<sub-flow name="implementationDeleteProductIfExists" doc:id="37124231-a48a-4709-a6cc-ddc099c42457" >
-		<db:delete doc:name="deleteProduct" doc:id="45df7a7f-1b34-4827-9fc4-ae11c9391a85" config-ref="Shop_Management_Database_Config">
+				<db:delete doc:name="deleteProduct" doc:id="45df7a7f-1b34-4827-9fc4-ae11c9391a85" config-ref="Shop_Management_Database_Config">
 			<db:sql><![CDATA[DELETE FROM products WHERE product_id = :product_id]]></db:sql>
 			<db:input-parameters><![CDATA[#[{'product_id' : vars.productId}]]]></db:input-parameters>
 		</db:delete>
-		<ee:transform doc:name="setProductPayload" doc:id="dcc3f77c-2e50-4176-82bb-25c8a2530411">
+				<ee:transform doc:name="setCode200" doc:id="dcc3f77c-2e50-4176-82bb-25c8a2530411">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	"code": 204,
+	"code": 200,
 	"message": "Deleted"
 }]]></ee:set-payload>
 					</ee:message>
 					<ee:variables>
-						<ee:set-variable variableName="httpStatus"><![CDATA[204]]></ee:set-variable>
+						<ee:set-variable variableName="httpStatus"><![CDATA[200]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-	</sub-flow>
-	<sub-flow name="implementationThrow404" doc:id="e79ead03-4435-4b1f-b030-1af16146f667" >
-		<ee:transform doc:name="setError404" doc:id="eb65cb69-fbaa-416b-b281-3afc5c9f88e1" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[output application/json
+			</when>
+			<otherwise>
+				<ee:transform doc:name="setError404" doc:id="eb65cb69-fbaa-416b-b281-3afc5c9f88e1">
+			<ee:message>
+				<ee:set-payload><![CDATA[output application/json
 ---
 {
   "code": 404,
   "message": "Not found"
 }]]></ee:set-payload>
 			</ee:message>
-			<ee:variables >
-				<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+			<ee:variables>
+				<ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
+			</otherwise>
+		</choice>
 	</sub-flow>
 	</mule>

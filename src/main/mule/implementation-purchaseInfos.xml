@@ -230,25 +230,54 @@ output application/json
 <sub-flow name="implementationDeletePurchaseInfo">
 	<set-variable value="#[attributes.method]" doc:name="httpMethod" doc:id="d313d605-0f0a-4537-8914-5a1696e9d1e7" variableName="methodName"/>
 		<set-variable value="#[attributes.uriParams.purchaseInfoId]" doc:name="purchaseInfoId" doc:id="e156589c-faf6-42d4-b986-44479baec492" variableName="purchaseInfoId"/>
-		<db:delete doc:name="deletePurchaseInfo" doc:id="3a4d3482-aa1a-4a4f-9af9-dbe453410569" config-ref="Shop_Management_Database_Config">
-			<db:sql ><![CDATA[DELETE FROM purchaseinfos WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{
+		<db:select doc:name="selectPruchaseInfoById" doc:id="e24bcc4e-e7ee-47b3-b6df-9d15c24afe2d" config-ref="Shop_Management_Database_Config">
+			<db:sql ><![CDATA[SELECT pi.purchaseinfo_id, pi.employee_id, pi.customer_id, pi.cost, pi.amount, pi.date, pp.product_id    
+FROM purchaseinfos AS pi
+INNER JOIN purchaseinfos_products AS pp
+ON pi.purchaseinfo_id = pp.purchaseinfo_id 
+WHERE pi.purchaseinfo_id = :purchaseInfo_id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'purchaseInfo_id' : attributes.uriParams.purchaseInfoId}]]]></db:input-parameters>
+		</db:select>
+		<choice doc:name="Choice" doc:id="2122a7d0-7e08-4858-9f2d-132c7f75512a" >
+			<when expression="#[payload[0] != null]">
+				<db:delete doc:name="deletePurchaseInfo" doc:id="3a4d3482-aa1a-4a4f-9af9-dbe453410569" config-ref="Shop_Management_Database_Config">
+			<db:sql><![CDATA[DELETE FROM purchaseinfos WHERE purchaseinfo_id = :purchaseinfo_id]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
 	'purchaseinfo_id' : vars.purchaseInfoId
 }]]]></db:input-parameters>
 		</db:delete>
-		<ee:transform doc:name="setPurchaseInfoPayload">
-            <ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+				<ee:transform doc:name="setStatus200">
+            <ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
-	"Status": 204,
+	"Status": 200,
 	"message": "Deleted"
 }]]></ee:set-payload>
 			</ee:message>
 			<ee:variables>
+				<ee:set-variable variableName="httpStatus"><![CDATA[200]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="setError404" doc:id="5031266f-f3cc-43ca-a594-e2dce428142d" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "code": 404,
+  "message": "Not found"
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
 </sub-flow>
 	
 </mule>

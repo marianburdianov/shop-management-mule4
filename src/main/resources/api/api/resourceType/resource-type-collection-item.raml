@@ -23,11 +23,11 @@ resourceTypes:
     delete:
       description: This is used to delete <<resourcePathName>>
       responses:
-        204:
+        200:
           body:
             application/json:
               type: !include ../dataTypes/error-datatype.raml
-              example: !include ../examples/errorcode-204-example.json 
+              example: !include ../examples/errorcode-200-example.json 
         400:
           body:
             application/json:
